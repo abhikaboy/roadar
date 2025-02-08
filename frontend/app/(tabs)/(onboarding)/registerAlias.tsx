@@ -2,13 +2,8 @@ import OnboardButton from "@/components/ui/OnboardButton"
 import { useRouter } from "expo-router"
 import { useState } from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
+import React from 'react'
 
-//TODO make this route to home page
-// const handleSkip = () => {
-//     router.push("/")
-// }
-
-// <OnboardButton title="Skip" color="#FFFFFF" textColor="#000000" border={true} onPress={handleSkip}/>
 
 export default function registerAlias() {
     const [vehicleName, setVehicleName] = useState("");
@@ -20,6 +15,7 @@ export default function registerAlias() {
         router.push("/registerSpecifics")
     }
 
+    //TODO make this go to homepage
     const handleSkip = () => {
             router.push("/")
     }

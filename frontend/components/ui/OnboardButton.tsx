@@ -2,6 +2,8 @@ import { useRouter } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { type Href } from 'expo-router';
 import { ThemedText } from "../ThemedText";
+import React from 'react'
+
 
 interface OnboardButtonProps {
     title: string,

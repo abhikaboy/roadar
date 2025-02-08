@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
+import React from 'react'
+
 
 export default function registerPfp() {
     const [image, setImage] = useState<string | null>(null);

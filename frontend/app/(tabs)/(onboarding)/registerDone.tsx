@@ -3,7 +3,8 @@ import { useFonts } from "expo-font"
 import { useRouter } from "expo-router"
 import { useEffect, useState } from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
-import { Asset } from 'expo-asset'
+import React from 'react'
+
 
 
 export default function registerDone() {
