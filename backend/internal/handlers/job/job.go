@@ -2,6 +2,7 @@ package job
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 	"time"
 
@@ -136,4 +137,27 @@ func (h *Handler) DeleteJob(c *fiber.Ctx) error {
 		return err
 	}
 	return c.SendStatus(fiber.StatusNoContent)
+}
+
+func (h *Handler) GetNearbyJobs(c *fiber.Ctx) error {
+	var params GetNearbyJobsParams
+
+	err := c.BodyParser(&params)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
+	}
+
+	// service call
+	jobs, err := h.service.GetNearbyJobs(params.Location, params.Radius)
+	if err != nil {
+		// Central error handler take 500
+		return err
+	}
+	err = c.JSON(jobs)
+	if err != nil {
+		fmt.Print("ASODIJASOD")
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
+	}
+
+	return c.JSON(jobs)
 }

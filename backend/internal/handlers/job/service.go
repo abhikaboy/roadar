@@ -2,6 +2,7 @@ package job
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -68,13 +69,12 @@ func (s *Service) InsertJob(r JobDocument) (*JobDocument, error) {
 }
 
 func toDoc(v interface{}) (doc *bson.D, err error) {
-    data, err := bson.Marshal(v)
-    if err != nil {
-        return
-    }
-
-    err = bson.Unmarshal(data, &doc)
-    return
+	data, err := bson.Marshal(v)
+	if err != nil {
+		return
+	}
+	err = bson.Unmarshal(data, &doc)
+	return
 }
 
 // UpdatePartialJob updates only specified fields of a Job document by ObjectID.
@@ -100,4 +100,27 @@ func (s *Service) DeleteJob(id primitive.ObjectID) error {
 
 	_, err := s.Jobs.DeleteOne(ctx, filter)
 	return err
+}
+
+func (s *Service) GetNearbyJobs(location []float64, radius float64) ([]JobDocument, error) {
+	ctx := context.Background()
+	filter := bson.M{
+		"location": bson.M{
+			"$near":        location,
+			"$maxDistance": radius,
+		},
+		"status": "Pending",
+	}
+	cursor, err := s.Jobs.Find(ctx, filter)
+	if err != nil {
+		fmt.Print("FIND ERROEROEROE")
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var results []JobDocument
+	if err := cursor.All(ctx, &results); err != nil {
+		return nil, err
+	}
+	return results, nil
 }
