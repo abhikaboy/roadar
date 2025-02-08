@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/abhikaboy/roadwatch/internal/config"
+	"github.com/abhikaboy/Roadar/internal/config"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 

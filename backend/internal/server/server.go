@@ -3,7 +3,11 @@ package server
 import (
 	"github.com/abhikaboy/Roadar/internal/handlers/auth"
 	"github.com/abhikaboy/Roadar/internal/handlers/health"
+	"github.com/abhikaboy/Roadar/internal/handlers/job"
+	"github.com/abhikaboy/Roadar/internal/handlers/mechanics"
 	"github.com/abhikaboy/Roadar/internal/handlers/review"
+	"github.com/abhikaboy/Roadar/internal/handlers/socket"
+	"github.com/abhikaboy/Roadar/internal/sockets"
 	"github.com/abhikaboy/Roadar/internal/xerr"
 	gojson "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
@@ -19,12 +23,15 @@ import (
 func New(collections map[string]*mongo.Collection) *fiber.App {
 
 	app := setupApp()
+	sockets.New()
 
 	health.Routes(app, collections)
 	auth.Routes(app, collections)
+	socket.Routes(app, collections)
 
-	health.Routes(app, collections)
 	review.Routes(app, collections)
+	job.Routes(app, collections)
+	mechanics.Routes(app, collections)
 	return app
 }
 
@@ -50,5 +57,16 @@ func setupApp() *fiber.App {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).SendString("Welcome to Raodar!")
 	})
+
+	// app.Use(func(c *fiber.Ctx) error {
+	// 	// IsWebSocketUpgrade returns true if the client
+	// 	// requested upgrade to the WebSocket protocol.
+	// 	if websocket.IsWebSocketUpgrade( c.Request() ) {
+	// 			c.Locals("allowed", true)
+	// 			return c.Next()
+	// 	}
+	// 	return fiber.ErrUpgradeRequired
+	// })
+
 	return app
 }

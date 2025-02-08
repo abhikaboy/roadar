@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -16,7 +17,13 @@ export default function TabTwoScreen() {
                     style={styles.headerImage}
                 />
             }>
-            <ThemedText style={{ fontFamily: "Outfit" }}>This is the content of the explore page.</ThemedText>
+            <ThemedText style={{ fontFamily: "Outfit" }}>This is the content page.</ThemedText>
+            <ThemedText style={{ fontFamily: "Outfit" }}>t page.</ThemedText>
+            <View style={styles.list}>
+                <Text>h</Text>
+                <Text>h</Text>
+                <Text>h</Text>
+            </View>
         </ParallaxScrollView>
     );
 }
@@ -31,5 +38,15 @@ const styles = StyleSheet.create({
     titleContainer: {
         flexDirection: "row",
         gap: 8,
+    },
+    list: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        color: "#fff",
+        backgroundColor: "#fff",
+        padding: 20,
+        borderRadius: 20,
     },
 });

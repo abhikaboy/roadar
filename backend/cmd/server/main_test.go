@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/abhikaboy/roadwatch/internal/config"
-	"github.com/abhikaboy/roadwatch/internal/server"
-	"github.com/abhikaboy/roadwatch/internal/storage/mongo"
+	"github.com/abhikaboy/Roadar/internal/config"
+	"github.com/abhikaboy/Roadar/internal/server"
+	"github.com/abhikaboy/Roadar/internal/storage/mongo"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"

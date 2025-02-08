@@ -50,21 +50,6 @@ export default function RootLayout() {
                         ),
                     }}
                 />
-
-                {/* Job-related Screens */}
-                <Stack.Screen name="jobs/searching" options={{ title: "Searching" }} />
-                <Stack.Screen name="jobs/found" options={{ title: "Found" }} />
-                <Stack.Screen name="jobs/completed" options={{ title: "Completed" }} />
-
-                <Stack.Screen
-                    name="repair-details"
-                    options={{
-                        title: "Repair Details",
-                        headerLeft: () => (
-                            <Ionicons name={"chevron-back"} size={24} color={"#000"} onPress={() => router.back()} />
-                        ),
-                    }}
-                />
             </Stack>
             <StatusBar style="auto" />
         </ThemeProvider>
