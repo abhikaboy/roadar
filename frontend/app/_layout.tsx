@@ -5,6 +5,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import React from "react";
 
 import { useColorScheme } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -37,6 +38,7 @@ export default function RootLayout() {
                         fontFamily: "Outfit",
                     },
                 }}>
+                {/* Existing Screens */}
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="+not-found" />
                 <Stack.Screen
@@ -45,6 +47,21 @@ export default function RootLayout() {
                         title: "About",
                         headerLeft: () => (
                             <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
+                        ),
+                    }}
+                />
+
+                {/* Job-related Screens */}
+                <Stack.Screen name="jobs/searching" options={{ title: "Searching" }} />
+                <Stack.Screen name="jobs/found" options={{ title: "Found" }} />
+                <Stack.Screen name="jobs/completed" options={{ title: "Completed" }} />
+
+                <Stack.Screen
+                    name="repair-details"
+                    options={{
+                        title: "Repair Details",
+                        headerLeft: () => (
+                            <Ionicons name={"chevron-back"} size={24} color={"#000"} onPress={() => router.back()} />
                         ),
                     }}
                 />
