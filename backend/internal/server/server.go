@@ -63,6 +63,6 @@ func setupApp() *fiber.App {
 	// 	}
 	// 	return fiber.ErrUpgradeRequired
 	// })
-		
+
 	return app
 }
