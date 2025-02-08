@@ -153,24 +153,28 @@ func (h *Handler) GetNearbyMechanics(c *fiber.Ctx) error {
 }
 
 func (h *Handler) RateMechanic(c *fiber.Ctx) error {
-	var params GetNearbyMechanicsParams
+	var params RateMechanicParams
 
-	err := c.BodyParser(&params)
+	// get the id from the url
+	id, err := primitive.ObjectIDFromHex(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
+	}
+
+	err = c.BodyParser(&params)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
 	}
 
 	// service call
-	Mechanics, err := h.service.GetNearbyMechanics(params.Location, params.Radius)
+	err = h.service.RateMechanic(id,params.Rating)
 	if err != nil {
 		// Central error handler take 500
 		return err
 	}
-	err = c.JSON(Mechanics)
 	if err != nil {
-		fmt.Print("ASODIJASOD")
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
 	}
 
-	return c.JSON(Mechanics)
+	return c.SendStatus(fiber.StatusOK)
 }

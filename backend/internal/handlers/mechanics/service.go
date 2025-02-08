@@ -125,6 +125,38 @@ func (s *Service) GetNearbyMechanics(location []float64, radius float64) ([]Mech
 	return results, nil
 }
 
+
+func (s *Service) RateMechanic(id primitive.ObjectID, rating float64) error {
+	ctx := context.Background()
+	filter := bson.M{"_id": id}
+
+	// get the current rating 
+	mechanicResult := s.Mechanics.FindOne(ctx, filter)
+	if mechanicResult.Err() != nil {	
+		return mechanicResult.Err()
+	}
+	
+	var mechanic MechanicDocument
+	err := mechanicResult.Decode(&mechanic)
+	if err != nil {
+		return err
+	}
+	newRating := (mechanic.Rating * float64(mechanic.TotalRatings) + rating) / (float64(mechanic.TotalRatings + 1))
+
+	// sum + rating / total ratings + 1
+	update := bson.M{
+		"$inc": bson.M{
+			"totalRatings": 1,
+		},
+		"$set": bson.M{
+			"rating": newRating,
+		},
+	}
+	res := s.Mechanics.FindOneAndUpdate(ctx, filter, update)
+
+	return res.Err()
+}
+
 func (s *Service) AcceptMechanic(id primitive.ObjectID, mechanicId primitive.ObjectID) error {
 	ctx := context.Background()
 	filter := bson.M{"_id": id}
