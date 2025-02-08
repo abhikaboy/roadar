@@ -4,6 +4,8 @@ import (
 	"github.com/abhikaboy/Roadar/internal/handlers/auth"
 	"github.com/abhikaboy/Roadar/internal/handlers/health"
 	"github.com/abhikaboy/Roadar/internal/handlers/review"
+	"github.com/abhikaboy/Roadar/internal/handlers/socket"
+	"github.com/abhikaboy/Roadar/internal/sockets"
 	"github.com/abhikaboy/Roadar/internal/xerr"
 	gojson "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
@@ -19,11 +21,12 @@ import (
 func New(collections map[string]*mongo.Collection) *fiber.App {
 
 	app := setupApp()
+	sockets.New()
 
 	health.Routes(app, collections)
 	auth.Routes(app, collections)
+	socket.Routes(app, collections)
 
-	health.Routes(app, collections)
 	review.Routes(app, collections)
 	return app
 }
