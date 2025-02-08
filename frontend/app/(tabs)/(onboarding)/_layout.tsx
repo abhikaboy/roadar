@@ -3,6 +3,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { useRoute } from "@react-navigation/native";
 import { Slot } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
+import React from 'react'
 
 
 

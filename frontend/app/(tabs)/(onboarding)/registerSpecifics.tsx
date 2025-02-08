@@ -2,6 +2,7 @@ import OnboardButton from "@/components/ui/OnboardButton"
 import { useRouter } from "expo-router"
 import { useState } from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
+import React from 'react'
 
 export default function registerSpecifics() {
     const [makeModel, setMakeModel] = useState("");
