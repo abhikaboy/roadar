@@ -4,9 +4,9 @@ Road Watch is a crowdsourced road maintenance safety platform.
 
 # Tech Stack
 
--   **Backend:** Go, Fiber
--   **Frontend**: React Native, TypeScript, Expo SDK 52
--   **Database**: MongoDB Atlas
+- **Backend:** Go, Fiber
+- **Frontend**: React Native, TypeScript, Expo SDK 52
+- **Database**: MongoDB Atlas
 
 # Environment Setup
 
@@ -35,14 +35,14 @@ If you'd prefer, you can [clone it via SSH](https://docs.github.com/en/repositor
 ### NIX Installation (Recommended)
 
 1. [Install Nix](https://zero-to-nix.com/start/install)
-    <!-- markdownlint-disable MD013 -->
-    ```sh
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-    ```
-    <!-- markdownlint-enable MD013 -->
+   <!-- markdownlint-disable MD013 -->
+   ```sh
+   curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+   ```
+   <!-- markdownlint-enable MD013 -->
 
--   Type in computer password if prompted.
--   Say yes to prompt.
+- Type in computer password if prompted.
+- Say yes to prompt.
 
 2. In a new terminal activate the development environment by running the following:
 

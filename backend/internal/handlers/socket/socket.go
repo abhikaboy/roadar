@@ -18,7 +18,7 @@ func (h *Handler) JoinRoom(c *fiber.Ctx) error {
 	connectSocket := socketio.New(func(kws *socketio.Websocket) {
 
 		// Retrieve the user id from endpoint
-		userId := kws.Params("id") // get the user id 
+		userId := kws.Params("id") // get the user id
 
 		// Every websocket connection has an optional session key => value storage
 		kws.SetAttribute("user_id", userId)
@@ -28,7 +28,7 @@ func (h *Handler) JoinRoom(c *fiber.Ctx) error {
 		// Write welcome message
 		kws.Emit([]byte(fmt.Sprintf("Hello user: %s with UUID: %s", userId, kws.UUID)))
 	})
-	err := connectSocket(c);
+	err := connectSocket(c)
 	if err != nil {
 		return err
 	}
