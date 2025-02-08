@@ -15,19 +15,19 @@ func New() {
 		slog.LogAttrs(ctx, slog.LevelInfo, "Connected Client")
 	})
 
-	// Event Disconnect 
+	// Event Disconnect
 
 	socketio.On(socketio.EventDisconnect, func(ep *socketio.EventPayload) {
-    ctx := context.Background()
+		ctx := context.Background()
 		slog.LogAttrs(ctx, slog.LevelInfo, "Disconnected Client")
 	})
 
 	// Event CustomEvent
 
 	socketio.On("CustomEvent", func(ep *socketio.EventPayload) {
-    ctx := context.Background()
+		ctx := context.Background()
 		slog.LogAttrs(ctx, slog.LevelInfo, "Custom Event Called")
-		// Unmarshel the data into a struct 
+		// Unmarshel the data into a struct
 		var msg Message
 		err := json.Unmarshal(ep.Data, &msg)
 		if err != nil {
@@ -36,13 +36,10 @@ func New() {
 		}
 		slog.LogAttrs(ctx, slog.LevelInfo, "Message received", slog.String("message", msg.Message))
 	})
-	
-	socketio.On(socketio.EventClose, func(ep *socketio.EventPayload)  {	
+
+	socketio.On(socketio.EventClose, func(ep *socketio.EventPayload) {
 		ctx := context.Background()
 		slog.LogAttrs(ctx, slog.LevelInfo, "Closed Connection")
-	})	
+	})
 
 }
-
-
-
