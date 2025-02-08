@@ -43,6 +43,13 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
+                name="profile"
+                options={{
+                    title: "Profile",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                }}
+            />
+            <Tabs.Screen
                 name="blob"
                 options={{
                     title: "blob",

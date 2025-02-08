@@ -31,24 +31,33 @@ const styles = StyleSheet.create({
     default: {
         fontSize: 16,
         lineHeight: 24,
+        fontFamily: "Outfit",
     },
     defaultSemiBold: {
-        fontSize: 16,
+        fontSize: 20,
         lineHeight: 24,
-        fontWeight: "600",
+        fontWeight: "regular",
+        fontFamily: "Outfit",
+
     },
     title: {
         fontSize: 32,
-        fontWeight: "bold",
+        fontWeight: "medium",
         lineHeight: 32,
+        fontFamily: "Outfit",
+
     },
     subtitle: {
-        fontSize: 20,
-        fontWeight: "bold",
+        fontSize: 24,
+        fontWeight: "regular",
+        fontFamily: "Outfit",
+
     },
     link: {
         lineHeight: 30,
         fontSize: 16,
-        color: "#0a7ea4",
+        color: "#444444",
+        fontFamily: "Outfit",
+
     },
 });
