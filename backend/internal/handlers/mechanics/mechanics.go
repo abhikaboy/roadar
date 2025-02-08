@@ -1,10 +1,9 @@
-package job
+package mechanics
 
 import (
 	"errors"
 	"fmt"
 	"log/slog"
-	"time"
 
 	"github.com/abhikaboy/Roadar/internal/xerr"
 	"github.com/abhikaboy/Roadar/internal/xvalidator"
@@ -15,56 +14,46 @@ import (
 )
 
 /*
-Handler to execute business logic for Job Endpoint
+Handler to execute business logic for Mechanic Endpoint
 */
 type Handler struct {
 	service *Service
 }
 
-// Create a Job
-func (h *Handler) CreateJob(c *fiber.Ctx) error {
+// Create a Mechanic
+func (h *Handler) CreateMechanic(c *fiber.Ctx) error {
 	ctx := c.Context()
-	var Job JobDocument
-	var params CreateJobParams
+	var Mechanic MechanicDocument
+	var params CreateMechanicParams
 
-	slog.LogAttrs(ctx, slog.LevelInfo, "Inserting Job")
+	slog.LogAttrs(ctx, slog.LevelInfo, "Inserting Mechanic")
 	// validate body
 	err := c.BodyParser(&params)
 	if err != nil {
 		return err
 	}
+
 	errs := xvalidator.Validator.Validate(params)
 	if len(errs) > 0 {
 		return c.Status(fiber.StatusBadRequest).JSON(errs)
 	}
 
-	// convert id string to primitive.ObjectID
-	id, err := primitive.ObjectIDFromHex(params.Requester)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
-	}
-	requesterId := id
-
-	var mechanicId primitive.ObjectID
-
 	// do some validations on the inputs
-	Job = JobDocument{
+	Mechanic = MechanicDocument{
 		Location:    &params.Location,
-		Address:     params.Address,
-		Picture:     &params.Picture,
-		Requester:   requesterId,
-		Mechanic:    mechanicId,
-		JobType:     params.JobType,
-		Urgency:     params.Urgency,
-		Money:       params.Money,
-		Details:     params.Details,
-		Status:      Pending,
-		RequestType: params.RequestType,
-		Timestamp:   time.Now(),
+		Picture:     params.Picture,
+		Earnings:    0,
+		Email:       params.Email,
+		FirstName:   params.FirstName,
+		TotalRatings: 0,
+		LastName:    params.LastName,
+		PhoneNumber: params.PhoneNumber,
+		Bio:         params.Bio,
+		SocketID:    "",
 		ID:          primitive.NewObjectID(),
 	}
 
-	result, err := h.service.InsertJob(Job)
+	result, err := h.service.InsertMechanic(Mechanic)
 
 	if err != nil {
 		sErr := err.(mongo.WriteException) // Convert to Command Error
@@ -76,49 +65,49 @@ func (h *Handler) CreateJob(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
-// Get all Jobs
-func (h *Handler) GetJobs(c *fiber.Ctx) error {
-	Jobs, err := h.service.GetAllJobs()
+// Get all Mechanics
+func (h *Handler) GetMechanics(c *fiber.Ctx) error {
+	Mechanics, err := h.service.GetAllMechanics()
 
 	if err != nil {
 		// Central error handler take 500
 		return err
 	}
-	return c.JSON(Jobs)
+	return c.JSON(Mechanics)
 }
 
-// Get a single Job
-func (h *Handler) GetJob(c *fiber.Ctx) error {
+// Get a single Mechanic
+func (h *Handler) GetMechanic(c *fiber.Ctx) error {
 	id, err := primitive.ObjectIDFromHex(c.Params("id"))
 
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
 	}
 
-	Job, err := h.service.GetJobByID(id)
+	Mechanic, err := h.service.GetMechanicByID(id)
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
-			return c.Status(fiber.StatusNotFound).JSON(xerr.NotFound("Job", "id", id.Hex()))
+			return c.Status(fiber.StatusNotFound).JSON(xerr.NotFound("Mechanic", "id", id.Hex()))
 		}
 		// Central error handler take 500
 		return err
 	}
-	return c.JSON(Job)
+	return c.JSON(Mechanic)
 }
 
-// Update specific fields of a Job (PATCH)
-func (h *Handler) UpdatePartialJob(c *fiber.Ctx) error {
+// Update specific fields of a Mechanic (PATCH)
+func (h *Handler) UpdatePartialMechanic(c *fiber.Ctx) error {
 	id, err := primitive.ObjectIDFromHex(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
 	}
 
-	var partialUpdate JobUpdate
+	var partialUpdate MechanicUpdate
 	if err := go_json.Unmarshal(c.Body(), &partialUpdate); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
 	}
 
-	err = h.service.UpdatePartialJob(id, partialUpdate)
+	err = h.service.UpdatePartialMechanic(id, partialUpdate)
 	if err != nil {
 		// Central error handler take 500
 		return err
@@ -126,22 +115,22 @@ func (h *Handler) UpdatePartialJob(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
-// Delete a Job
-func (h *Handler) DeleteJob(c *fiber.Ctx) error {
+// Delete a Mechanic
+func (h *Handler) DeleteMechanic(c *fiber.Ctx) error {
 	id, err := primitive.ObjectIDFromHex(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
 	}
 
-	if err := h.service.DeleteJob(id); err != nil {
+	if err := h.service.DeleteMechanic(id); err != nil {
 		// Central error handler take 500
 		return err
 	}
 	return c.SendStatus(fiber.StatusNoContent)
 }
 
-func (h *Handler) GetNearbyJobs(c *fiber.Ctx) error {
-	var params GetNearbyJobsParams
+func (h *Handler) GetNearbyMechanics(c *fiber.Ctx) error {
+	var params GetNearbyMechanicsParams
 
 	err := c.BodyParser(&params)
 	if err != nil {
@@ -149,44 +138,39 @@ func (h *Handler) GetNearbyJobs(c *fiber.Ctx) error {
 	}
 
 	// service call
-	jobs, err := h.service.GetNearbyJobs(params.Location, params.Radius)
+	Mechanics, err := h.service.GetNearbyMechanics(params.Location, params.Radius)
 	if err != nil {
 		// Central error handler take 500
 		return err
 	}
-	err = c.JSON(jobs)
+	err = c.JSON(Mechanics)
 	if err != nil {
 		fmt.Print("ASODIJASOD")
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
 	}
 
-	return c.JSON(jobs)
+	return c.JSON(Mechanics)
 }
 
-func (h *Handler) AcceptJob(c *fiber.Ctx) error {
-	var params AcceptJobParams
+func (h *Handler) RateMechanic(c *fiber.Ctx) error {
+	var params GetNearbyMechanicsParams
 
 	err := c.BodyParser(&params)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
 	}
 
-	// convert id string to primitive.ObjectID
-	id, err := primitive.ObjectIDFromHex(params.Job)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
-	}
-
-	mechanicId, err := primitive.ObjectIDFromHex(params.Mechanic)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
-	}
-
 	// service call
-	err = h.service.AcceptJob(id, mechanicId)
+	Mechanics, err := h.service.GetNearbyMechanics(params.Location, params.Radius)
 	if err != nil {
 		// Central error handler take 500
 		return err
 	}
-	return c.SendStatus(fiber.StatusOK)
+	err = c.JSON(Mechanics)
+	if err != nil {
+		fmt.Print("ASODIJASOD")
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
+	}
+
+	return c.JSON(Mechanics)
 }

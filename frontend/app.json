@@ -5,12 +5,13 @@
         "version": "0.0.1",
         "orientation": "portrait",
         "icon": "./assets/images/icon.png",
-        "scheme": "myapp",
+        "scheme": "roadar",
         "userInterfaceStyle": "automatic",
         "newArchEnabled": true,
         "platforms": ["ios", "android"],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "usesAppleSignIn": true
         },
         "android": {
             "adaptiveIcon": {
@@ -24,6 +25,7 @@
             "favicon": "./assets/images/favicon.png"
         },
         "plugins": [
+            "expo-apple-authentication",
             "expo-router",
             [
                 "expo-splash-screen",
