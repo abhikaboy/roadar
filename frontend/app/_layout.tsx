@@ -49,7 +49,7 @@ export default function RootLayout() {
                     }}
                 />
                 <Stack.Screen
-                    name={"about"}
+                    name={"about2"}
                     options={{
                         title: "About",
                         headerLeft: () => (

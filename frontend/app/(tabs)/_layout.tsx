@@ -43,9 +43,9 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="blob"
+                name="(onboarding)"
                 options={{
-                    title: "blob",
+                    title: "Onboarding",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
                 }}
             />
