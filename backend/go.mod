@@ -10,19 +10,17 @@ require (
 	go.mongodb.org/mongo-driver v1.17.1
 )
 
-require github.com/golang-jwt/jwt/v5 v5.2.1
+require (
+	github.com/gofiber/contrib/socketio v1.1.4
+	github.com/golang-jwt/jwt/v5 v5.2.1
+)
 
 require (
 	github.com/fasthttp/websocket v1.5.12 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/gofiber/contrib/socketio v1.1.4 // indirect
 	github.com/gofiber/contrib/websocket v1.3.3 // indirect
-	github.com/gofrs/uuid v4.0.0+incompatible // indirect
-	github.com/gomodule/redigo v1.8.4 // indirect
-	github.com/googollee/go-socket.io v1.7.0 // indirect
-	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect

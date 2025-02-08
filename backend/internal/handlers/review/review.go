@@ -4,8 +4,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/abhikaboy/roadwatch/internal/xerr"
-	"github.com/abhikaboy/roadwatch/internal/xvalidator"
+	"github.com/abhikaboy/Roadar/internal/xerr"
+	"github.com/abhikaboy/Roadar/internal/xvalidator"
 	go_json "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson/primitive"

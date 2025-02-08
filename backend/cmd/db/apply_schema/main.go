@@ -6,9 +6,9 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/abhikaboy/roadwatch/internal/config"
-	"github.com/abhikaboy/roadwatch/internal/storage/mongo"
-	"github.com/abhikaboy/roadwatch/internal/xslog"
+	"github.com/abhikaboy/Roadar/internal/config"
+	"github.com/abhikaboy/Roadar/internal/storage/mongo"
+	"github.com/abhikaboy/Roadar/internal/xslog"
 	"github.com/joho/godotenv"
 )
 

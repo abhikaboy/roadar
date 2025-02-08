@@ -53,5 +53,16 @@ func setupApp() *fiber.App {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusOK).SendString("Welcome to Raodar!")
 	})
+
+	// app.Use(func(c *fiber.Ctx) error {
+	// 	// IsWebSocketUpgrade returns true if the client
+	// 	// requested upgrade to the WebSocket protocol.
+	// 	if websocket.IsWebSocketUpgrade( c.Request() ) {
+	// 			c.Locals("allowed", true)
+	// 			return c.Next()
+	// 	}
+	// 	return fiber.ErrUpgradeRequired
+	// })
+		
 	return app
 }

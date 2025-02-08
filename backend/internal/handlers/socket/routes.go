@@ -11,7 +11,7 @@ Router maps endpoints to handlers
 func Routes(app *fiber.App, collections map[string]*mongo.Collection) {
 	service := newService(collections)
 	handler := Handler{service}
-
 	app.Get("/ws/:id", handler.JoinRoom)
 
+	app.Post("/ws/broadcast", handler.BroadcastRequest)
 }

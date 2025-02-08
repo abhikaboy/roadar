@@ -5,5 +5,5 @@ import (
 )
 
 func newService(collections map[string]*mongo.Collection) *Service {
-	return &Service{collections["health"]}
+	return &Service{collections["users"]}
 }
