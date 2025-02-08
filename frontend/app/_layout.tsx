@@ -50,6 +50,15 @@ export default function RootLayout() {
                         ),
                     }}
                 />
+                <Stack.Screen
+                    name={"about2"}
+                    options={{
+                        title: "About",
+                        headerLeft: () => (
+                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
+                        ),
+                    }}
+                />
             </Stack>
             <StatusBar style="auto" />
         </ThemeProvider>
