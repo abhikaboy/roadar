@@ -15,7 +15,7 @@ export default function TabLayout() {
         <Tabs
             screenOptions={{
                 tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-                headerShown: true,
+                headerShown: false,
                 headerTitleStyle: {
                     fontFamily: "Outfit",
                 },
@@ -28,6 +28,7 @@ export default function TabLayout() {
                     default: {},
                 }),
             }}>
+                
             <Tabs.Screen
                 name="index"
                 options={{
@@ -43,9 +44,9 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="blob"
+                name="(onboarding)"
                 options={{
-                    title: "blob",
+                    title: "Onboarding",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
                 }}
             />
