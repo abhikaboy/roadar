@@ -2,9 +2,11 @@ package job
 
 import (
 	"errors"
+	"log/slog"
 	"time"
 
 	"github.com/abhikaboy/Roadar/internal/xerr"
+	"github.com/abhikaboy/Roadar/internal/xvalidator"
 	go_json "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -20,11 +22,19 @@ type Handler struct {
 
 // Create a Job
 func (h *Handler) CreateJob(c *fiber.Ctx) error {
+	ctx := c.Context()
 	var Job JobDocument
 	var params CreateJobParams
 
-	if err := go_json.Unmarshal(c.Body(), &params); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
+	slog.LogAttrs(ctx, slog.LevelInfo, "Inserting Job")
+	// validate body
+	err := c.BodyParser(&params)
+	if err != nil {
+		return err
+	}
+	errs := xvalidator.Validator.Validate(params)
+	if len(errs) > 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(errs)
 	}
 
 	// convert id string to primitive.ObjectID
@@ -38,7 +48,7 @@ func (h *Handler) CreateJob(c *fiber.Ctx) error {
 
 	// do some validations on the inputs
 	Job = JobDocument{
-		Location:  params.Location,
+		Location:  &params.Location,
 		Address:   params.Address,
 		Picture:   params.Picture,
 		Requester: requesterId,
@@ -101,7 +111,7 @@ func (h *Handler) UpdatePartialJob(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
 	}
 
-	var partialUpdate JobDocument
+	var partialUpdate JobUpdate
 	if err := go_json.Unmarshal(c.Body(), &partialUpdate); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
 	}

@@ -3,6 +3,7 @@ package server
 import (
 	"github.com/abhikaboy/Roadar/internal/handlers/auth"
 	"github.com/abhikaboy/Roadar/internal/handlers/health"
+	"github.com/abhikaboy/Roadar/internal/handlers/job"
 	"github.com/abhikaboy/Roadar/internal/handlers/review"
 	"github.com/abhikaboy/Roadar/internal/handlers/socket"
 	"github.com/abhikaboy/Roadar/internal/sockets"
@@ -28,6 +29,7 @@ func New(collections map[string]*mongo.Collection) *fiber.App {
 	socket.Routes(app, collections)
 
 	review.Routes(app, collections)
+	job.Routes(app, collections)
 	return app
 }
 

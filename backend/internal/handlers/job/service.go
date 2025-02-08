@@ -2,6 +2,7 @@ package job
 
 import (
 	"context"
+	"log/slog"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -11,7 +12,7 @@ import (
 // newService receives the map of collections and picks out Jobs
 func newService(collections map[string]*mongo.Collection) *Service {
 	return &Service{
-		Jobs: collections["Jobs"],
+		Jobs: collections["jobs"],
 	}
 }
 
@@ -52,7 +53,6 @@ func (s *Service) GetJobByID(id primitive.ObjectID) (*JobDocument, error) {
 // InsertJob adds a new Job document
 func (s *Service) InsertJob(r JobDocument) (*JobDocument, error) {
 	ctx := context.Background()
-
 	// Insert the document into the collection
 	result, err := s.Jobs.InsertOne(ctx, r)
 	if err != nil {
@@ -60,30 +60,36 @@ func (s *Service) InsertJob(r JobDocument) (*JobDocument, error) {
 	}
 
 	// Cast the inserted ID to ObjectID
-	r.ID = result.InsertedID.(primitive.ObjectID)
+	id := result.InsertedID.(primitive.ObjectID)
+	slog.LogAttrs(ctx, slog.LevelInfo, "Job inserted", slog.String("id", id.Hex()))
+
+	r.ID = id
 	return &r, nil
 }
 
+func toDoc(v interface{}) (doc *bson.D, err error) {
+    data, err := bson.Marshal(v)
+    if err != nil {
+        return
+    }
+
+    err = bson.Unmarshal(data, &doc)
+    return
+}
+
 // UpdatePartialJob updates only specified fields of a Job document by ObjectID.
-func (s *Service) UpdatePartialJob(id primitive.ObjectID, updated JobDocument) error {
+func (s *Service) UpdatePartialJob(id primitive.ObjectID, updated JobUpdate) error {
 	ctx := context.Background()
 	filter := bson.M{"_id": id}
 
-	updateFields := bson.M{}
-
-	// Updagr each field of updateFields focument from the input document
-	if !updated.Timestamp.IsZero() {
-		updateFields["timestamp"] = updated.Timestamp
-	}
-
-	// Check if there is anything to update
-	if len(updateFields) == 0 {
-		return nil
+	updateFields, err := toDoc(updated)
+	if err != nil {
+		return err
 	}
 
 	update := bson.M{"$set": updateFields}
 
-	_, err := s.Jobs.UpdateOne(ctx, filter, update)
+	_, err = s.Jobs.UpdateOne(ctx, filter, update)
 	return err
 }
 

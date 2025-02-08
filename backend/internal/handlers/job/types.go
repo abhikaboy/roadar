@@ -14,7 +14,7 @@ type CreateJobParams struct {
 	Requester string   `validate:"required" json:"requester"`
 	JobType   JobType  `validate:"required" json:"JobType"`
 	Urgency   string   `validate:"required" json:"urgency"`
-	Money     int      `validate:"required" json:"money"`
+	Money     float64      `validate:"required" json:"money"`
 	Details   string   `json:"details"`
 }
 
@@ -23,8 +23,12 @@ type Location struct {
 	Longitude float64 `bson:"longitude" json:"longitude"`
 }
 
+type OptionalLocation struct {
+	Latitude  float64 `bson:"latitude,omitempty" json:"latitude,omitempty"`
+	Longitude float64 `bson:"longitude,omitempty" json:"longitude,omitempty"`
+}
 type JobDocument struct {
-	Location  Location           `bson:"location" json:"location"`
+	Location  *Location           `bson:"location" json:"location"`
 	Address   string             `bson:"address" json:"address"`
 	ID        primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Picture   string             `bson:"picture" json:"picture"`
@@ -32,10 +36,23 @@ type JobDocument struct {
 	Mechanic  primitive.ObjectID `bson:"mechanic,omitempty" json:"mechanic,omitempty"`
 	JobType   JobType            `bson:"JobType" json:"JobType"`
 	Urgency   string             `bson:"urgency" json:"urgency"`
-	Money     int                `bson:"money" json:"money"`
+	Money     float64                `bson:"money" json:"money"`
 	Details   string             `bson:"details" json:"details"`
 	Status    Status             `bson:"status" json:"status"`
 	Timestamp time.Time          `bson:"timestamp" json:"timestamp"`
+}
+
+// This is a copy of job document but all the fields are optional and are omit empty
+type JobUpdate struct {
+	Location  *OptionalLocation   `bson:"location,omitempty" json:"location,omitempty"`
+	Address   string             `bson:"address,omitempty" json:"address,omitempty"`
+	Picture   string             `bson:"picture,omitempty" json:"picture,omitempty"`
+	Mechanic  primitive.ObjectID `bson:"mechanic,omitempty" json:"mechanic,omitempty"`
+	JobType   JobType            `bson:"JobType,omitempty" json:"JobType,omitempty"`
+	Urgency   string             `bson:"urgency,omitempty" json:"urgency,omitempty"`
+	Money     float64                `bson:"money,omitempty" json:"money,omitempty"`
+	Details   string             `bson:"details,omitempty" json:"details,omitempty"`
+	Status    Status             `bson:"status,omitempty" json:"status,omitempty"`	
 }
 
 type Status string
@@ -59,25 +76,11 @@ const (
 	Other       JobType = "Other"
 )
 
-// Rating is a nested struct in JobDocument.
-type Rating struct {
-	Portion int  `bson:"portion" json:"portion"`
-	Taste   int  `bson:"taste" json:"taste"`
-	Value   int  `bson:"value" json:"value"`
-	Overall int  `bson:"overall" json:"overall"`
-	Return  bool `bson:"return" json:"return"`
-}
-
 // Jober is a nested struct in JobDocument.
-type Jober struct {
+type UserPreview struct {
 	ID       string `bson:"id"       json:"id"`
 	PFP      string `bson:"pfp"      json:"pfp"`
-	Username string `bson:"username" json:"username"`
-}
-
-type CreateCommentParams struct {
-	Content string `validate:"required" json:"content"`
-	Job     string `validate:"required" json:"Job"`
+	Name string `bson:"name" json:"name"`
 }
 
 /*
