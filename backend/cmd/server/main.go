@@ -12,18 +12,36 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"sync"
 	"syscall"
+	"time"
 
 	"github.com/abhikaboy/Roadar/internal/config"
 	"github.com/abhikaboy/Roadar/internal/server"
-	"github.com/abhikaboy/Roadar/internal/storage/mongo"
+	"github.com/abhikaboy/Roadar/internal/storage/xmongo"
 	"github.com/abhikaboy/Roadar/internal/xslog"
 	"github.com/joho/godotenv"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func main() {
 	run(os.Stderr, os.Args[1:])
 }
+func IterateChangeStream(routineCtx context.Context, waitGroup sync.WaitGroup, stream *mongo.ChangeStream) {
+	fmt.Printf("Waiting for changes...\n")
+	defer stream.Close(routineCtx)
+	defer waitGroup.Done()
+	for stream.Next(routineCtx) {
+		var data bson.M
+		if err := stream.Decode(&data); err != nil {
+					panic(err)
+		}
+		fmt.Printf("%v\n", data["fullDocument"])
+	}
+	fmt.Print("Stream closed\n")
+}
+
 
 func run(stderr io.Writer, args []string) {
 
@@ -59,22 +77,35 @@ func run(stderr io.Writer, args []string) {
 		slog.LogAttrs(ctx, slog.LevelInfo, "Process on port killed successfully", slog.Int("port", port))
 	}
 
-	db, err := mongo.New(ctx, config.Atlas)
+	db, err := xmongo.New(ctx, config.Atlas)
+	fmt.Printf("After New Mongo\n")
+
 	if err != nil {
 		fatal(ctx, "Failed to connect to MongoDB", err)
 	}
 
-	app := server.New(db.Collections)
+	app := server.New(db.Collections, db.Stream)
+	fmt.Printf("After New")
 
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Hour)
+
+	
 	go func() {
 		if err := app.Listen(":" + config.App.Port); err != nil {
 			fatal(ctx, "Failed to start server", err)
 		}
-	}()
+		}()
+
+	var waitGroup sync.WaitGroup
+	waitGroup.Add(1)
+	go IterateChangeStream(ctx, waitGroup, db.Stream)
+	defer cancel()
+		
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-
+	
 	<-quit
 	slog.LogAttrs(
 		ctx,

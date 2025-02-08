@@ -32,7 +32,8 @@ func (h *Handler) JoinRoom(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	return c.SendString("Joined Room")
+	return c.SendStatus(fiber.StatusOK)
+
 }
 
 func (h *Handler) BroadcastRequest(c *fiber.Ctx) error {

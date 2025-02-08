@@ -1,4 +1,4 @@
-package mongo
+package xmongo
 
 import (
 	"context"
@@ -15,6 +15,7 @@ type DB struct {
 	Client      *mongo.Client
 	DB          *mongo.Database
 	Collections map[string]*mongo.Collection
+	Stream      *mongo.ChangeStream
 }
 
 func New(ctx context.Context, cfg config.Atlas) (*DB, error) {
@@ -30,10 +31,27 @@ func New(ctx context.Context, cfg config.Atlas) (*DB, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	// Listening to insertions on the requests collection
+	// matchPipeline := bson.D{{
+	// 	Key: "$match", 
+	// 	Value: bson.D{
+	// 		{Key: "operationType", Value: "insert"},
+	// 	},
+	// }}
+
+	requestsStream, err := db.Collection("jobs").Watch(ctx, bson.D{},
+	options.ChangeStream().SetFullDocument(options.UpdateLookup))
+
+
+	if err != nil {	
+		return nil, err
+	}
 	return &DB{
 		Client:      client,
 		DB:          db,
 		Collections: collections,
+		Stream:      requestsStream,
 	}, nil
 }
 

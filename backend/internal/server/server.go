@@ -20,18 +20,19 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func New(collections map[string]*mongo.Collection) *fiber.App {
+func New(collections map[string]*mongo.Collection, stream *mongo.ChangeStream) *fiber.App {
 
 	app := setupApp()
 	sockets.New()
 
 	health.Routes(app, collections)
 	auth.Routes(app, collections)
-	socket.Routes(app, collections)
+	socket.Routes(app, collections, stream)
 
 	review.Routes(app, collections)
 	job.Routes(app, collections)
 	mechanics.Routes(app, collections)
+
 	return app
 }
 
@@ -55,18 +56,8 @@ func setupApp() *fiber.App {
 		Level: compress.LevelBestSpeed,
 	}))
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).SendString("Welcome to Raodar!")
+		return c.Status(fiber.StatusOK).SendString("Welcome to Roadar!")
 	})
-
-	// app.Use(func(c *fiber.Ctx) error {
-	// 	// IsWebSocketUpgrade returns true if the client
-	// 	// requested upgrade to the WebSocket protocol.
-	// 	if websocket.IsWebSocketUpgrade( c.Request() ) {
-	// 			c.Locals("allowed", true)
-	// 			return c.Next()
-	// 	}
-	// 	return fiber.ErrUpgradeRequired
-	// })
 
 	return app
 }
