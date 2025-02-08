@@ -1,4 +1,4 @@
-module github.com/abhikaboy/roadwatch
+module github.com/abhikaboy/Roadar
 
 go 1.23.4
 

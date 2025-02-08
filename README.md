@@ -1,4 +1,4 @@
-# RoadWatch
+# Roadar
 
 Road Watch is a crowdsourced road maintenance safety platform.
 
@@ -11,7 +11,7 @@ Road Watch is a crowdsourced road maintenance safety platform.
 # Environment Setup
 
 ```text
-ROADWATCH DEVELOPMENT ENVIRONMENT
+Roadar DEVELOPMENT ENVIRONMENT
 ╭──────────────────┬─────────────────────────────────────────────────╮
 │ scripts          │ description                                     │
 ├──────────────────┼─────────────────────────────────────────────────┤
@@ -29,7 +29,7 @@ ROADWATCH DEVELOPMENT ENVIRONMENT
 
 This guide assumes that you are using Linux/macOS. **If you are using Windows, please install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install)**.
 
-To get started, clone the repository via HTTPS by running `git clone https://github.com/abhikaboy/roadwatch.git`.
+To get started, clone the repository via HTTPS by running `git clone https://github.com/abhikaboy/Roadar.git`.
 If you'd prefer, you can [clone it via SSH](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
 
 ### NIX Installation (Recommended)

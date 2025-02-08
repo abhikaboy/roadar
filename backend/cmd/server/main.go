@@ -14,10 +14,10 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/abhikaboy/roadwatch/internal/config"
-	"github.com/abhikaboy/roadwatch/internal/server"
-	"github.com/abhikaboy/roadwatch/internal/storage/mongo"
-	"github.com/abhikaboy/roadwatch/internal/xslog"
+	"github.com/abhikaboy/Roadar/internal/config"
+	"github.com/abhikaboy/Roadar/internal/server"
+	"github.com/abhikaboy/Roadar/internal/storage/mongo"
+	"github.com/abhikaboy/Roadar/internal/xslog"
 	"github.com/joho/godotenv"
 )
 

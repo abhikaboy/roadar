@@ -1,10 +1,10 @@
 package server
 
 import (
-	"github.com/abhikaboy/roadwatch/internal/handlers/auth"
-	"github.com/abhikaboy/roadwatch/internal/handlers/health"
-	"github.com/abhikaboy/roadwatch/internal/handlers/review"
-	"github.com/abhikaboy/roadwatch/internal/xerr"
+	"github.com/abhikaboy/Roadar/internal/handlers/auth"
+	"github.com/abhikaboy/Roadar/internal/handlers/health"
+	"github.com/abhikaboy/Roadar/internal/handlers/review"
+	"github.com/abhikaboy/Roadar/internal/xerr"
 	gojson "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -48,7 +48,7 @@ func setupApp() *fiber.App {
 		Level: compress.LevelBestSpeed,
 	}))
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).SendString("Welcome to PlateMate!")
+		return c.Status(fiber.StatusOK).SendString("Welcome to Raodar!")
 	})
 	return app
 }

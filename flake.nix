@@ -1,5 +1,5 @@
 {
-  description = "RoadWatch: A crowdsourced road maintenance safety platform.";
+  description = "Roadar: A crowdsourced road maintenance safety platform.";
 
   inputs = {
     devenv = {

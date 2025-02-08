@@ -13,7 +13,7 @@ export default function HomeScreen() {
             headerImage={<Image source={require("@/assets/images/partial-react-logo.png")} style={styles.reactLogo} />}>
             <ThemedView style={styles.titleContainer}>
                 <ThemedText type={"title"} style={{ fontFamily: "Outfit" }}>
-                    RoadWatch - React Native Boilerplate
+                    Roadar - React Native Boilerplate
                 </ThemedText>
             </ThemedView>
             <ThemedView>

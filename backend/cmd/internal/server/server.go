@@ -1,9 +1,9 @@
 package server
 
 import (
-	"github.com/abhikaboy/roadwatch/internal/handlers/auth"
-	"github.com/abhikaboy/roadwatch/internal/handlers/health"
-	"github.com/abhikaboy/roadwatch/internal/xerr"
+	"github.com/abhikaboy/Roadar/internal/handlers/auth"
+	"github.com/abhikaboy/Roadar/internal/handlers/health"
+	"github.com/abhikaboy/Roadar/internal/xerr"
 	gojson "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
