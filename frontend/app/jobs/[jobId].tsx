@@ -26,6 +26,7 @@ export default function JobDetailsScreen() {
     ];
 
     const job = jobData.find((j) => j.id.toString() === jobId);
+    
 
     if (!job) {
         return (
