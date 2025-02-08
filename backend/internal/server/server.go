@@ -5,6 +5,7 @@ import (
 	"github.com/abhikaboy/Roadar/internal/handlers/health"
 	"github.com/abhikaboy/Roadar/internal/handlers/job"
 	"github.com/abhikaboy/Roadar/internal/handlers/mechanics"
+	"github.com/abhikaboy/Roadar/internal/handlers/drivers"
 	"github.com/abhikaboy/Roadar/internal/handlers/review"
 	"github.com/abhikaboy/Roadar/internal/handlers/socket"
 	"github.com/abhikaboy/Roadar/internal/sockets"
@@ -32,6 +33,7 @@ func New(collections map[string]*mongo.Collection) *fiber.App {
 	review.Routes(app, collections)
 	job.Routes(app, collections)
 	mechanics.Routes(app, collections)
+	drivers.Routes(app, collections)
 	return app
 }
 

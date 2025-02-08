@@ -47,7 +47,7 @@ type MechanicUpdate struct {
 }
 
 type RateMechanicParams struct {
-	Rating int `validate:required bson:"rating" json:"rating"`
+	Rating int `validate:"required" bson:"rating" json:"rating"`
 }
 
 type RequestType string
