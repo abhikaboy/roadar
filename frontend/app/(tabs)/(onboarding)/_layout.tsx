@@ -15,10 +15,9 @@ export default function OnboardingLayout() {
             <Image style={style.gears3} resizeMode="cover" source={require("@/assets/images/gears3.png")} />
 
             <View style={style.contentContainer}>
-                <ThemedView style={style.box}>
+                <View style={style.box}>
                     <Slot />
-                </ThemedView>
-
+                </View>
             </View>
         </View>
     )
@@ -26,14 +25,13 @@ export default function OnboardingLayout() {
 
 const style = StyleSheet.create({
     background: {
-        backgroundColor: "#fff",
         flex: 1,
         width: "100%",
         height: "100%",
         overflow: "hidden",
     },
     gears1: {
-        top: "25%",
+        top: "33%",
         left: "-25%",    
         width: "100%",
         height: 659,
@@ -41,7 +39,7 @@ const style = StyleSheet.create({
         transform: [{ scale: 0.5 }]
     },
     gears2: {
-        top: "52%",
+        top: "58%",
         left: "25%",
         width: "100%",
         height: 372,
@@ -50,12 +48,13 @@ const style = StyleSheet.create({
     },
     gears3: {
         left: "0%",
-        top: "-1%",
+        top: "0%",
         width: "100%",
         height: 331,
         transform: [{ scale: 1 }]
     },
     contentContainer: {
+        flex: 1,
         position: "absolute",
         top: 0,
         left: 0,
@@ -66,7 +65,6 @@ const style = StyleSheet.create({
         padding: 20,
     },
     box: { 
-        backgroundColor: "#FFFFFF",
         padding: 20,              
         width: '80%',            
         maxWidth: 400,          

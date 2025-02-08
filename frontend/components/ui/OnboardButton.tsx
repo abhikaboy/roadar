@@ -6,29 +6,37 @@ import { ThemedText } from "../ThemedText";
 interface OnboardButtonProps {
     title: string,
     color: string,
-    href: Href
+    textColor: string,
+    border?: boolean,
+    [key: string]: any,
 }
 
-export default function OnboardButton({ title, href, color } : OnboardButtonProps) {
-    const router = useRouter();
-    const handlePush = () => {
-        router.push(href);
-    }
+export default function OnboardButton({ title, color, textColor, border, ...buttonProps } : OnboardButtonProps) {
 
-    return (
-        <View>
-            <TouchableOpacity style={[styles.button, { backgroundColor: color }]} onPress={handlePush}>
+    if(!!border) {
+        return(
+        <View {...buttonProps}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: color }]} {...buttonProps}>
+                <ThemedText style={[styles.buttonText, { color: textColor }]}>{title}</ThemedText>
+            </TouchableOpacity>
+            </View>
+        )
+    } else {
+        return(
+            <View {...buttonProps}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: color, borderColor: "#000" }]} {...buttonProps}>
                 <ThemedText style={styles.buttonText}>{title}</ThemedText>
             </TouchableOpacity>
-        </View>
-    );
+            </View>
+        )
+    }
+
 }
 
 const styles = StyleSheet.create({
     button: {
         alignSelf: "stretch",
-        borderRadius: 29,
-        flex: 1,
+        borderRadius: 30,
         width: "100%",
         height: 50,
         flexDirection: "row",
@@ -43,5 +51,5 @@ const styles = StyleSheet.create({
         fontFamily: "Outfit-Light",
         color: "#fff",
         textAlign: "left"
-    }
+    },
 })
