@@ -1,43 +1,96 @@
 import * as SecureStore from "expo-secure-store";
+import { useRouter } from "expo-router"
+import { createContext, useContext, useState } from "react";
+import React from "react";
 
-export async function revalidateAuth() {
-    try {
-        // check if the user has valid login/refresh, redirect user to login page if their auth is ass
-        const url = "https://57a7-2601-19b-480-4dc0-f909-8c1c-d184-ab76.ngrok-free.app/protected/";
-        var accessToken = await SecureStore.getItemAsync("accessToken");
-        var refreshToken = await SecureStore.getItemAsync("refreshToken");
-        if (!accessToken || !refreshToken) {
-            // redirect user to login page
-            throw Error("User does not have access or refresh token");
+
+
+async function getUserByAppleAccountID(appleAccountID : string) {
+    const url = process.env.EXPO_PUBLIC_API_URL + "/drivers/aaid/" + appleAccountID;
+    const response = await fetch (url,
+        {
+            method: "GET"
+        })
+    const user = await response.json()
+    return user
+
+}
+
+interface AuthContextType {
+    user: any | null;
+    login: (appleAccountID : string, accountType: "mechanic" | "driver") => void;
+    register: (firstName : string, lastName: string, email: string, appleAccountID: string, accountType : "mechanic" | "driver") => any 
+    logout: () => void
+    refresh: () => void
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+
+export function AuthProvider( {children} : { children: React.ReactNode}) {
+    const [user, setUser] = useState<any | null>(null)
+
+    async function register(firstName : string, lastName: string, email: string, appleAccountID: string, accountType : "mechanic" | "driver") {
+        const url = process.env.EXPO_PUBLIC_API_URL + "/" + accountType + "s"
+        console.log(url)
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        firstName,
+                        lastName,
+                        email,
+                        appleAccountID
+                })  
+            })
+        
+            if (!response.ok) {
+                throw Error("Unable to complete operation" + " status code: " + response.statusText);
+            }
+        
+            console.log(response)
+            return response
+    
+        } catch (e : any) {
+            console.log(e)
         }
-        console.log(accessToken);
-        console.log(refreshToken);
-
-        const authReq = await fetch(url, {
-            method: "GET",
-            headers: {
-                Authorization: accessToken,
-                refresh_token: refreshToken,
-            },
-        });
-
-        if (!authReq.ok) {
-            const { message } = await authReq.json();
-            throw Error(message);
-        }
-
-        // if the user was able to authenticate correctly, retrieve new access and refresh token from response
-        accessToken = await authReq.headers.get("access_token");
-        refreshToken = await authReq.headers.get("refresh_token");
-        if (accessToken && refreshToken) {
-            // save the new values
-            await SecureStore.setItemAsync("accessToken", accessToken);
-            await SecureStore.setItemAsync("refreshToken", refreshToken);
-        }
-        return true;
-    } catch (err) {
-        console.log("Error: " + err);
-        console.log("Redirecting user to login page...");
-        return false;
     }
+
+
+    async function login(appleAccountID : string, accountType: "mechanic" | "driver") {
+        const userRes = await getUserByAppleAccountID(appleAccountID) 
+
+        if (userRes) {
+            setUser({...userRes, accountType})
+        } else {
+            throw new Error("Could not login")
+        }
+    
+    }
+    
+    async function logout() {
+        setUser(null)
+    }
+
+    async function refresh() {
+        if (user) {
+            login(user.appleAccountID, user.accountType)
+        }
+    }
+    return (
+        <AuthContext.Provider value={ {user, register, login, logout, refresh} }>
+            { children }
+        </AuthContext.Provider>
+    )
+}
+
+export const useAuth = () => {
+    const context = useContext(AuthContext)
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
 }
