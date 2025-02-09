@@ -18,7 +18,7 @@ export function VehicleCard({ name, make, model, year, license, carGraphic }: Ve
             <ThemedText type="subtitle">Your Vehicle</ThemedText>
 
             <View style={styles.row}>
-                <Image source={picture} style={styles.image} resizeMode="cover" />
+                <Image source={carGraphic} style={styles.image} resizeMode="cover" />
                 <View style={styles.details}>
                     <ThemedText type="default">Make and Model:</ThemedText>
                     <ThemedText type="link">
