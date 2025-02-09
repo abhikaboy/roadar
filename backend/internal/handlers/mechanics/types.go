@@ -14,10 +14,12 @@ type CreateMechanicParams struct {
 	PhoneNumber string    `bson:"phoneNumber" json:"phoneNumber"`
 	Bio         string    `bson:"bio" json:"bio"`
 	Address     string    `bson:"address" json:"address"`
+	AppleAccountID string    `bson:"appleAccountID" json:"appleAccountID"`
 }
 
 type MechanicDocument struct {
 	Location     *[]float64         `bson:"location" json:"location"`
+	AppleAccountID string             `bson:"appleAccountID" json:"appleAccountID"`
 	Address      string             `bson:"address" json:"address"`
 	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Picture      string             `bson:"picture" json:"picture"`
