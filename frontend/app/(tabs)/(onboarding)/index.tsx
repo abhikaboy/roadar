@@ -8,11 +8,17 @@ import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native";
 
 export default function index() {
-    const [name, setName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [phone, setPhone] = useState("");
     const router = useRouter();
 
     const handleContinue = () => {
+        console.log(firstName)
+        console.log(lastName)
+        console.log(phone)
+        router.push("/registerPfp")
+    }
         console.log(name);
         console.log(phone);
         router.push("/registerPfp");
@@ -27,11 +33,22 @@ export default function index() {
 
                     <View style={style.inputFrame}>
                         <View style={style.yourNameBox}>
-                            <Text style={style.yourName}>Your name</Text>
+                            <Text style={style.yourName}>First name</Text>
                             <TextInput
-                                value={name}
-                                onChangeText={setName}
-                                placeholder="Abhik Ray"
+                                value={firstName}
+                                onChangeText={setFirstName}
+                                placeholder="Abhik"
+                                style={style.input}
+                            />
+                        </View>
+                    </View>
+                    <View style={style.inputFrame}>
+                        <View style={style.yourNameBox}>
+                            <Text style={style.yourName}>Last name</Text>
+                            <TextInput
+                                value={lastName}
+                                onChangeText={setLastName}
+                                placeholder="Ray"
                                 style={style.input}
                             />
                         </View>
@@ -66,7 +83,7 @@ const style = StyleSheet.create({
     frame: {
         justifyContent: "center",
         alignItems: "center",
-        gap: 180,
+        gap: 145,
     },
     content: {
         width: "80%",

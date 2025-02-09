@@ -1,14 +1,41 @@
 import OnboardButton from "@/components/ui/OnboardButton";
-import { useState } from "react";
-import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Button, Image, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import React from "react";
 
 export default function registerPfp() {
     const [image, setImage] = useState<string | null>(null);
+    const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
     const router = useRouter();
+
+    useEffect(() => {
+        (async () => {
+          if (Platform.OS !== 'web') {
+            const { status } = await ImagePicker.requestCameraPermissionsAsync();
+            if (status !== 'granted') {
+              alert('Sorry, we need camera roll permissions to make this work!');
+            }
+          }
+        })();
+      }, []);
+    
+    const openCamera = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ["images"],
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        })
+
+        console.log(result)
+
+        if(!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    }
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -43,6 +70,7 @@ export default function registerPfp() {
                             image && <Image source={{ uri: image }} style={style.image} />
                         )}
                     </Pressable>
+                    <Button title="Open Camera" onPress={openCamera} />
                 </View>
             </View>
             <View style={{ width: "100%", gap: 10 }}>
