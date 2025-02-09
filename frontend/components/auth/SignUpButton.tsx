@@ -36,8 +36,8 @@ export default function SignUpButton({ isMechanic }: { isMechanic: boolean }) {
                     const user1 = await login(appleAccountID, isMechanic ? "mechanic" : "driver");
                     console.log(user1);
 
-                    router.replace({
-                        pathname: "/(tabs)/(onboarding)",
+                      router.replace({
+                        pathname: "/(onboarding)",
                         params: {
                             initialFirstName: user1.firstName || "",
                             initialLastName: user1.lastName || "",
