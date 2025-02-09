@@ -33,13 +33,14 @@ const parseId = (str: string) => (str === "000000000000000000000000" ? null : st
 export default function MechanicHome() {
     const router = useRouter();
     const [jobs, setJobs] = useState<Job[]>([]);
+    const [switchOn, setSwitchOn] = useState(true);
     const [mechanicProfile, setMechanicProfile] = useState<{ active: boolean }>({ active: true });
 
     useEffect(() => {
         const fetchOnline = async () => {
             try {
                 let id = "507f1f77bcf86cd799439011";
-                const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/api/v1/mechanics/${id}/online`);
+                const response = await axios.patch(`${process.env.EXPO_PUBLIC_URL}/api/v1/mechanics/${id}/online`);
                 console.log(response.data);
 
                 setMechanicProfile({ active: response.data.active });
@@ -50,8 +51,6 @@ export default function MechanicHome() {
 
         fetchOnline();
     }, []);
-
-    
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -119,6 +118,21 @@ export default function MechanicHome() {
         fetchJobs();
     }, []);
 
+    const toggleActiveStatus = async () => {
+        try {
+            let id = "507f1f77bcf86cd799439011";
+            const response = await axios.patch(`${process.env.EXPO_PUBLIC_URL}/api/v1/mechanics/${id}/online`, {
+                online: !switchOn,
+            });
+            console.log(response.data);
+            setSwitchOn(!switchOn);
+
+            setMechanicProfile({ active: response.data.active });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -135,8 +149,8 @@ export default function MechanicHome() {
                         <View style={styles.mechanicToggle}>
                             <ThemedText type="subtitle">Switch your status: </ThemedText>
                             <Switch
-                                value={mechanicProfile.active}
-                                onValueChange={() => setMechanicProfile((prev) => ({ active: !prev.active }))}
+                                value={switchOn}
+                                onValueChange={() => toggleActiveStatus()}
                                 trackColor={{ false: "#767577", true: "#002366" }}
                                 thumbColor={mechanicProfile.active ? "#fff" : "#f4f3f4"}
                             />

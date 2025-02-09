@@ -7,8 +7,6 @@ import { useNavigation, useRouter } from "expo-router";
 export default function Index() {
     const router = useRouter();
 
-    const navigation = useNavigation();
-
     const cardContent = [
         {
             title: "Flat tire",
@@ -147,6 +145,6 @@ const styles = StyleSheet.create({
         paddingRight: 20,
         alignItems: "center",
         display: "flex",
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
     },
 });

@@ -1,7 +1,6 @@
 import { Button, Dimensions, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { useLocalSearchParams, useRouter, useSearchParams } from "expo-router/build/hooks";
-import { useNavigation } from "expo-router";
 import UrgencyCircle from "@/components/ui/UrgencyCircle";
 import OnboardButton from "@/components/ui/OnboardButton";
 import { useAuth } from "@/hooks/useAuth";
