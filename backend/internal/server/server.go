@@ -27,12 +27,11 @@ func New(collections map[string]*mongo.Collection, stream *mongo.ChangeStream) *
 
 	health.Routes(app, collections)
 	auth.Routes(app, collections)
-	socket.Routes(app, collections, stream)
-
 	review.Routes(app, collections)
 	job.Routes(app, collections)
 	mechanics.Routes(app, collections)
-
+	socket.Routes(app, collections, stream)
+	
 	return app
 }
 

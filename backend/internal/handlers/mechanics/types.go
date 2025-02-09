@@ -13,41 +13,48 @@ type CreateMechanicParams struct {
 	LastName    string    `bson:"lastName" json:"lastName"`
 	PhoneNumber string    `bson:"phoneNumber" json:"phoneNumber"`
 	Bio         string    `bson:"bio" json:"bio"`
+	Address     string    `bson:"address" json:"address"`
 }
 
 type MechanicDocument struct {
-	Location    *[]float64         `bson:"location" json:"location"`
-	ID          primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	Picture     string             `bson:"picture" json:"picture"`
-	Earnings    float64            `bson:"earnings" json:"earnings"`
-	Email       string             `bson:"email" json:"email"`
-	FirstName   string             `bson:"firstName" json:"firstName"`
-	LastName    string             `bson:"lastName" json:"lastName"`
-	Rating      float64            `bson:"rating" json:"rating"`
+	Location     *[]float64         `bson:"location" json:"location"`
+	Address      string             `bson:"address" json:"address"`
+	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	Picture      string             `bson:"picture" json:"picture"`
+	Earnings     float64            `bson:"earnings" json:"earnings"`
+	Email        string             `bson:"email" json:"email"`
+	FirstName    string             `bson:"firstName" json:"firstName"`
+	LastName     string             `bson:"lastName" json:"lastName"`
+	Rating       float64            `bson:"rating" json:"rating"`
 	TotalRatings int                `bson:"totalRatings" json:"totalRatings"`
-	PhoneNumber string             `bson:"phoneNumber" json:"phoneNumber"`
-	Bio         string             `bson:"bio" json:"bio"`
-	SocketID    string             `bson:"socketID" json:"socketID"`
+	PhoneNumber  string             `bson:"phoneNumber" json:"phoneNumber"`
+	Bio          string             `bson:"bio" json:"bio"`
+	SocketID     string             `bson:"socketID" json:"socketID"`
+	Online       bool               `bson:"online" json:"online"`
+	Radius       float64            `bson:"radius" json:"radius"`
 }
 
 // This is a copy of mechanic document but all the fields are optional and are omit empty
 type MechanicUpdate struct {
-	Location    *[]float64         `bson:"location,omitempty" json:"location,omitempty"`
-	ID          primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
-	Picture     string             `bson:"picture,omitempty" json:"picture,omitempty"`
-	Earnings    float64            `bson:"earnings,omitempty" json:"earnings,omitempty"`
-	Email       string             `bson:"email,omitempty" json:"email,omitempty"`
-	FirstName   string             `bson:"firstName,omitempty" json:"firstName,omitempty"`
-	LastName    string             `bson:"lastName,omitempty" json:"lastName,omitempty"`
-	Rating      float64            `bson:"rating,omitempty" json:"rating,omitempty"`
+	Location     *[]float64         `bson:"location,omitempty" json:"location,omitempty"`
+	Address      string             `bson:"address,omitempty" json:"address,omitempty"`
+	ID           primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
+	Picture      string             `bson:"picture,omitempty" json:"picture,omitempty"`
+	Earnings     float64            `bson:"earnings,omitempty" json:"earnings,omitempty"`
+	Email        string             `bson:"email,omitempty" json:"email,omitempty"`
+	FirstName    string             `bson:"firstName,omitempty" json:"firstName,omitempty"`
+	LastName     string             `bson:"lastName,omitempty" json:"lastName,omitempty"`
+	Rating       float64            `bson:"rating,omitempty" json:"rating,omitempty"`
 	TotalRatings int                `bson:"totalRatings,omitempty" json:"totalRatings,omitempty"`
-	PhoneNumber string             `bson:"phoneNumber,omitempty" json:"phoneNumber,omitempty"`
-	Bio         string             `bson:"bio,omitempty" json:"bio,omitempty"`
-	SocketID    string             `bson:"socketID,omitempty" json:"socketID,omitempty"`
+	PhoneNumber  string             `bson:"phoneNumber,omitempty" json:"phoneNumber,omitempty"`
+	Bio          string             `bson:"bio,omitempty" json:"bio,omitempty"`
+	SocketID     string             `bson:"socketID,omitempty" json:"socketID,omitempty"`
+	Online       bool               `bson:"online,omitempty" json:"online,omitempty"`
+	Radius       float64            `bson:"radius,omitempty" json:"radius,omitempty"`
 }
 
 type RateMechanicParams struct {
-	Rating float64 `validate:required bson:"rating" json:"rating"`
+	Rating float64 `validate:"required" bson:"rating" json:"rating"`
 }
 
 type RequestType string
@@ -92,6 +99,10 @@ type FinishMechanicParams struct {
 	Mechanic string `validate:"required" json:"mechanic"`
 }
 
+type ChangeOnlineStatusParams struct {
+	Online bool `validate:"required" json:"online"`
+}
+
 /*
 Mechanic Service to be used by Mechanic Handler to interact with the
 Database layer of the application
@@ -99,3 +110,4 @@ Database layer of the application
 type Service struct {
 	Mechanics *mongo.Collection
 }
+

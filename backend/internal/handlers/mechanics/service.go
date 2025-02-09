@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/abhikaboy/Roadar/internal/handlers/job"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -88,7 +89,7 @@ func (s *Service) UpdatePartialMechanic(id primitive.ObjectID, updated MechanicU
 	}
 
 	update := bson.M{"$set": updateFields}
-
+	fmt.Printf("%+v \n", update)
 	_, err = s.Mechanics.UpdateOne(ctx, filter, update)
 	return err
 }
@@ -125,23 +126,22 @@ func (s *Service) GetNearbyMechanics(location []float64, radius float64) ([]Mech
 	return results, nil
 }
 
-
 func (s *Service) RateMechanic(id primitive.ObjectID, rating float64) error {
 	ctx := context.Background()
 	filter := bson.M{"_id": id}
 
-	// get the current rating 
+	// get the current rating
 	mechanicResult := s.Mechanics.FindOne(ctx, filter)
-	if mechanicResult.Err() != nil {	
+	if mechanicResult.Err() != nil {
 		return mechanicResult.Err()
 	}
-	
+
 	var mechanic MechanicDocument
 	err := mechanicResult.Decode(&mechanic)
 	if err != nil {
 		return err
 	}
-	newRating := (mechanic.Rating * float64(mechanic.TotalRatings) + rating) / (float64(mechanic.TotalRatings + 1))
+	newRating := (mechanic.Rating*float64(mechanic.TotalRatings) + rating) / (float64(mechanic.TotalRatings + 1))
 
 	// sum + rating / total ratings + 1
 	update := bson.M{
@@ -166,6 +166,51 @@ func (s *Service) AcceptMechanic(id primitive.ObjectID, mechanicId primitive.Obj
 		"$set": bson.M{
 			"status":   InProgress,
 			"mechanic": mechanicId,
+		},
+	}
+	res := s.Mechanics.FindOneAndUpdate(ctx, filter, update)
+
+	return res.Err()
+}
+
+func (s *Service) AlertMechanics(job job.JobDocument) error {
+	ctx := context.Background()
+
+	// Find mechanics that are online and the job is in radius
+	// TODO: make maxDistance utilize the radius on the mechanic doucment
+	filter := bson.M{"online": true,
+		"location": bson.M{
+			"$near":        job.Location,
+			"$maxDistance": 100,
+		},
+	}
+
+	cursor, err := s.Mechanics.Find(ctx, filter)
+	if err != nil {
+		return err
+	}
+	defer cursor.Close(ctx)
+
+	var results []MechanicDocument
+	if err := cursor.All(ctx, &results); err != nil {
+		return err
+	}
+
+	for _, mechanic := range results {
+		// send alert to mechanic
+		fmt.Println(mechanic)
+	}
+
+	return err
+}
+
+func (s *Service) ChangeOnlineStatus(id primitive.ObjectID, online bool) error {
+	ctx := context.Background()
+	filter := bson.M{"_id": id}
+
+	update := bson.M{
+		"$set": bson.M{
+			"online": online,
 		},
 	}
 	res := s.Mechanics.FindOneAndUpdate(ctx, filter, update)

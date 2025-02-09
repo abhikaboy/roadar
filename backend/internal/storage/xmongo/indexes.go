@@ -21,4 +21,8 @@ var Indexes = []Index{
 		Collection: "jobs",
 		Model:      mongo.IndexModel{Keys: bson.M{"location": "2d"}},
 	},
+	{
+		Collection: "mechanics",
+		Model:      mongo.IndexModel{Keys: bson.M{"location": "2d"}},
+	},
 }

@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
 	"log/slog"
+	"net/http"
 	"os"
 	"os/exec"
 	"os/signal"
@@ -28,6 +31,7 @@ import (
 func main() {
 	run(os.Stderr, os.Args[1:])
 }
+
 func IterateChangeStream(routineCtx context.Context, waitGroup sync.WaitGroup, stream *mongo.ChangeStream) {
 	fmt.Printf("Waiting for changes...\n")
 	defer stream.Close(routineCtx)
@@ -35,16 +39,33 @@ func IterateChangeStream(routineCtx context.Context, waitGroup sync.WaitGroup, s
 	for stream.Next(routineCtx) {
 		var data bson.M
 		if err := stream.Decode(&data); err != nil {
-					panic(err)
+			panic(err)
 		}
 		fmt.Printf("%v\n", data["fullDocument"])
+		body, err := json.Marshal(data["fullDocument"])
+		if err != nil {
+			fmt.Println(err)
+		}
+		url := "http://localhost:8080/api/v1/mechanics/alert"
+		req, err := http.NewRequest(
+			"POST",
+			url,
+			bytes.NewBuffer(body),
+		)
+		if err != nil {
+			fmt.Println(err)
+		}
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer resp.Body.Close()
+
 	}
 	fmt.Print("Stream closed\n")
 }
 
-
 func run(stderr io.Writer, args []string) {
-
 	cmd := flag.NewFlagSet("", flag.ExitOnError)
 	verboseFlag := cmd.Bool("v", false, "")
 	logLevelFlag := cmd.String("log-level", slog.LevelDebug.String(), "")
@@ -87,25 +108,21 @@ func run(stderr io.Writer, args []string) {
 	app := server.New(db.Collections, db.Stream)
 	fmt.Printf("After New")
 
-
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Hour)
-
-	
 	go func() {
 		if err := app.Listen(":" + config.App.Port); err != nil {
 			fatal(ctx, "Failed to start server", err)
 		}
-		}()
+	}()
 
 	var waitGroup sync.WaitGroup
 	waitGroup.Add(1)
 	go IterateChangeStream(ctx, waitGroup, db.Stream)
 	defer cancel()
-		
 
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-	
+
 	<-quit
 	slog.LogAttrs(
 		ctx,
