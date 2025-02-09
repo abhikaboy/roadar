@@ -1,7 +1,8 @@
-import { ImageSourcePropType, View, Image, StyleSheet } from "react-native";
+import { ImageSourcePropType, View, Image, StyleSheet, Touchable, TouchableOpacity } from "react-native";
 import { ThemedText } from "./ThemedText";
 import React from "react";
 import ReverseGeocode from "./reverseGeocode";
+import { useAuth } from "@/hooks/useAuth";
 
 export type JobInformationProp = {
     picture: ImageSourcePropType;
@@ -10,11 +11,13 @@ export type JobInformationProp = {
     budget: number;
     lat: number;
     lon: number;
+    job: any;
 };
 
-export default function MechanicJobCard({ picture, type, driver, budget, lat, lon }: JobInformationProp) {
+export default function MechanicJobCard({ picture, type, driver, budget, lat, lon, job }: JobInformationProp) {
+    const { setJob } = useAuth();
     return (
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={() => setJob(job)}>
             <View style={styles.textContainer}>
                 <ThemedText style={styles.title} type="subtitle">
                     {type} Repair
@@ -26,16 +29,15 @@ export default function MechanicJobCard({ picture, type, driver, budget, lat, lo
             <View style={styles.imageContainer}>
                 <Image style={styles.picture} source={picture} resizeMode="cover" />
             </View>
-
-        </View>
+        </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#F4F4F4",
-        flexDirection: "row", 
-        alignItems: "center", 
+        flexDirection: "row",
+        alignItems: "center",
         padding: 12,
         marginTop: 10,
         marginBottom: 8,
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     textContainer: {
-        flex: 1, 
+        flex: 1,
     },
     title: {
         fontSize: 18,
@@ -70,4 +72,3 @@ const styles = StyleSheet.create({
         marginTop: 2,
     },
 });
-

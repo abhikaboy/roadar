@@ -14,7 +14,7 @@ import { ThemedText } from "@/components/ThemedText";
 import JobModal from "@/components/JobModal";
 
 export default function TabLayout() {
-    const [modalVisible, setModalVisible] = useState(true);
+    const [modalVisible, setModalVisible] = useState(false);
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     };
@@ -72,7 +72,6 @@ export default function TabLayout() {
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
                 }}
             />
-            
         </Tabs>
     );
 }

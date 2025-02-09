@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Switch } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Switch, Touchable, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ActiveTag } from "@/components/ui/ActiveTag";
 import JobCard from "@/components/jobCard";
@@ -7,6 +7,7 @@ import React from "react";
 import axios from "axios";
 import { useRouter } from "expo-router";
 import MechanicJobCard from "@/components/jobCard";
+import { useAuth } from "@/hooks/useAuth";
 
 export type Job = {
     id: string;
@@ -35,22 +36,7 @@ export default function MechanicHome() {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [switchOn, setSwitchOn] = useState(true);
     const [mechanicProfile, setMechanicProfile] = useState<{ active: boolean }>({ active: true });
-
-    useEffect(() => {
-        const fetchOnline = async () => {
-            try {
-                let id = "507f1f77bcf86cd799439011";
-                const response = await axios.patch(`${process.env.EXPO_PUBLIC_URL}/api/v1/mechanics/${id}/online`);
-                console.log(response.data);
-
-                setMechanicProfile({ active: response.data.active });
-            } catch (err) {
-                console.error(err);
-            }
-        };
-
-        fetchOnline();
-    }, []);
+    const { user, setJob } = useAuth();
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -120,7 +106,8 @@ export default function MechanicHome() {
 
     const toggleActiveStatus = async () => {
         try {
-            let id = "507f1f77bcf86cd799439011";
+            // let id = user._id;
+            let id = "67a7e54dad3126f3dab182dd";
             const response = await axios.patch(`${process.env.EXPO_PUBLIC_URL}/api/v1/mechanics/${id}/online`, {
                 online: !switchOn,
             });
@@ -144,7 +131,7 @@ export default function MechanicHome() {
                     <View style={styles.statusContainer}>
                         <View style={styles.row}>
                             <ThemedText type="subtitle">Your Status: </ThemedText>
-                            <ActiveTag active={mechanicProfile.active} />
+                            <ActiveTag active={switchOn} />
                         </View>
                         <View style={styles.mechanicToggle}>
                             <ThemedText type="subtitle">Switch your status: </ThemedText>
@@ -160,6 +147,7 @@ export default function MechanicHome() {
                     {jobs.length > 0 ? (
                         jobs.map((job) => (
                             <MechanicJobCard
+                                job={job}
                                 key={job.id}
                                 picture={job.picture?.[0] || require("@/assets/images/Robert.png")}
                                 type={job.type}

@@ -27,7 +27,6 @@ export function VehicleCard({ name, make, model, year, license, carGraphic }: Ve
 
                     <ThemedText type="default">Plate Number:</ThemedText>
                     <ThemedText type="link">{license}</ThemedText>
-                    <ThemedText type="link">{license}</ThemedText>
                 </View>
             </View>
         </ThemedView>
