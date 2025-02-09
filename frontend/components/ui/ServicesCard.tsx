@@ -1,4 +1,4 @@
-import { Image, ImageSourcePropType, StyleSheet, Text, View } from "react-native";
+import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from 'react'
 
 interface ServicesCardProps {
@@ -9,10 +9,10 @@ interface ServicesCardProps {
 
 export default function ServicesCard({ image, title, ...cardProps}: ServicesCardProps) {
     return (
-        <View style={[styles.serviceCard,]}>
+        <TouchableOpacity style={[styles.serviceCard,]}>
             <Image style={styles.image} resizeMode="cover" source={image} />
             <Text style={styles.text}>{title}</Text>
-        </View>
+        </TouchableOpacity>
     );
 }
 

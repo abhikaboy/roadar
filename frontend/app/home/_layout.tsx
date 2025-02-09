@@ -28,14 +28,14 @@ export default function Home() {
 
     return(
         <SafeAreaView style={{flex: 1}}>
-        <ScrollView style={styles.screen}>
-            <View style={styles.contentParent}>
-                <Text style={[styles.roadar, styles.roadarTypo]}>Roadar</Text>
-                <View>
-                    <Slot />
+            <ScrollView style={styles.screen}>
+                <View style={styles.contentParent}>
+                    <Text style={[styles.roadar, styles.roadarTypo]}>Roadar</Text>
+                    <View>
+                        <Slot />
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
         </SafeAreaView>
     )
 }
