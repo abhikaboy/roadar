@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 
 export default function SignUpButton({ isMechanic }: { isMechanic: boolean }) {
-    const { login, register, user, logout } = useAuth();
+    const { login, register } = useAuth();
     const router = useRouter();
 
     return (
@@ -23,7 +23,7 @@ export default function SignUpButton({ isMechanic }: { isMechanic: boolean }) {
                             AppleAuthentication.AppleAuthenticationScope.EMAIL,
                         ],
                     });
-
+                    console.log(credential);
                     const appleAccountID = credential.user;
                     const email = credential.email;
                     const firstName = credential.fullName?.givenName;
@@ -36,7 +36,7 @@ export default function SignUpButton({ isMechanic }: { isMechanic: boolean }) {
                     const user1 = await login(appleAccountID, isMechanic ? "mechanic" : "driver");
                     console.log(user1);
 
-                      router.replace({
+                    router.replace({
                         pathname: "/(onboarding)",
                         params: {
                             initialFirstName: user1.firstName || "",
