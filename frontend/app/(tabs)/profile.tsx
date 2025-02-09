@@ -6,17 +6,8 @@ import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { useAuth } from "@/hooks/useAuth";
 
-
-
 export default function Profile() {
     const { user } = useAuth();
-    
-    
-
-
-    
-
-    
 
     return (
         <SafeAreaView style={styles.safeArea}>

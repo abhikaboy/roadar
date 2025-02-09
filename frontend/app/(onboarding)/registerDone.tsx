@@ -1,6 +1,6 @@
 import OnboardButton from "@/components/ui/OnboardButton";
 import { useFonts } from "expo-font";
-import { Link,  useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
@@ -13,14 +13,11 @@ export default function registerDone() {
     const handleContinue = () => {
         //CHANGE: ROUTE TO HOME
         if (user.accountType == "mechanic") {
-            router.replace("/(tabs)/mechanicHome")
+            router.replace("/(tabs)/mechanicHome");
         } else {
-            router.replace("/(tabs)/home")
+            router.replace("/(tabs)/home");
         }
-        
-
-    }
-
+    };
 
     return (
         <View style={style.frame}>

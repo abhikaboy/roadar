@@ -17,6 +17,7 @@ type CreateJobParams struct {
 	Urgency     string      `validate:"required" json:"urgency"`
 	Money       float64     `validate:"required" json:"money"`
 	Details     string      `json:"details"`
+	ScheduledTime string `json:"scheduledTime,omitempty"`
 }
 
 type JobDocument struct {
@@ -33,6 +34,7 @@ type JobDocument struct {
 	Details     string             `bson:"details" json:"details"`
 	Status      Status             `bson:"status" json:"status"`
 	Timestamp   time.Time          `bson:"timestamp" json:"timestamp"`
+	ScheduledTime string`bson:"scheduledTime" json:"scheduledTime"`
 }
 
 type MechanicMiniDocument struct {

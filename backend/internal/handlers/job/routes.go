@@ -26,4 +26,5 @@ func Routes(app *fiber.App, collections map[string]*mongo.Collection) {
 	Job.Patch("/:id", handler.UpdatePartialJob)
 	Job.Delete("/:id", handler.DeleteJob)
 	Job.Get("/requester/:id", handler.GetJobByRequester)
+	Job.Get("/mechanic/:id", handler.GetJobByMechanic)
 }

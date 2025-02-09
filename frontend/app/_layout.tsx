@@ -11,6 +11,7 @@ import View from "react-native";
 import { useColorScheme } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AuthProvider } from "@/hooks/useAuth";
+import JobModal from "@/components/JobModal";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,24 +36,21 @@ export default function RootLayout() {
     return (
         <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
             <AuthProvider>
+                <JobModal />
                 <Stack
                     screenOptions={{
                         headerShown: false,
-                    }}
-                >
-                
-                
-                
-                <Stack.Screen name="jobs" options={{ headerShown: false }} />
-                
-                <Stack.Screen name="+not-found" />
-                
-                <Stack.Screen
-                    name="(onboarding)"
-                    options={{
-                        headerShown: false,
-                    }}
-                />
+                    }}>
+                    <Stack.Screen name="jobs" options={{ headerShown: false }} />
+
+                    <Stack.Screen name="+not-found" />
+
+                    <Stack.Screen
+                        name="(onboarding)"
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
                 </Stack>
                 <StatusBar style="auto" />
             </AuthProvider>

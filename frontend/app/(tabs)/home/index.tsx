@@ -145,6 +145,6 @@ const styles = StyleSheet.create({
         paddingRight: 20,
         alignItems: "center",
         display: "flex",
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
     },
 });

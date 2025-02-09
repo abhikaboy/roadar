@@ -178,3 +178,20 @@ func (s *Service) GetJobByRequester(requesterId primitive.ObjectID) ([]JobDocume
 	}
 	return results, nil
 }
+func (s *Service) GetJobByMechanic(requesterId primitive.ObjectID) ([]JobDocument, error) {
+	ctx := context.Background()
+	filter := bson.M{
+		"mechanic._id": requesterId,
+	}
+	cursor, err := s.Jobs.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var results []JobDocument
+	if err := cursor.All(ctx, &results); err != nil {
+		return nil, err
+	}
+	return results, nil
+}

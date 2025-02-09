@@ -39,7 +39,6 @@ export default function TabLayout() {
                     default: {},
                 }),
             }}>
-
             {/* 
             Drivers:
             Home, Profile, RecentJobs
@@ -48,38 +47,31 @@ export default function TabLayout() {
             MechanicsHome, MechanicsProfile
             
             */}
-            
-            
+
             <Tabs.Screen
                 name="mechanicHome"
                 options={{
                     title: "Home",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                    href: user.accountType == "mechanic" ? undefined : null
+                    href: user.accountType == "mechanic" ? undefined : null,
                 }}
             />
-            
+
             <Tabs.Screen
-            name="mechanicProfile"
-            options={{
-                title: "Profile",
-                tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                href: user.accountType == "mechanic" ? undefined : null
-            }}
+                name="mechanicProfile"
+                options={{
+                    title: "Profile",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                    href: user.accountType == "mechanic" ? undefined : null,
+                }}
             />
-            
 
-
-            
-            
-
-            
             <Tabs.Screen
                 name="home"
                 options={{
                     title: "Home",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.lodge" color={color} />,
-                    href: user.accountType == "mechanic" ? null : undefined
+                    href: user.accountType == "mechanic" ? null : undefined,
                 }}
             />
 
@@ -88,21 +80,18 @@ export default function TabLayout() {
                 options={{
                     title: "Recent Jobs",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                    href: user.accountType == "mechanic" ? null : undefined
+                    href: user.accountType == "mechanic" ? null : undefined,
                 }}
             />
-            
+
             <Tabs.Screen
                 name="profile"
                 options={{
                     title: "Profile",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                    href: user.accountType == "mechanic" ? null : undefined
+                    href: user.accountType == "mechanic" ? null : undefined,
                 }}
             />
-            
-            
-            
         </Tabs>
     );
 }

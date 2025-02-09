@@ -2,8 +2,9 @@ import * as SecureStore from "expo-secure-store";
 import { useRouter } from "expo-router";
 import { createContext, Dispatch, useContext, useState } from "react";
 import React from "react";
+import * as Location from "expo-location";
 
-async function getUserByAppleAccountID(appleAccountID: string, accountType : "driver" | "mechanic") {
+async function getUserByAppleAccountID(appleAccountID: string, accountType: "driver" | "mechanic") {
     const url = process.env.EXPO_PUBLIC_API_URL + "/" + accountType + "s/aaid/" + appleAccountID;
     const response = await fetch(url, {
         method: "GET",
@@ -27,6 +28,9 @@ interface AuthContextType {
 
     job: any | null;
     setJob: Dispatch<any>;
+
+    createJob: any | null;
+    setCreateJob: Dispatch<any>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -44,6 +48,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email: "bobbypalazzi@gmail.com",
         picture: "https://miro.medium.com/max/1400/1*YqfVlyCe06DfcPsR3kpYrw.jpeg",
     });
+
+    const [createJob, setCreateJob] = useState<any | null>(null);
 
     async function register(
         firstName: string,
@@ -100,7 +106,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     }
     return (
-        <AuthContext.Provider value={{ user, register, login, logout, refresh, job, setJob }}>
+        <AuthContext.Provider value={{ user, register, login, logout, refresh, job, setJob, createJob, setCreateJob }}>
             {children}
         </AuthContext.Provider>
     );

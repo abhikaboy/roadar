@@ -2,7 +2,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import OnboardButton from "@/components/ui/OnboardButton";
 import { useAuth } from "@/hooks/useAuth";
-import { useLocalSearchParams,  useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native";
@@ -24,7 +24,6 @@ export default function index() {
         // \/ remove later
         router.push("/registerPfp");
 
-
         const url = process.env.EXPO_PUBLIC_API_URL + "/" + user.accountType + "s/" + user._id;
         const response = await fetch(url, {
             method: "PATCH",
@@ -37,11 +36,11 @@ export default function index() {
                 phoneNumber: phone,
             }),
         });
-        
+
         if (!response.ok) {
             alert("Failed to update");
         }
-        
+
         router.push("/registerPfp");
     };
 

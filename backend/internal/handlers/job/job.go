@@ -62,6 +62,7 @@ func (h *Handler) CreateJob(c *fiber.Ctx) error {
 		RequestType: params.RequestType,
 		Timestamp:   time.Now(),
 		ID:          primitive.NewObjectID(),
+		ScheduledTime: params.ScheduledTime,
 	}
 
 	result, err := h.service.InsertJob(Job)
@@ -192,6 +193,30 @@ func (h *Handler) AcceptJob(c *fiber.Ctx) error {
 }
 
 func (h *Handler) GetJobByRequester(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	// convert id string to primitive.ObjectID
+	requesterId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
+	}
+	fmt.Println(requesterId)
+
+	// service call
+	jobs, err := h.service.GetJobByRequester(requesterId)
+	if err != nil {
+		// Central error handler take 500
+		return err
+	}
+	err = c.JSON(jobs)
+	if err != nil {
+		fmt.Print("ASODIJASOD")
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
+	}
+
+	return c.JSON(jobs)
+}
+func (h *Handler) GetJobByMechanic(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	// convert id string to primitive.ObjectID
