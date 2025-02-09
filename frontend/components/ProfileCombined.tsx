@@ -18,7 +18,7 @@ export type ProfileInformationProps = {
     profilePic: string;
     name: string;
     email: string;
-    vehicles: Vehicle[];
+    vehicles: any[];
     phone: string;
 };
 
