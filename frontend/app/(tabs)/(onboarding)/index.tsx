@@ -9,19 +9,18 @@ import { TextInput } from "react-native";
 
 export default function index() {
     const { user } = useAuth();
-    const {initialFirstName, initialLastName, initialPhoneNumber} = useLocalSearchParams();
-    const [firstName, setFirstName] = useState(initialFirstName as string || "");
-    const [lastName, setLastName] = useState(initialLastName as string || "");
-    const [phone, setPhone] = useState(initialPhoneNumber as string || "");
+    const { initialFirstName, initialLastName, initialPhoneNumber } = useLocalSearchParams();
+    const [firstName, setFirstName] = useState((initialFirstName as string) || "");
+    const [lastName, setLastName] = useState((initialLastName as string) || "");
+    const [phone, setPhone] = useState((initialPhoneNumber as string) || "");
     const router = useRouter();
 
     const handleContinue = async () => {
-
         console.log(firstName);
         console.log(lastName);
 
         console.log(phone);
-        const url = process.env.EXPO_PUBLIC_API_URL + "/" + user.accountType + "s/" + user._id
+        const url = process.env.EXPO_PUBLIC_API_URL + "/" + user.accountType + "s/" + user._id;
         const response = await fetch(url, {
             method: "PATCH",
             headers: {
@@ -30,11 +29,11 @@ export default function index() {
             body: JSON.stringify({
                 firstName,
                 lastName,
-                phoneNumber: phone
-            })  
-        })
+                phoneNumber: phone,
+            }),
+        });
         if (!response.ok) {
-            alert("Failed to update")
+            alert("Failed to update");
         }
         router.push("/registerPfp");
     };

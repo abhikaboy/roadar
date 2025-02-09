@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
         gap: 12,
         alignItems: "center",
-        display: 'flex'
+        display: "flex",
     },
 });

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     button: {
         alignSelf: "stretch",
         borderRadius: 30,
-        width: Dimensions.get("window").width * .8,
+        width: Dimensions.get("window").width * 0.8,
         height: 50,
         flexDirection: "row",
         alignItems: "center",

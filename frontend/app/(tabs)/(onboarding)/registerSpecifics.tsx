@@ -4,7 +4,7 @@ import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import axios from "axios";
-import { useAuth } from "@/hooks/useAuth"
+import { useAuth } from "@/hooks/useAuth";
 
 export default function registerSpecifics() {
     const { user } = useAuth();
@@ -24,26 +24,24 @@ export default function registerSpecifics() {
             model: model,
             year: parseInt(year),
             licensePlate: license,
-            picture: ""
+            picture: "",
         };
 
-
-        const url = process.env.EXPO_PUBLIC_API_URL + "/" + "driver" + "s/" + user._id + "/addCar"
-        console.log(url)
+        const url = process.env.EXPO_PUBLIC_API_URL + "/" + "driver" + "s/" + user._id + "/addCar";
+        console.log(url);
         const response1 = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            ...combined
-        })  
-    })
-    if (!response1.ok) {
-        alert("Failed to update")
-    }
-    console.log(response1)
-        
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                ...combined,
+            }),
+        });
+        if (!response1.ok) {
+            alert("Failed to update");
+        }
+        console.log(response1);
 
         // axios
         //     .post(process.env.EXPO_PUBLIC_URL + "/api/v1/drivers/" + user._id + "/addCar", {
