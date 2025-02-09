@@ -1,11 +1,13 @@
 {
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",
-    "expo-router": "^4.0.17",
+    "@types/react-native-aws3": "^0.0.4",
     "expo-image-picker": "~16.0.5",
+    "expo-router": "^4.0.17",
     "expo-secure-store": "^14.0.1",
     "expo-splash-screen": "^0.29.21",
     "expo-status-bar": "^2.0.1",
+    "react-native-aws3": "^0.0.9",
     "react-native-unimodules": "^0.14.10",
     "yarn": "^1.22.22"
   },
