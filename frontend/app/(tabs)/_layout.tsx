@@ -12,9 +12,11 @@ import { useColorScheme } from "react-native";
 import MechanicInformationCard from "@/components/MechanicInformationCard";
 import { ThemedText } from "@/components/ThemedText";
 import JobModal from "@/components/JobModal";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function TabLayout() {
-    const [modalVisible, setModalVisible] = useState(false);
+    const { user } = useAuth();
+    const [modalVisible, setModalVisible] = useState(true);
     const toggleModal = () => {
         setModalVisible(!modalVisible);
     };
@@ -37,39 +39,57 @@ export default function TabLayout() {
                     default: {},
                 }),
             }}>
+            {/* 
+            Drivers:
+            Home, Profile, RecentJobs
+
+            Mechanics:
+            MechanicsHome, MechanicsProfile
+            
+            */}
+
             <Tabs.Screen
-                name="index"
+                name="mechanicHome"
+                options={{
+                    title: "Home",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                    href: user.accountType == "mechanic" ? undefined : null,
+                }}
+            />
+
+            <Tabs.Screen
+                name="mechanicProfile"
+                options={{
+                    title: "Profile",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                    href: user.accountType == "mechanic" ? undefined : null,
+                }}
+            />
+
+            <Tabs.Screen
+                name="home"
                 options={{
                     title: "Home",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.lodge" color={color} />,
+                    href: user.accountType == "mechanic" ? null : undefined,
                 }}
             />
+
             <Tabs.Screen
-                name="explore"
+                name="recentjobs"
                 options={{
-                    title: "Explore",
+                    title: "Recent Jobs",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                    href: user.accountType == "mechanic" ? null : undefined,
                 }}
             />
+
             <Tabs.Screen
                 name="profile"
                 options={{
                     title: "Profile",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                }}
-            />
-            <Tabs.Screen
-                name="mechanicProfile"
-                options={{
-                    title: "Mechanic Profile",
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                }}
-            />
-            <Tabs.Screen
-                name="mechanicHome"
-                options={{
-                    title: "Mechanic Home",
-                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                    href: user.accountType == "mechanic" ? null : undefined,
                 }}
             />
         </Tabs>

@@ -74,7 +74,7 @@ export default function Index() {
                     color="#082A74"
                     textColor="#FFFFFF"
                     onPress={() => {
-                        console.log("hello!");
+                        handleServicesClick("custom service request")
                     }}
                 />
             </View>
