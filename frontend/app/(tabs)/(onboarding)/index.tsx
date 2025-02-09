@@ -14,12 +14,8 @@ export default function index() {
     const router = useRouter();
 
     const handleContinue = () => {
-        console.log(firstName)
-        console.log(lastName)
-        console.log(phone)
-        router.push("/registerPfp")
-    }
-        console.log(name);
+        console.log(firstName);
+        console.log(lastName);
         console.log(phone);
         router.push("/registerPfp");
     };
