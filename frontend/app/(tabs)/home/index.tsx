@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, Text, ScrollView, View } from "react-native";
 import React from "react";
 import OnboardButton from "@/components/ui/OnboardButton";
 import ServicesCard from "@/components/ui/ServicesCard";
@@ -69,7 +69,7 @@ export default function Index() {
     };
 
     return (
-        <View style={styles.content}>
+        <ScrollView style={styles.content}>
             <View style={{ alignSelf: "center" }}>
                 <OnboardButton
                     title="Request Custom Service"
@@ -102,13 +102,14 @@ export default function Index() {
                     </View>
                 ))}
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     content: {
         gap: 27,
+        flex: 1,
     },
     services: {
         fontSize: 24,
@@ -122,8 +123,9 @@ const styles = StyleSheet.create({
             height: 1,
         },
         shadowColor: "rgba(0, 0, 0, 0.25)",
-        width: "30%",
-        height: "50%",
+        minWidth: Dimensions.get("screen").width * 0.25,
+        height: Dimensions.get("screen").width * 0.4,
+        flex: 1,
     },
     cardMaitenence: {
         shadowOpacity: 1,
@@ -142,7 +144,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         gap: 12,
+        paddingRight: 20,
         alignItems: "center",
         display: "flex",
+        justifyContent: 'space-between',
     },
 });

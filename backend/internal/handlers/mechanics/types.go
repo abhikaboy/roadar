@@ -55,6 +55,13 @@ type MechanicUpdate struct {
 	Radius       float64            `bson:"radius,omitempty" json:"radius,omitempty"`
 }
 
+type CreateInitialMechanicParams struct {
+	AppleAccountID string `validate:"required" bson:"appleAccountID" json:"appleAccountID"`
+	Email          string `validate:"required" bson:"email" json:"email"`
+	FirstName      string `validate:"required" bson:"firstName" json:"firstName"`
+	LastName       string `validate:"required" bson:"lastName" json:"lastName"`
+}
+
 type RateMechanicParams struct {
 	Rating float64 `validate:"required" bson:"rating" json:"rating"`
 }

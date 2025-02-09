@@ -102,14 +102,10 @@ export default function Service() {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        paddingHorizontal: 20,
-        backgroundColor: "#fff",
+    content: {
+        gap: 27,
     },
-    title: {
+    services: {
         fontSize: 24,
     },
     text: {

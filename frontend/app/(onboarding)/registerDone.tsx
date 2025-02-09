@@ -11,14 +11,16 @@ export default function registerDone() {
 
     const handleContinue = () => {
         //CHANGE: ROUTE TO HOME
-        router.navigate("/(tabs)/home");
-    };
+        router.replace("/(tabs)/home")
+
+    }
+
 
     return (
         <View style={style.frame}>
             <View style={style.content}>
                 <View style={style.textFrame}>
-                    <Text style={style.text}>Great! You've successfully registered your vehicle to Roadar.</Text>
+                    <Text style={style.text}>Great! You've successfully registered on Roadar.</Text>
                     <View style={style.inputFrame}>
                         <View style={style.yourNameBox}>
                             <Text style={style.yourName}>Continue to the home page to see services.</Text>

@@ -20,6 +20,11 @@ export default function index() {
         console.log(lastName);
 
         console.log(phone);
+
+        // \/ remove later
+        router.push("/registerPfp");
+
+
         const url = process.env.EXPO_PUBLIC_API_URL + "/" + user.accountType + "s/" + user._id;
         const response = await fetch(url, {
             method: "PATCH",
@@ -32,9 +37,11 @@ export default function index() {
                 phoneNumber: phone,
             }),
         });
+        
         if (!response.ok) {
             alert("Failed to update");
         }
+        
         router.push("/registerPfp");
     };
 
