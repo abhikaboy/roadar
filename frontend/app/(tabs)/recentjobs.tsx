@@ -2,93 +2,51 @@ import React, { useEffect, useState, useMemo } from "react";
 import { View, Text, ActivityIndicator, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
 import JobCard from "@/components/ui/JobCard";
-import { ThemedText } from "@/components/ThemedText";
 import axios from "axios";
 
 const screenHeight = Dimensions.get("window").height;
 const cardHeight = screenHeight / 6.5; // Adjust card height for better spacing
 
-export type Job = {
-    id: number;
-    type: string;
-    mechanic?: string;
-    date?: string;
-    amount: number;
-    status: "Pending" | "On The Way" | "In Progress" | "Completed" | "Cancelled";
-    userId: number;
-    description: string;
-};
-let parseId = (str: string) => {
-    if (str == "000000000000000000000000") return null;
-    return str;
-};
 export default function RecentJobsScreen() {
     const router = useRouter();
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
-
-    // Mock job data
-    const mockJobs: Job[] = useMemo(
-        () => [
-            {
-                id: 1,
-                type: "Oil Change",
-                mechanic: "John Doe",
-                date: "2024-02-10",
-                amount: 160,
-                status: "found",
-                userId: 101,
-            },
-            {
-                id: 2,
-                type: "Brake Repair",
-                mechanic: undefined,
-                date: "2024-02-12",
-                amount: 180,
-                status: "searching",
-                userId: 102,
-            },
-            {
-                id: 3,
-                type: "Tire Replacement",
-                mechanic: "Jane Smith",
-                date: "2024-02-05",
-                amount: 200,
-                status: "completed",
-                userId: 103,
-            },
-        ],
-        []
-    );
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        // get the jobs
-        let id = "507f1f77bcf86cd799439011";
-        let jobs = (async () => {
+        const fetchJobs = async () => {
             try {
-                console.log(process.env.EXPO_PUBLIC_URL);
-                let jobs = await axios.get(process.env.EXPO_PUBLIC_URL + "/api/v1/jobs/requester/" + id);
-                return jobs;
-            } catch (err) {
-                console.log(err);
-                return [];
+                console.log("Fetching jobs from:", process.env.EXPO_PUBLIC_URL);
+
+                if (!process.env.EXPO_PUBLIC_URL) {
+                    throw new Error("EXPO_PUBLIC_URL is undefined. Check your environment variables.");
+                }
+
+                let response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/api/v1/jobs`);
+
+                console.log("Response received:", response.data); // ✅ Log API response
+
+                const jobsData = response.data.map((job: any) => ({
+                    id: job._id || job.id, // Ensure correct ID mapping
+                    type: job.JobType || job.type, // Handle variations in API response
+                    mechanic: job.mechanic || "Not Assigned",
+                    date: job.timestamp ? new Date(job.timestamp).toLocaleDateString() : "Unknown Date",
+                    amount: job.money || job.amount || 0, // Handle missing data
+                    status: job.status?.toLowerCase() || "searching", // Convert status to lowercase
+                    userId: job.requester || job.userId,
+                }));
+
+                setJobs(jobsData);
+            } catch (error: any) {
+                console.error("❌ Error fetching jobs:", error.message || error);
+                setError("Failed to load jobs. Please check your API connection.");
+                setJobs(mockJobs); // Fallback to mock data
+            } finally {
+                setLoading(false);
             }
-        })().then((res) =>
-            setJobs(
-                res.data.map((job) => ({
-                    id: job._id,
-                    type: job.JobType,
-                    mechanic: parseId(job.mechanic),
-                    description: job.details,
-                    date: new Date(job.timestamp).toLocaleDateString(),
-                    amount: job.money,
-                    status: job.status,
-                    userId: job.requester,
-                }))
-            )
-        );
-        console.log(jobs);
-        setLoading(false);
+        };
+
+        fetchJobs();
     }, []);
 
     if (loading) {
@@ -103,6 +61,8 @@ export default function RecentJobsScreen() {
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <Text style={styles.sectionTitle}>Your Jobs</Text>
 
+            {error && <Text style={styles.errorText}>{error}</Text>}
+
             {/* Active Jobs Section */}
             <Text style={styles.subTitle}>Active Jobs</Text>
             {jobs
@@ -111,19 +71,7 @@ export default function RecentJobsScreen() {
                     <View key={job.id} style={[styles.cardWrapper, { minHeight: cardHeight }]}>
                         <JobCard
                             job={job}
-                            onPress={() => {
-                                router.push({
-                                    pathname: `/jobs/${job.id}`,
-                                    params: {
-                                        jobId: job.id.toString(),
-                                        type: job.type,
-                                        mechanic: job.mechanic || "",
-                                        date: job.date || "",
-                                        amount: job.amount.toString(),
-                                        status: job.status,
-                                    },
-                                });
-                            }}
+                            onPress={() => router.push(`/jobs/${job.id}`)} // ✅ Pass only job ID
                         />
 
                         {/* Status container moved to the bottom-right */}
@@ -151,19 +99,7 @@ export default function RecentJobsScreen() {
                     <View key={job.id} style={[styles.cardWrapper, { height: cardHeight }]}>
                         <JobCard
                             job={job}
-                            onPress={() => {
-                                router.push({
-                                    pathname: `/jobs/${job.id}`,
-                                    params: {
-                                        jobId: job.id.toString(),
-                                        type: job.type,
-                                        mechanic: job.mechanic || "",
-                                        date: job.date || "",
-                                        amount: job.amount.toString(),
-                                        status: job.status,
-                                    },
-                                });
-                            }}
+                            onPress={() => router.push(`/jobs/${job.id}`)} // ✅ Pass only job ID
                         />
                     </View>
                 ))}
@@ -199,4 +135,5 @@ const styles = StyleSheet.create({
     foundStatus: { backgroundColor: "#E0F7E9" },
     searchingStatus: { backgroundColor: "#FFE3E3" },
     statusText: { fontSize: 14, fontWeight: "bold" },
+    errorText: { fontSize: 16, color: "red", textAlign: "center", marginTop: 10 },
 });
