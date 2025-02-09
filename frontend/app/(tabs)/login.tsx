@@ -40,8 +40,8 @@ export default function LoginScreen() {
                 {/* Welcome Message */}
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Welcome to Roadar</Text>
-                    <Text style={styles.subtitle}>Say goodbye to unexpected roadtrip failures:</Text>
-                    <Text style={styles.subtitle}>This is the second line of the tag.</Text>
+                    <Text style={styles.subtitle}>Hit the road with confidence,</Text>
+                    <Text style={styles.subtitle}>we’ve got your back when things go flat!</Text>
                 </View>
 
                 {/* Bottom Container with smaller white box */}
