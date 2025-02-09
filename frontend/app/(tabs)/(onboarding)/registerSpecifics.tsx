@@ -27,6 +27,10 @@ export default function registerSpecifics() {
             picture: "",
         };
 
+        // \/ remove later
+        router.push("/registerDone");
+
+
         const url = process.env.EXPO_PUBLIC_API_URL + "/" + "driver" + "s/" + user._id + "/addCar";
         console.log(url);
         const response1 = await fetch(url, {
@@ -55,7 +59,8 @@ export default function registerSpecifics() {
         //     });
         // console.log("ADDING CAR");
 
-        router.push("/registerDone");
+
+        // router.push("/registerDone");
     };
 
     const handleSkip = () => {
