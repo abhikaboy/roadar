@@ -7,9 +7,11 @@ import { RNS3 } from "react-native-aws3";
 import * as MediaLibrary from "expo-media-library";
 import { v4 as uuidv4 } from "uuid";
 import "react-native-get-random-values";
+import { useAuth } from "@/hooks/useAuth";
 
 // put this under the request job workflow
 export default function sendImage() {
+    const { user } = useAuth();
     const [image, setImage] = useState<string | null>(null);
     const [activeUri, setActiveUri] = useState<ImagePicker.ImagePickerResult>();
     const router = useRouter();
@@ -118,7 +120,7 @@ export default function sendImage() {
                     onDone(activeUri, true);
                 }}
             />
-            <Button title="back to start" onPress={() => router.push("/")} />
+            <Button title="back to start" onPress={() => router.back()} />
         </View>
     );
 }
