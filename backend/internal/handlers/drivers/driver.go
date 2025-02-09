@@ -132,13 +132,37 @@ func (h *Handler) GetDriver(c *fiber.Ctx) error {
 	return c.JSON(Driver)
 }
 
+func (h *Handler) CreateCar(c *fiber.Ctx) error {
+	ctx := c.Context()
+
+	driverId := c.Params("id")
+	id, err := primitive.ObjectIDFromHex(driverId)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
+	}	
+	var params CarDetails
+
+
+	err = c.BodyParser(&params)
+	if err != nil {
+		return err
+	}
+
+	slog.LogAttrs(ctx, slog.LevelInfo, "Inserting Car")
+	// validate body
+	err = h.service.InsertCar(id,params)
+	if err != nil {
+		// Central error handler take 500
+		return err
+	}
+	slog.LogAttrs(ctx, slog.LevelInfo, "Car inserted")
+
+	return c.JSON(params)
+}
+
 // Get a single Mechanic
 func (h *Handler) GetDriverByAppleAccountID(c *fiber.Ctx) error {
 	id := c.Params("id")
-
-	
-
- 
 
 	Driver, err := h.service.GetDriverByAppleAccountID(id)
 	if err != nil {
