@@ -1,6 +1,7 @@
 import { ImageSourcePropType, View, StyleSheet } from "react-native";
 import ProfileInformation from "./ProfileInformation";
 import { VehicleCard } from "./VehicleCard";
+import React from "react";
 
 export type VehicleCardProps = {
     id: number;
@@ -44,6 +45,7 @@ export default function Profile({
                     carGraphic: ImageSourcePropType;
                 }) => (
                     <VehicleCard
+                        key={VehicleInformation.id}
                         id={VehicleInformation.id}
                         name={VehicleInformation.name}
                         make={VehicleInformation.make}

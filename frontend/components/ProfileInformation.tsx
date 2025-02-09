@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flex: 1,
         marginTop: 10,
-        backgroundColor: "#f4f4f2",
+        backgroundColor: "#FFFFFF",
         borderRadius: 10,
     },
     row: {

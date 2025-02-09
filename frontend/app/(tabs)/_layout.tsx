@@ -49,6 +49,13 @@ export default function TabLayout() {
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
                 }}
             />
+             <Tabs.Screen
+                name="mechanicProfile"
+                options={{
+                    title: "Mechanic Profile",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                }}
+            />
             <Tabs.Screen
                 name="blob"
                 options={{

@@ -3,39 +3,24 @@ import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 import React from "react";
 
-export type VehicleCardProps = {
-    id: number;
-    name: string;
-    make: string;
-    model: string;
-    year: string;
-    lisence: string;
-    carGraphic: ImageSourcePropType;
+export type TotalEarnedProps = {
+    earnings: number;
 };
 
-export function VehicleCard({ name, make, model, year, lisence, carGraphic }: VehicleCardProps) {
+export function TotalEarnedCard({ earnings }: TotalEarnedProps) {
     return (
         <ThemedView style={styles.card}>
             <ThemedText type="subtitle">
-                {name}
+                Total Earnings:
             </ThemedText>
-
-            <View style={styles.row}>
-                <Image source={carGraphic} style={styles.image} resizeMode="cover" />
-                <View style={styles.details}>
-                    <ThemedText type="default">Make and Model:</ThemedText>
-                    <ThemedText type="link">{year} {make} {model}</ThemedText>
-
-                    <ThemedText type="default">Plate Number:</ThemedText>
-                    <ThemedText type="link">{lisence}</ThemedText>
-                </View>
-            </View>
+            <ThemedText style={styles.row} type="title">${earnings}</ThemedText>
         </ThemedView>
     );
 }
 
 const styles = StyleSheet.create({
     card: {
+        alignSelf: "center",
         backgroundColor: "#F4F4F4",
         borderRadius: 12,
         padding: 19,
@@ -43,14 +28,15 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -2, height: 2 },
         shadowOpacity: 0.15,
         shadowRadius: 4,
-        marginVertical: 12,
+        marginVertical: 6,
         alignItems: "center",
         width: "90%",
         },
     row: {
         flexDirection: "row",
-        alignItems: "center",
+        textAlign: "center",
         width: "100%",
+        marginTop: 20,
     },
     image: {
         width: 100,

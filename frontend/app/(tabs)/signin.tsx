@@ -1,5 +1,6 @@
 import { ThemedView } from '@/components/ThemedView';
 import * as AppleAuthentication from 'expo-apple-authentication';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 export default function SignInScreen() {
