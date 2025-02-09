@@ -2,7 +2,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useRoute } from "@react-navigation/native";
 import { Slot } from "expo-router";
-import { Image, StyleSheet, View } from "react-native";
+import { Dimensions, Image, StyleSheet, View } from "react-native";
 import React from "react";
 
 export default function OnboardingLayout() {
@@ -29,15 +29,15 @@ const style = StyleSheet.create({
         overflow: "hidden",
     },
     gears1: {
-        top: "33%",
-        left: "-25%",
+        top: Dimensions.get("window").height * .42,
+        left: Dimensions.get("window").width * -.25,
         width: "100%",
         height: 659,
         position: "absolute",
         transform: [{ scale: 0.5 }],
     },
     gears2: {
-        top: "58%",
+        top: Dimensions.get("window").height * .67,
         left: "25%",
         width: "100%",
         height: 372,

@@ -5,11 +5,9 @@ import ServicesCard from "@/components/ui/ServicesCard";
 import { useNavigation, useRouter } from "expo-router";
 
 export default function Index() {
-    const router = useRouter()
-    
-        const navigation = useNavigation();
-    
-    
+    const router = useRouter();
+
+    const navigation = useNavigation();
 
     const cardContent = [
         {
@@ -66,9 +64,9 @@ export default function Index() {
     const handleServicesClick = (message) => {
         router.push({
             pathname: "/home/service",
-            params: { service: message }
-        })
-    }
+            params: { service: message },
+        });
+    };
 
     return (
         <ScrollView style={styles.content}>
@@ -86,7 +84,13 @@ export default function Index() {
             <View style={styles.cardWrapper}>
                 {cardContent.map((content) => (
                     <View key={content.key} style={styles.cardService}>
-                        <ServicesCard title={content.title} image={content.image} onPress={() => {handleServicesClick(content.message)}} />
+                        <ServicesCard
+                            title={content.title}
+                            image={content.image}
+                            onPress={() => {
+                                handleServicesClick(content.message);
+                            }}
+                        />
                     </View>
                 ))}
             </View>

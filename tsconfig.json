@@ -4,6 +4,5 @@
     "paths": {
       "@/*": ["./*"]
     }
-  },
-  "extends": "expo/tsconfig.base"
-}
+  }
+} 

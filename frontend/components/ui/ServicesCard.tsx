@@ -9,7 +9,7 @@ interface ServicesCardProps {
 
 export default function ServicesCard({ image, title, ...cardProps }: ServicesCardProps) {
     return (
-        <TouchableOpacity style={[styles.serviceCard,]} {...cardProps}>
+        <TouchableOpacity style={[styles.serviceCard]} {...cardProps}>
             <Image style={styles.image} resizeMode="cover" source={image} />
             <Text style={styles.text}>{title}</Text>
         </TouchableOpacity>

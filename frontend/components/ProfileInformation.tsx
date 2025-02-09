@@ -10,6 +10,8 @@ export type ProfileInformationProps = {
 };
 
 export default function ProfileInformation({ pfp, name, email, phoneNumber }: ProfileInformationProps) {
+    console.log("THIS IS THE PFP:");
+    console.log(pfp);
     return (
         <View style={styles.container}>
             <Image style={styles.pfp} source={{uri: pfp}} resizeMode="cover" />
