@@ -9,10 +9,11 @@ const API_KEY = "67a807c9155ac060356032aksc02680";
 
 export default function Home() {
     const { user } = useAuth();
-    const socketEndpoint = "ws://10.110.191.103:8080/ws/mechanic/67a7e53ead3126f3dab182dc/";
+    const socketEndpoint = "ws://10.110.191.103:8080/ws/mechanic/"+ user._id + "/";
+    console.log(socketEndpoint)
     const [location, setLocation] = useState<any | null>(null);
     const [address, setAddress] = useState<string | null>(null);
-
+    const {setJob} = useAuth()
     useEffect(() => {
         async function getCurrentLocation() {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -64,6 +65,13 @@ export default function Home() {
 
         ws.onmessage = (event) => {
             console.log("Received message from server:", event.data);
+            try {
+                const data = JSON.parse(event.data);
+                setJob(data);
+                console.log(data);
+            } catch (e) {
+                console.log(e);
+            }
         };
 
         let end = user.accountType == "mechanic" ? "mechanic" : "drivers";
