@@ -46,20 +46,17 @@ func IterateChangeStream(routineCtx context.Context, waitGroup sync.WaitGroup, s
 		if err != nil {
 			fmt.Println(err)
 		}
+		fmt.Printf("DATA \n" );
+		fmt.Printf("%v\n", body)
 		url := "http://localhost:8080/api/v1/mechanics/alert"
-		req, err := http.NewRequest(
-			"POST",
+		_, err = http.Post(
 			url,
+			"application/json",
 			bytes.NewBuffer(body),
 		)
 		if err != nil {
 			fmt.Println(err)
 		}
-		resp, err := http.DefaultClient.Do(req)
-		if err != nil {
-			fmt.Println(err)
-		}
-		defer resp.Body.Close()
 
 	}
 	fmt.Print("Stream closed\n")

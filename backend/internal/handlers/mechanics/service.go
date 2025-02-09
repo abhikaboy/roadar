@@ -2,10 +2,12 @@ package mechanics
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log/slog"
 
 	"github.com/abhikaboy/Roadar/internal/handlers/job"
+	"github.com/gofiber/contrib/socketio"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -178,12 +180,20 @@ func (s *Service) AlertMechanics(job job.JobDocument) error {
 
 	// Find mechanics that are online and the job is in radius
 	// TODO: make maxDistance utilize the radius on the mechanic doucment
-	filter := bson.M{"online": true,
+	filter := bson.M{
+		"online": true,
 		"location": bson.M{
 			"$near":        job.Location,
-			"$maxDistance": 100,
+			"$maxDistance": 1000,
+		},
+		"socketID": bson.M{
+			"$exists": true,
+			"$nin":     bson.A{nil,""},
 		},
 	}
+
+	fmt.Println("Received Job")
+	fmt.Println(job)
 
 	cursor, err := s.Mechanics.Find(ctx, filter)
 	if err != nil {
@@ -196,11 +206,27 @@ func (s *Service) AlertMechanics(job job.JobDocument) error {
 		return err
 	}
 
+	
+	uuids := make([]string, 0)
+  slog.LogAttrs(ctx, slog.LevelInfo, "Emitting to list", slog.String("uuids", ""))
 	for _, mechanic := range results {
 		// send alert to mechanic
-		fmt.Println(mechanic)
+		uuids = append(uuids, mechanic.SocketID)
+	}
+	// take the job and convert to a byte array
+	jobBytes, err := json.Marshal(job)
+	if err != nil {
+		return err
 	}
 
+
+	socketio.EmitToList(uuids, 
+		jobBytes,  
+		1,
+	)
+	for _, uuid := range uuids {
+		fmt.Println(uuid)
+	}
 	return err
 }
 

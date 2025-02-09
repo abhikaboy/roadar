@@ -162,15 +162,21 @@ func (h *Handler) AlertMechanics(c *fiber.Ctx) error {
 
 	err := c.BodyParser(&job)
 	if err != nil {
+		fmt.Println("ERROR PARSING BODY")
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
 	}
 
+	fmt.Println("Received Job")
+	fmt.Printf("%+v \n", job)
+
 	// service call
+	slog.LogAttrs(c.Context(), slog.LevelInfo, "Alerting Mechanics")
 	err = h.service.AlertMechanics(job)
 	if err != nil {
 		// Central error handler take 500
 		return err
 	}
+	slog.LogAttrs(c.Context(), slog.LevelInfo, "Alerted Mechanics")
 
 	return c.SendStatus(fiber.StatusOK)
 }

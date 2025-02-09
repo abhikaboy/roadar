@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+
 import { StyleSheet } from "react-native";
 import { View, Text } from "react-native";
 
@@ -5,7 +7,31 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 
+import io from "socket.io-client";
+
 export default function TabTwoScreen() {
+    const socketEndpoint = "ws://10.110.191.103:8080/ws/mechanic/67a7e53ead3126f3dab182dc/";
+    useEffect(() => {
+        const ws = new WebSocket(socketEndpoint);
+
+        ws.onopen = () => {
+            console.log("WebSocket connection established!");
+            setConnection(true);
+        };
+
+        ws.onclose = () => {
+            console.log("WebSocket connection closed");
+            setConnection(false);
+        };
+
+        ws.onmessage = (event) => {
+            console.log("Received message from server:", event.data);
+        };
+
+        return function didUnmount() {};
+    }, []);
+    const [hasConnection, setConnection] = useState(false);
+
     return (
         <ParallaxScrollView
             headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
