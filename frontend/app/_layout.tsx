@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import React from "react";
+import View from "react-native";
 
 import { useColorScheme } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -34,9 +35,7 @@ export default function RootLayout() {
         <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
             <Stack
                 screenOptions={{
-                    headerTitleStyle: {
-                        fontFamily: "Outfit",
-                    },
+                    headerShown: false,
                 }}>
                 {/* Existing Screens */}
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -44,28 +43,19 @@ export default function RootLayout() {
                 <Stack.Screen
                     name={"about"}
                     options={{
-                        title: "About",
-                        headerLeft: () => (
-                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
-                        ),
+                        headerShown: false,
                     }}
                 />
                 <Stack.Screen
                     name={"profile"}
                     options={{
-                        title: "Profile",
-                        headerLeft: () => (
-                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
-                        ),
+                        headerShown: false,
                     }}
                 />
                 <Stack.Screen
                     name={"mechanicProfile"}
                     options={{
-                        title: "Mechanic Profile",
-                        headerLeft: () => (
-                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
-                        ),
+                        headerShown: false,
                     }}
                 />
                 <Stack.Screen
@@ -77,6 +67,7 @@ export default function RootLayout() {
                         ),
                     }}
                 />
+                <Stack.Screen name="jobs" options={{ headerShown: false }} />
             </Stack>
             <StatusBar style="auto" />
         </ThemeProvider>

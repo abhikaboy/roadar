@@ -19,34 +19,44 @@ export default function LoginScreen() {
                 <View style={styles.overlay} />
             </View>
 
-            {/* Welcome Message */}
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>Welcome to Roadar</Text>
-                <Text style={styles.subtitle}>Say goodbye to unexpected roadtrip failures:</Text>
-                <Text style={styles.subtitle}>This is the second line of the tag.</Text>
-            </View>
-
-            {/* Bottom Container with smaller white box */}
-            <View style={styles.bottomContainer}>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.signUpButton} onPress={() => router.push("/registerNameNumber")}>
-                        <Text style={styles.signUpButtonText}>Sign up with Google</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={styles.loginButton} onPress={() => router.push("/registerNameNumber")}>
-                        <Text style={styles.loginButtonText}>Login with Google</Text>
-                    </TouchableOpacity>
+            <View
+                style={{
+                    height: "50%",
+                    backgroundColor: "#fff",
+                    transform: [{ translateY: "-4%" }],
+                    borderRadius: 20,
+                }}>
+                {/* Welcome Message */}
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Welcome to Roadar</Text>
+                    <Text style={styles.subtitle}>Say goodbye to unexpected roadtrip failures:</Text>
+                    <Text style={styles.subtitle}>This is the second line of the tag.</Text>
                 </View>
 
-                {/* Toggle Switch */}
-                <View style={styles.mechanicToggle}>
-                    <Text style={styles.mechanicText}>I am a Mechanic</Text>
-                    <Switch
-                        value={isMechanic}
-                        onValueChange={setIsMechanic}
-                        trackColor={{ false: "#767577", true: "#002366" }}
-                        thumbColor={isMechanic ? "#fff" : "#f4f3f4"}
-                    />
+                {/* Bottom Container with smaller white box */}
+                <View style={styles.bottomContainer}>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity
+                            style={styles.signUpButton}
+                            onPress={() => router.push("/registerNameNumber")}>
+                            <Text style={styles.signUpButtonText}>Sign up with Google</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.loginButton} onPress={() => router.push("/registerNameNumber")}>
+                            <Text style={styles.loginButtonText}>Login with Google</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    {/* Toggle Switch */}
+                    <View style={styles.mechanicToggle}>
+                        <Text style={styles.mechanicText}>I am a Mechanic</Text>
+                        <Switch
+                            value={isMechanic}
+                            onValueChange={setIsMechanic}
+                            trackColor={{ false: "#767577", true: "#002366" }}
+                            thumbColor={isMechanic ? "#fff" : "#f4f3f4"}
+                        />
+                    </View>
                 </View>
             </View>
         </View>
@@ -57,11 +67,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
+        borderRadius: 20,
     },
     imageContainer: {
         position: "relative",
         width: "100%",
         height: "50%", // Increase image height
+        transform: "translateY(0%)",
     },
     image: {
         width: "100%",
@@ -77,6 +89,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         paddingHorizontal: 20,
+        borderRadius: 20,
     },
     title: {
         fontSize: 32,

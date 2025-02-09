@@ -38,7 +38,7 @@ const ReverseGeocode: React.FC<ReverseGeocodeProps> = ({ lat, lon }) => {
     }, [lat, lon]);
     return (
         <View>
-            <ThemedText type="default">📍 {address}</ThemedText>
+            <Text type="default">📍 {address}</Text>
         </View>
     );
 };

@@ -7,9 +7,9 @@ import React from "react";
 export default function AboutScreen() {
     return (
         <ThemedView style={styles.textContainer}>
-            <ThemedText type="default" style={{ fontFamily: "Outfit" }}>
+            <Text type="default" style={{ fontFamily: "Outfit" }}>
                 This text serves as the body content of the example stack.
-            </ThemedText>
+            </Text>
 
             <Button
                 title="Click Me"

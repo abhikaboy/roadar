@@ -11,10 +11,16 @@ export default function FoundJobScreen() {
             <Text>Scheduled for September 21st, 2025</Text>
             <Text>Suggested Cost: $160</Text>
             <Text>Description: This is the description that you have given for this particular repair.</Text>
-            <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
+            <Image
+                source={{ uri: "https://miro.medium.com/v2/resize:fit:736/1*YqfVlyCe06DfcPsR3kpYrw.jpeg" }}
+                style={styles.image}
+            />
             <Text>Repaired by:</Text>
             <View style={styles.mechanicCard}>
-                <Image source={{ uri: "https://via.placeholder.com/50" }} style={styles.mechanicImage} />
+                <Image
+                    source={{ uri: "https://miro.medium.com/v2/resize:fit:736/1*YqfVlyCe06DfcPsR3kpYrw.jpeg" }}
+                    style={styles.mechanicImage}
+                />
                 <Text>Mechanic Bobby Palazzi</Text>
                 <Text>bobbypalazzi@gmail.com</Text>
             </View>

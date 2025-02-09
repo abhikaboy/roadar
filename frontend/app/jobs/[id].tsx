@@ -24,7 +24,7 @@ export default function JobDetailsScreen() {
             </TouchableOpacity>
 
             {/* 🔹 Title Below Back Button */}
-            <Text style={styles.title}>{job.type}</Text>
+            <Text style={styles.title}>Your {job.type} Repair</Text>
 
             {/* 🔹 Job Information Section */}
             <View style={styles.infoContainer}>
@@ -42,11 +42,15 @@ export default function JobDetailsScreen() {
                 <View style={styles.section}>
                     <View style={styles.imageContainer}>
                         <Text style={styles.imageLabel}>Before</Text>
-                        <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
+                        <Image
+                            source={{ uri: "https://miro.medium.com/v2/resize:fit:736/1*YqfVlyCe06DfcPsR3kpYrw.jpeg" }}
+                            style={styles.image}
+                        />
                     </View>
                     <Text style={styles.label}>Repaired by:</Text>
                     <View style={styles.searchingBox}>
-                        <MaterialIcons name="search" size={40} color="#6C757D" />
+                        <Image source={require("@/assets/images/search3d.png")} style={styles.avatar} />
+
                         <Text style={styles.searchingText}>
                             Looks like we’re still searching for a mechanic for you. Stay on the lookout for when we
                             notify you!
@@ -60,15 +64,39 @@ export default function JobDetailsScreen() {
                 <View style={styles.section}>
                     <View style={styles.imageContainer}>
                         <Text style={styles.imageLabel}>Before</Text>
-                        <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
+                        <Image
+                            source={{ uri: "https://miro.medium.com/v2/resize:fit:736/1*YqfVlyCe06DfcPsR3kpYrw.jpeg" }}
+                            style={styles.image}
+                        />
                     </View>
                     <View style={styles.foundContainer}>
-                        <Text style={styles.label}>Repaired by:</Text>
                         <View style={styles.mechanicCard}>
-                            <Image source={{ uri: "https://via.placeholder.com/50" }} style={styles.avatar} />
-                            <View>
-                                <Text style={styles.mechanicName}>{job.mechanic || "Pending"}</Text>
-                                <Text style={styles.mechanicEmail}>bobbypalazzi@gmail.com</Text>
+                            <View
+                                style={{
+                                    flexDirection: "column",
+                                    gap: 19,
+                                }}>
+                                <Text style={styles.label}>Repaired by:</Text>
+                                <Text>
+                                    Our searches paid off! We’ve found a mechanic for you. Check out their profile below
+                                    and let us know if you want them to take on this repair!
+                                </Text>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                    }}>
+                                    <Image
+                                        source={{
+                                            uri: "https://miro.medium.com/v2/resize:fit:736/1*YqfVlyCe06DfcPsR3kpYrw.jpeg",
+                                        }}
+                                        style={styles.avatar}
+                                    />
+                                    <View>
+                                        <Text style={styles.mechanicName}>{job.mechanic || "Pending"}</Text>
+                                        <Text style={styles.mechanicEmail}>bobbypalazzi@gmail.com</Text>
+                                    </View>
+                                </View>
                             </View>
                         </View>
                         <View style={styles.buttonContainer}>
@@ -89,7 +117,10 @@ export default function JobDetailsScreen() {
                     {/* 🔹 Mechanic Info */}
                     <Text style={styles.label}>Repaired by:</Text>
                     <View style={styles.mechanicCard}>
-                        <Image source={{ uri: "https://via.placeholder.com/50" }} style={styles.avatar} />
+                        <Image
+                            source={{ uri: "https://miro.medium.com/v2/resize:fit:736/1*YqfVlyCe06DfcPsR3kpYrw.jpeg" }}
+                            style={styles.avatar}
+                        />
                         <View>
                             <Text style={styles.mechanicName}>{job.mechanic || "Unknown Mechanic"}</Text>
                             <Text style={styles.mechanicEmail}>bobbypalazzi@gmail.com</Text>
@@ -99,11 +130,21 @@ export default function JobDetailsScreen() {
                     {/* 🔹 Before & After Images - Moved Right Below Mechanic Info */}
                     <View style={styles.imageRow}>
                         <View style={styles.imageWrapper}>
-                            <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
+                            <Image
+                                source={{
+                                    uri: "https://miro.medium.com/v2/resize:fit:736/1*YqfVlyCe06DfcPsR3kpYrw.jpeg",
+                                }}
+                                style={styles.image}
+                            />
                             <Text style={styles.imageLabel}>Before</Text>
                         </View>
                         <View style={styles.imageWrapper}>
-                            <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
+                            <Image
+                                source={{
+                                    uri: "https://miro.medium.com/v2/resize:fit:736/1*YqfVlyCe06DfcPsR3kpYrw.jpeg",
+                                }}
+                                style={styles.image}
+                            />
                             <Text style={styles.imageLabel}>After</Text>
                         </View>
                     </View>
@@ -114,44 +155,53 @@ export default function JobDetailsScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flexGrow: 1, padding: 20, backgroundColor: "#fff", alignItems: "flex-start" },
+    container: { flexGrow: 1, padding: 20, backgroundColor: "#fff", alignItems: "flex-start", fontFamily: "Outfit" },
 
     /* 🔙 Back Button */
     backButton: { position: "absolute", top: 20, left: 15, zIndex: 10 },
 
     /* 🔹 Title Below Back Button */
-    title: { fontSize: 24, fontWeight: "bold", marginTop: 50, marginBottom: 5, alignSelf: "flex-start" },
+    title: {
+        fontSize: 24,
+        fontWeight: "semibold",
+        marginTop: "30%",
+        marginBottom: 5,
+        alignSelf: "flex-start",
+        fontFamily: "Outfit",
+    },
 
-    infoContainer: { width: "100%", marginBottom: 20 },
-    date: { fontSize: 16, marginBottom: 5 },
-    description: { fontSize: 16, marginBottom: 10 },
-    costLabel: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
+    infoContainer: { width: "100%", marginBottom: 20, fontFamily: "Outfit" },
+    date: { fontSize: 20, marginBottom: 5, fontFamily: "Outfit" },
+    description: { fontSize: 16, marginBottom: 10, fontFamily: "Outfit", fontWeight: "300" },
+    costLabel: { fontSize: 16, fontWeight: "regular", marginBottom: 10, fontFamily: "Outfit" },
 
     /* 🔹 Section for Searching, Found, and Completed */
-    section: { width: "100%", marginBottom: 20 },
+    section: { width: "100%", marginBottom: 1 },
 
     /* 🔹 Searching Status */
     searchingBox: {
         flexDirection: "row",
         alignItems: "center",
-        padding: 15,
-        backgroundColor: "#F3F4F6",
+        backgroundColor: "#fff",
         borderRadius: 10,
     },
-    searchingText: { fontSize: 16, marginLeft: 10, color: "#555", flex: 1 },
+    searchingText: { fontSize: 16, marginRight: 10, color: "#555", flex: 1, fontFamily: "Outfit", fontWeight: "400" },
 
     /* 🔹 Found Status */
-    foundContainer: { width: "100%", marginBottom: 20 },
+    foundContainer: { width: "100%", marginBottom: 20, fontFamily: "Outfit" },
     mechanicCard: {
         flexDirection: "row",
         alignItems: "center",
-        padding: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 24,
         borderRadius: 10,
-        backgroundColor: "#F3F4F6",
+        backgroundColor: "#FaFaFa",
+        fontFamily: "Outfit",
+        fontSize: 16,
     },
-    avatar: { width: 50, height: 50, borderRadius: 25, marginRight: 10 },
-    mechanicName: { fontSize: 16, fontWeight: "bold" },
-    mechanicEmail: { fontSize: 14, color: "#555" },
+    avatar: { width: 128, height: 128, borderRadius: 25, marginRight: 10 },
+    mechanicName: { fontSize: 16, fontWeight: "bold", fontFamily: "Outfit" },
+    mechanicEmail: { fontSize: 14, color: "#555", fontFamily: "Outfit" },
 
     /* 🔹 Before & After Images (Moved Higher) */
     imageRow: { flexDirection: "row", justifyContent: "space-between", width: "100%", marginTop: 10 },
@@ -159,7 +209,7 @@ const styles = StyleSheet.create({
 
     /* 🔹 Image Section */
     imageContainer: { width: "100%", marginBottom: 20 },
-    imageLabel: { fontSize: 16, fontWeight: "bold", marginTop: 5 },
+    imageLabel: { fontSize: 16, fontWeight: "medium", marginTop: 5 },
     image: { width: "100%", height: 200, borderRadius: 10, resizeMode: "cover" },
 
     /* 🔹 Accept/Deny Buttons */

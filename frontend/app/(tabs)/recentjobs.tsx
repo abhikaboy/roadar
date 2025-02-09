@@ -2,9 +2,10 @@ import React, { useEffect, useState, useMemo } from "react";
 import { View, Text, ActivityIndicator, StyleSheet, ScrollView, Dimensions } from "react-native";
 import { useRouter } from "expo-router";
 import JobCard from "@/components/ui/JobCard";
+import { ThemedText } from "@/components/ThemedText";
 
 const screenHeight = Dimensions.get("window").height;
-const cardHeight = screenHeight / 6; // Adjust card height for better spacing
+const cardHeight = screenHeight / 6.5; // Adjust card height for better spacing
 
 export type Job = {
     id: number;
@@ -77,7 +78,7 @@ export default function RecentJobsScreen() {
             {jobs
                 .filter((job) => job.status !== "completed")
                 .map((job) => (
-                    <View key={job.id} style={[styles.cardWrapper, { height: cardHeight }]}>
+                    <View key={job.id} style={[styles.cardWrapper, { minHeight: cardHeight }]}>
                         <JobCard
                             job={job}
                             onPress={() => {
@@ -141,11 +142,11 @@ export default function RecentJobsScreen() {
 }
 
 const styles = StyleSheet.create({
-    scrollContainer: { flexGrow: 1, padding: 20, backgroundColor: "#fff" },
-    sectionTitle: { fontSize: 24, fontWeight: "bold", marginBottom: 10 },
-    subTitle: { fontSize: 18, fontWeight: "bold", marginTop: 20, marginBottom: 5 },
+    scrollContainer: { flexGrow: 1, padding: 20, backgroundColor: "#fff", fontFamily: "Outfit" },
+    sectionTitle: { fontSize: 32, fontWeight: "medium", marginBottom: 10, marginTop: "20%", fontFamily: "Outfit" },
+    subTitle: { fontSize: 24, fontWeight: "medium", marginTop: 20, marginBottom: 5, fontFamily: "Outfit" },
     loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
-    cardWrapper: { justifyContent: "center", alignItems: "center", marginBottom: 10 },
+    cardWrapper: { justifyContent: "center", alignItems: "center", marginBottom: 0 },
     statusContainer: {
         position: "absolute",
         bottom: 5,
@@ -160,6 +161,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 2,
         elevation: 2,
+        fontFamily: "Outfit",
     },
     statusCircle: { width: 10, height: 10, borderRadius: 5, marginRight: 5 },
     foundCircle: { backgroundColor: "#28A745" },
