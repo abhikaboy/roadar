@@ -15,7 +15,7 @@ export default function registerAlias() {
 
     //TODO make this go to homepage
     const handleSkip = () => {
-        router.push("/");
+        router.push("/(onboarding)/registerDone");
     };
 
     return (

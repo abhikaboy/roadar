@@ -61,9 +61,15 @@ export default function registerPfp() {
     };
 
     const handleContinue = () => {
+        
         console.log(activeUri);
         onDone(activeUri, true);
-        router.push("/registerAlias");
+        if (user.accountType == "driver") {
+            router.push("/registerAlias");
+        } else {
+            router.push("/registerDone")
+        }
+        
     };
 
     const openPicker = async () => {

@@ -3,8 +3,8 @@ import { useRouter } from "expo-router";
 import { createContext, Dispatch, useContext, useState } from "react";
 import React from "react";
 
-async function getUserByAppleAccountID(appleAccountID: string) {
-    const url = process.env.EXPO_PUBLIC_API_URL + "/drivers/aaid/" + appleAccountID;
+async function getUserByAppleAccountID(appleAccountID: string, accountType : "driver" | "mechanic") {
+    const url = process.env.EXPO_PUBLIC_API_URL + "/" + accountType + "s/aaid/" + appleAccountID;
     const response = await fetch(url, {
         method: "GET",
     });
@@ -80,7 +80,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     async function login(appleAccountID: string, accountType: "mechanic" | "driver") {
-        const userRes = await getUserByAppleAccountID(appleAccountID);
+        const userRes = await getUserByAppleAccountID(appleAccountID, accountType);
 
         if (userRes) {
             setUser({ ...userRes, accountType });

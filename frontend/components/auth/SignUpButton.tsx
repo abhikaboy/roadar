@@ -23,7 +23,8 @@ export default function SignUpButton({ isMechanic }: { isMechanic: boolean }) {
                             AppleAuthentication.AppleAuthenticationScope.EMAIL,
                         ],
                     });
-
+                    
+                    
                     const appleAccountID = credential.user;
                     const email = credential.email;
                     const firstName = credential.fullName?.givenName;
@@ -48,6 +49,8 @@ export default function SignUpButton({ isMechanic }: { isMechanic: boolean }) {
                     if (e.code === "ERR_REQUEST_CANCELED") {
                         console.log("they cancelled");
                     } else {
+                        console.log(e.code)
+                        console.log(e)
                         alert("An unexpected error occurred");
                     }
                 }
