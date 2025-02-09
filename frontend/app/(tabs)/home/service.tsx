@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter, useSearchParams } from "expo-router/bu
 import { useNavigation } from "expo-router";
 import UrgencyCircle from "@/components/ui/UrgencyCircle";
 import OnboardButton from "@/components/ui/OnboardButton";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ServiceProps {
     service: string;
@@ -16,7 +17,9 @@ export default function Service() {
 
     const [budget, setBudget] = useState("");
     const [color, setColor] = useState("green");
-    const [details, setDetails] = useState("")
+    const [details, setDetails] = useState("");
+
+    const { setCreateJob } = useAuth();
 
     const changeColor = (col) => {
         setColor(col);
@@ -24,15 +27,17 @@ export default function Service() {
     };
 
     const handleContinue = () => {
-        console.log(budget),
-        console.log(color)
-        console.log(details)
-        router.push("/home/sendImage")
-    }
+        setCreateJob({
+            budget: budget,
+            color: color,
+            details: details,
+            service: service,
+        });
+        router.push("/home/sendImage");
+    };
 
     return (
         <View style={styles.content}>
-
             <Text style={styles.services}>A few extra notes on your {service}...</Text>
             <View>
                 <View style={styles.inputWrapper}>
@@ -73,30 +78,24 @@ export default function Service() {
                         )}
                     </View>
                     <Text style={styles.text}>Budget</Text>
-                    <TextInput
-                        value={budget}
-                        placeholder="$50"
-                        style={styles.input}
-                        onChangeText={setBudget}
-                    />
+                    <TextInput value={budget} placeholder="$50" style={styles.input} onChangeText={setBudget} />
                     <Text style={styles.text}>Notes</Text>
                     <TextInput
                         value={details}
                         placeholder="Put your details here"
-                        style={[styles.input, {height: '25%'}]}
+                        style={[styles.input, { height: "25%" }]}
                         onChangeText={setDetails}
                     />
                 </View>
-                
             </View>
             <View style={styles.buttonContainer}>
-                    <OnboardButton
-                        title="Continue"
-                        color="#000042"
-                        textColor="#000"
-                        onPress={handleContinue} // Use the function here
-                    />
-                </View>
+                <OnboardButton
+                    title="Continue"
+                    color="#000042"
+                    textColor="#000"
+                    onPress={handleContinue} // Use the function here
+                />
+            </View>
         </View>
     );
 }
@@ -118,7 +117,7 @@ const styles = StyleSheet.create({
     },
     inputWrapper: {
         gap: 14,
-        flexDirection: "column"
+        flexDirection: "column",
     },
     urgency: {
         flexDirection: "row",
@@ -135,11 +134,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 3,
         alignSelf: "stretch",
-        width: '90%',
+        width: "90%",
     },
     buttonContainer: {
-        alignItems: 'center', // Center horizontally
-        justifyContent: 'center', // Center vertically (if needed)
+        alignItems: "center", // Center horizontally
+        justifyContent: "center", // Center vertically (if needed)
         marginTop: 100, // Add some space above the button
     },
 });

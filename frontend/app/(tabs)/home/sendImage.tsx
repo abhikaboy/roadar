@@ -7,12 +7,25 @@ import { RNS3 } from "react-native-aws3";
 import * as MediaLibrary from "expo-media-library";
 import { v4 as uuidv4 } from "uuid";
 import "react-native-get-random-values";
+import { useAuth } from "@/hooks/useAuth";
 
 // put this under the request job workflow
 export default function sendImage() {
     const [image, setImage] = useState<string | null>(null);
     const [activeUri, setActiveUri] = useState<ImagePicker.ImagePickerResult>();
+
+    const [passedImage, setPassedImage] = useState<string | null>(null);
     const router = useRouter();
+
+    const { createJob, setCreateJob } = useAuth();
+
+    const handleContinue = () => {
+        setCreateJob({
+            ...createJob,
+            picture: passedImage,
+        });
+        router.push("/home/confirm");
+    };
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -81,6 +94,7 @@ export default function sendImage() {
 
                     //LINK DB HERE
                     console.log(newUri);
+                    setPassedImage(newUri);
                 }
             })
             .catch((err) => {
@@ -119,6 +133,7 @@ export default function sendImage() {
                 }}
             />
             <Button title="back to start" onPress={() => router.push("/")} />
+            <Button title="Continue" onPress={handleContinue} />
         </View>
     );
 }

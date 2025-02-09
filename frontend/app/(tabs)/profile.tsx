@@ -85,13 +85,19 @@ export default function Profile() {
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <Image source={require("@/assets/images/ProfileGears.png")} style={styles.picture} />
-                    <ProfileCombined
-                        pfp={userProfile.profilePic}
-                        name={userProfile.name}
-                        email={userProfile.email}
-                        phoneNumber={userProfile.phone}
-                        vehicles={vehicleList.vehicles}
-                    />
+                    <View
+                        style={{
+                            width: "100%",
+                            marginTop: 32,
+                        }}>
+                        <ProfileCombined
+                            pfp={userProfile.profilePic}
+                            name={userProfile.name}
+                            email={userProfile.email}
+                            phoneNumber={userProfile.phone}
+                            vehicles={vehicleList.vehicles}
+                        />
+                    </View>
                 </ScrollView>
             </View>
         </SafeAreaView>

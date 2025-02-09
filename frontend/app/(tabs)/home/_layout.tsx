@@ -30,7 +30,7 @@ export default function Home() {
             <View style={styles.screen}>
                 <View style={styles.contentParent}>
                     <Text style={[styles.roadar, styles.roadarTypo]}>Roadar</Text>
-                        <Slot />
+                    <Slot />
                 </View>
             </View>
         </SafeAreaView>
@@ -41,16 +41,18 @@ const styles = StyleSheet.create({
     screen: {
         backgroundColor: "#fff",
         flex: 1,
-        height: Dimensions.get("window").height * 1.2,
+        height: Dimensions.get("window").height * 1,
+        top: 0,
         width: "100%",
-        position: 'absolute',
+        position: "absolute",
     },
     contentParent: {
         top: 45,
         left: 26,
         paddingRight: 30,
-        gap: 27,
         flex: 1,
+        flexDirection: "column",
+        gap: 0,
     },
     roadarTypo: {
         textAlign: "left",
