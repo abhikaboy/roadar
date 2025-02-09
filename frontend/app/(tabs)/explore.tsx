@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 
 import { View, Text, StyleSheet } from "react-native";
+import { Calendar } from "react-native-calendars";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -10,6 +11,7 @@ import React from "react";
 
 export default function TabTwoScreen() {
     const { setJob } = useAuth();
+    const [selected, setSelected] = useState(new Date().toISOString());
     const socketEndpoint = "ws://10.110.191.103:8080/ws/mechanic/67a7e53ead3126f3dab182dc/";
     useEffect(() => {
         const ws = new WebSocket(socketEndpoint);
@@ -52,7 +54,16 @@ export default function TabTwoScreen() {
                     name="chevron.left.forwardslash.chevron.right"
                     style={styles.headerImage}
                 />
-            }></ParallaxScrollView>
+            }>
+            <Calendar
+                onDayPress={(day) => {
+                    setSelected(day.dateString);
+                }}
+                markedDates={{
+                    [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: "orange" },
+                }}
+            />
+        </ParallaxScrollView>
     );
 }
 

@@ -11,13 +11,13 @@ export default function UrgencyCircle({ color, active, ...urgencyProps }: Urgenc
     return (
         <View {...urgencyProps}>
             {active ? (
-                <View style={[styles.active, { borderColor: color, position: "relative" }]}>
+                <TouchableOpacity style={[styles.active, { borderColor: color, position: "relative" }]} {...urgencyProps}>
                     <View style={styles.whiteCircle} />
-                </View>
+                </TouchableOpacity>
             ) : (
-                <View style={[styles.active, { borderColor: color, position: "relative" }]}>
-                    <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: color }} />
-                </View>
+                <TouchableOpacity style={[styles.active, { borderColor: color, position: "relative" }]} {...urgencyProps}>
+                    <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: color }} {...urgencyProps}/>
+                </TouchableOpacity>
             )}
         </View>
     );

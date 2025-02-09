@@ -4,6 +4,7 @@ import { createContext, Dispatch, useContext, useState } from "react";
 import React from "react";
 
 async function getUserByAppleAccountID(appleAccountID: string) {
+    console.log(process.env.EXPO_PUBLIC_API_URL);
     const url = process.env.EXPO_PUBLIC_API_URL + "/drivers/aaid/" + appleAccountID;
     const response = await fetch(url, {
         method: "GET",
