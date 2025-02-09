@@ -1,18 +1,19 @@
 import OnboardButton from "@/components/ui/OnboardButton";
 import { useFonts } from "expo-font";
-import { useRouter } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 
 export default function registerDone() {
     const router = useRouter();
+    const navigate = useNavigation()
 
     const handleContinue = () => {
 
 
         //CHANGE: ROUTE TO HOME
-        router.push("/sendImage")
+        router.navigate("/home")
 
     }
 
