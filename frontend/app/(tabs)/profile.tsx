@@ -4,18 +4,44 @@ import axios from "axios";
 import ProfileCombined from "@/components/ProfileCombined";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
+import { useAuth } from "@/hooks/useAuth";
 
-export type Vehicle = {
-    make: string;
-    model: string;
-    year: number;
-    picture: string;
-    license: string;
+// Sample data for Vehicle List
+const vehicleList = {
+    vehicles: [
+        {
+            id: 1,
+            name: "Tesla Model S",
+            make: "Tesla",
+            model: "Model S",
+            year: "2022",
+            lisence: "TESLA2022",
+            carGraphic: require("@/assets/images/CarGraphic.png"),
+        },
+        {
+            id: 2,
+            name: "BMW X5",
+            make: "BMW",
+            model: "X5",
+            year: "2021",
+            lisence: "BMW2021",
+            carGraphic: require("@/assets/images/CarGraphic2.png"),
+        },
+        {
+            id: 3,
+            name: "BMW X5",
+            make: "BMW",
+            model: "X5",
+            year: "2021",
+            lisence: "BMW2021",
+            carGraphic: require("@/assets/images/CarGraphic.png"),
+        },
+    ],
 };
 
 export default function Profile() {
-    let id = "67a879dd7f54e8ec83dbd7d3";
-    
+    const { user } = useAuth();
+    const { id } = useLocalSearchParams();
     const [userProfile, setUserProfile] = useState<{
         profilePic: string;
         name: string;
@@ -69,11 +95,11 @@ export default function Profile() {
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <Image source={require("@/assets/images/ProfileGears.png")} style={styles.picture} />
                     <ProfileCombined
-                        profilePic={profilePic}
-                        name={userProfile.name}
-                        email={userProfile.email}
-                        phone={userProfile.phone}
-                        vehicles={userProfile.vehicles}
+                        pfp={user.picture}
+                        name={user.firstName + " " + user.lastName}
+                        email={user.email}
+                        phoneNumber={user.phoneNumber}
+                        vehicles={user.carDetails}
                     />
                 </ScrollView>
             </View>

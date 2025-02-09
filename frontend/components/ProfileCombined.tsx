@@ -3,7 +3,16 @@ import ProfileInformation from "./ProfileInformation";
 import { VehicleCard } from "./VehicleCard";
 import React from "react";
 import { useRouter } from "expo-router";
-import { Vehicle } from "@/app/(tabs)/profile";
+
+export type VehicleCardProps = {
+    id: number;
+    name: string;
+    make: string;
+    model: string;
+    year: string;
+    licensePlate: string;
+    carGraphic: ImageSourcePropType;
+};
 
 export type ProfileInformationProps = {
     profilePic: string;
@@ -55,15 +64,26 @@ profilePic
             </TouchableOpacity>
 
             <View style={{ marginTop: 8 }}>
-                {vehicles?.map((vehicle) => (
-                    <VehicleCard
-                        make={vehicle.make}
-                        model={vehicle.model}
-                        year={vehicle.year}
-                        license={vehicle.license}
-                        picture={vehicle.picture}
-                    />
-                ))}
+                {vehicles?.map(
+                    (VehicleInformation: {
+                        name: string;
+                        make: string;
+                        model: string;
+                        year: string;
+                        licensePlate: string;
+                        carGraphic: ImageSourcePropType;
+                    }, index : number) => (
+                        <VehicleCard
+                            key={index}
+                            name={VehicleInformation.name}
+                            make={VehicleInformation.make}
+                            model={VehicleInformation.model}
+                            year={VehicleInformation.year}
+                            license={VehicleInformation.licensePlate}
+                            carGraphic={require("@/assets/images/CarGraphic.png")}
+                        />
+                    )
+                )}
             </View>
         </View>
     );

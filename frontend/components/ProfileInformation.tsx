@@ -14,7 +14,7 @@ export default function ProfileInformation({ pfp, name, email, phoneNumber }: Pr
     console.log(pfp);
     return (
         <View style={styles.container}>
-            <Image style={styles.pfp} source={pfp} resizeMode="cover" />
+            <Image style={styles.pfp} source={{uri: pfp}} resizeMode="cover" />
             <ThemedText style={styles.col} type="subtitle">
                 {name}
             </ThemedText>
