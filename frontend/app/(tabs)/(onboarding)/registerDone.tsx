@@ -12,8 +12,9 @@ export default function registerDone() {
 
     const handleContinue = () => {
 
-        //TODO implement home
-        router.push("/")
+        //CHANGE: ROUTE TO HOME
+        router.push("/sendImage")
+
     }
 
     return(
