@@ -71,6 +71,23 @@ func (s *Service) InsertMechanic(r MechanicDocument) (*MechanicDocument, error) 
 	return &r, nil
 }
 
+func (s *Service) GetMechanicByAppleAccountID(id string) (*MechanicDocument, error) {
+	ctx := context.Background()
+	filter := bson.M{"appleAccountID": id}
+
+	var Mechanic MechanicDocument
+	err := s.Mechanics.FindOne(ctx, filter).Decode(&Mechanic)
+	if err == mongo.ErrNoDocuments {
+		// No matching Mechanic found
+		return nil, mongo.ErrNoDocuments
+	} else if err != nil {
+		// Different error occurred
+		return nil, err
+	}
+
+	return &Mechanic, nil
+}
+
 func toDoc(v interface{}) (doc *bson.D, err error) {
 	data, err := bson.Marshal(v)
 	if err != nil {

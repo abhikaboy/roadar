@@ -18,7 +18,7 @@ func Routes(app *fiber.App, collections map[string]*mongo.Collection) {
 	// Add Mechanic group under API Version 1
 	Mechanic := apiV1.Group("/mechanics")
 
-	Mechanic.Post("/", handler.CreateMechanic)
+	Mechanic.Post("/", handler.CreateInitialMechanic)
 	Mechanic.Get("/", handler.GetMechanics)
 
 	Mechanic.Post("/alert", handler.AlertMechanics)
@@ -28,6 +28,7 @@ func Routes(app *fiber.App, collections map[string]*mongo.Collection) {
 	Mechanic.Patch("/:id", handler.UpdatePartialMechanic)
 	Mechanic.Patch("/:id/online", handler.ChangeOnlineStatus)
 	Mechanic.Delete("/:id", handler.DeleteMechanic)
+	Mechanic.Get("/aaid/:id", handler.GetMechanicByAppleAccountID)
 
 	Mechanic.Post("/:id/rate", handler.RateMechanic)
 }

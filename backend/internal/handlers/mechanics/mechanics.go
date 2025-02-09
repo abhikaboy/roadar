@@ -158,6 +158,62 @@ func (h *Handler) GetNearbyMechanics(c *fiber.Ctx) error {
 	return c.JSON(Mechanics)
 }
 
+func (h *Handler) GetMechanicByAppleAccountID(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	Driver, err := h.service.GetMechanicByAppleAccountID(id)
+	if err != nil {
+		if errors.Is(err, mongo.ErrNoDocuments) {
+			return c.Status(fiber.StatusNotFound).JSON(xerr.NotFound("Driver", "id", id))
+		}
+		// Central error handler take 500
+		return err
+	}
+	return c.JSON(Driver)
+}
+
+
+func (h *Handler) CreateInitialMechanic(c *fiber.Ctx) error {
+	ctx := c.Context()
+	var Mechanic MechanicDocument
+	var params CreateInitialMechanicParams
+
+	slog.LogAttrs(ctx, slog.LevelInfo, "Inserting Initial Driver")
+	// validate body
+	err := c.BodyParser(&params)
+	if err != nil {
+		return err
+	}
+
+	errs := xvalidator.Validator.Validate(params)
+	if len(errs) > 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(errs)
+	}
+
+
+
+	// do some validations on the inputs
+	Mechanic = MechanicDocument{
+		AppleAccountID: params.AppleAccountID,
+		Email:       params.Email,
+		FirstName:   params.FirstName,
+		LastName:    params.LastName,
+		ID:          primitive.NewObjectID(),
+		Radius: 	1000,
+	}
+
+	result, err := h.service.InsertMechanic(Mechanic)
+
+	if err != nil {
+		sErr := err.(mongo.WriteException) // Convert to Command Error
+		if sErr.HasErrorCode(121) {        // Indicates that the document failed validation
+			return xerr.WriteException(c, sErr) // Handle the error by returning a 121 and the error message
+		}
+	}
+
+	return c.JSON(result)
+}
+
 func (h *Handler) AlertMechanics(c *fiber.Ctx) error {
 	var job job.JobDocument
 
