@@ -20,10 +20,11 @@ func Routes(app *fiber.App, collections map[string]*mongo.Collection) {
 
  
 	Driver.Post("/", handler.CreateInitialDriver)
-
+	
 	Driver.Get("/", handler.GetDrivers)
-
+	
 	Driver.Get("/:id", handler.GetDriver)
+	Driver.Post("/:id/addCar", handler.CreateCar)
 	Driver.Get("/aaid/:id", handler.GetDriverByAppleAccountID)
 	Driver.Patch("/:id", handler.UpdatePartialDriver)
 	Driver.Delete("/:id", handler.DeleteDriver)
