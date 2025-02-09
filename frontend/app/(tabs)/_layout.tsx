@@ -66,7 +66,14 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="home"
+                name="mechanicHome"
+                options={{
+                    title: "Mechanic Home",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="(onboarding)"
                 options={{
                     title: "Home",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,

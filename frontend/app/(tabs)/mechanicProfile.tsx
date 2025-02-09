@@ -1,18 +1,13 @@
-import ProfileCombined from "@/components/ProfileCombined";
-import { ScrollView, SafeAreaView, Image, ImageSourcePropType } from "react-native";
 import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import React from "react";
-import { TotalEarnedCard } from "@/components/TotalEarnedCard";
-import MechanicInformationCard from "@/components/MechanicInformationCard";
-import ProfileInformation from "@/components/ProfileInformation";
+import { ScrollView, SafeAreaView, Image, View, Text, ActivityIndicator, StyleSheet, ImageSourcePropType } from "react-native";
+import axios from "axios";
 import MechanicalProfileCombined from "@/components/MechanicalProfileCombined";
+import React from "react";
 
 export default function Profile() {
-    const { id } = useLocalSearchParams();
+    let id = "67a7e53ead3126f3dab182dc";
     const [mechanicProfile, setMechanicProfile] = useState<{
-        profilePic: ImageSourcePropType;
+        profilePic: string;
         name: string;
         email: string;
         phone: string;
@@ -28,29 +23,44 @@ export default function Profile() {
 
     useEffect(() => {
         const getUserProfile = async () => {
-            // Simulated mock user profile since backend isn't built
-            const mockProfileData = {
-                profilePic: require("@/assets/images/Robert.png"),
-                name: "John Doe",
-                email: "johndoe@example.com",
-                phone: "(123) 456-7890",
-                earnings: 50,
-                bio: "i am bobby and I lovev am bobby and I lov am bobby and I lov am bobby and I lov am bobby and I lov am bobby and I lov am bobby and I lov chocolate chip cookies. I also am really annoying. Im so sad.",
-                lat: 42.3555,
-                lon: -71.0565,
-                active: true,
-                rating: 2,
-            };
-            setMechanicProfile(mockProfileData);
-            setLoading(false);
+            try {
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/api/v1/mechanics/${id}`);
+                const mechanicData = response.data;
+
+                const profilePic = mechanicData.picture 
+                    ? { uri: mechanicData.picture }
+                    : require("@/assets/images/Robert.png");
+
+                const profileData = {
+                    profilePic: profilePic,
+                    name: `${mechanicData.firstName} ${mechanicData.lastName}`,
+                    email: mechanicData.email,
+                    phone: mechanicData.phoneNumber,
+                    earnings: mechanicData.earnings,
+                    bio: mechanicData.bio,
+                    lat: mechanicData.location?.[0] || 0,
+                    lon: mechanicData.location?.[1] || 0,
+                    active: mechanicData.online,
+                    rating: mechanicData.rating || 0,
+                };
+
+                setMechanicProfile(profileData);
+            } catch (err) {
+                console.error("Error fetching mechanic profile:", err);
+            } finally {
+                setLoading(false);
+            }
         };
-        getUserProfile();
+
+        if (id) {
+            getUserProfile();
+        }
     }, [id]);
 
     if (loading) {
         return (
             <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#007AFF" />
+                <ActivityIndicator size="large" color="#0000ff" />
             </View>
         );
     }
@@ -62,6 +72,7 @@ export default function Profile() {
             </View>
         );
     }
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
@@ -103,14 +114,6 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
     },
-    row: {
-        flexDirection: "row",
-        alignItems: "center",
-        width: "100%",
-        marginBottom: 4,
-        marginTop: 50,
-        justifyContent: "center",
-    },
     scrollContainer: {
         marginTop: 0,
         flexDirection: "column",
@@ -120,9 +123,13 @@ const styles = StyleSheet.create({
         overflow: "scroll",
         paddingBottom: 55,
     },
-    profilePic: { width: 100, height: 100, borderRadius: 50, marginBottom: 10 },
-    name: { fontSize: 20, fontWeight: "bold" },
-    info: { fontSize: 16, marginTop: 5 },
-    loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
-    errorText: { fontSize: 18, color: "red" },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    errorText: {
+        fontSize: 18,
+        color: "red",
+    },
 });

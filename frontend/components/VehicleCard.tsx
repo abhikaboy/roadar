@@ -2,24 +2,16 @@ import { ImageSourcePropType, View, Image, StyleSheet } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 import React from "react";
+import { Vehicle } from "@/app/(tabs)/profile";
 
-export type VehicleCardProps = {
-    id: number;
-    name: string;
-    make: string;
-    model: string;
-    year: string;
-    lisence: string;
-    carGraphic: ImageSourcePropType;
-};
 
-export function VehicleCard({ name, make, model, year, lisence, carGraphic }: VehicleCardProps) {
+export function VehicleCard({ make, model, year, picture, license }: Vehicle) {
     return (
         <ThemedView style={styles.card}>
-            <ThemedText type="subtitle">{name}</ThemedText>
+            <ThemedText type="subtitle">Your Vehicle</ThemedText>
 
             <View style={styles.row}>
-                <Image source={carGraphic} style={styles.image} resizeMode="cover" />
+                <Image source={picture} style={styles.image} resizeMode="cover" />
                 <View style={styles.details}>
                     <ThemedText type="default">Make and Model:</ThemedText>
                     <ThemedText type="link">
@@ -27,7 +19,7 @@ export function VehicleCard({ name, make, model, year, lisence, carGraphic }: Ve
                     </ThemedText>
 
                     <ThemedText type="default">Plate Number:</ThemedText>
-                    <ThemedText type="link">{lisence}</ThemedText>
+                    <ThemedText type="link">{license}</ThemedText>
                 </View>
             </View>
         </ThemedView>
