@@ -8,6 +8,7 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function TabTwoScreen() {
+<<<<<<< HEAD
     const { setJob } = useAuth();
     const socketEndpoint = "ws://10.110.191.103:8080/ws/mechanic/67a7e53ead3126f3dab182dc/";
     useEffect(() => {
@@ -40,6 +41,8 @@ export default function TabTwoScreen() {
         return function didUnmount() {};
     }, []);
     const [hasConnection, setConnection] = useState(false);
+=======
+>>>>>>> origin/main
 
     return (
         <ParallaxScrollView

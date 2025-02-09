@@ -84,6 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         if (userRes) {
             setUser({ ...userRes, accountType });
+            return { ...userRes, accountType };
         } else {
             throw new Error("Could not login");
         }
