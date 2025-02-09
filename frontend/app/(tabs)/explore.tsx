@@ -6,6 +6,7 @@ import { View, Text } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/IconSymbol";
+import React from "react";
 
 import io from "socket.io-client";
 
