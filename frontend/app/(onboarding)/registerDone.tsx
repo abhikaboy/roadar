@@ -4,13 +4,20 @@ import { Link,  useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function registerDone() {
     const router = useRouter();
+    const { user } = useAuth();
 
     const handleContinue = () => {
         //CHANGE: ROUTE TO HOME
-        router.replace("/(tabs)/home")
+        if (user.accountType == "mechanic") {
+            router.replace("/(tabs)/mechanicHome")
+        } else {
+            router.replace("/(tabs)/home")
+        }
+        
 
     }
 
