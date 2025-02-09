@@ -41,7 +41,7 @@ export default function SignUpButton({ isMechanic } : { isMechanic : boolean}) {
                       console.log(user1)
 
                       router.replace({
-                        pathname: "/(tabs)/(onboarding)",
+                        pathname: "/(onboarding)",
                         params: {
                             initialFirstName: user1.firstName || "",
                             initialLastName: user1.lastName || "",

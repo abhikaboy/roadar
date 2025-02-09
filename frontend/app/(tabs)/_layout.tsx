@@ -57,12 +57,13 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="(onboarding)"
+                name="home"
                 options={{
-                    title: "Onboarding",
+                    title: "Home",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
                 }}
             />
+            
         </Tabs>
     );
 }

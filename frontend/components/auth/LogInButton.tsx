@@ -30,6 +30,8 @@ export default function SignUpButton({ isMechanic } : { isMechanic : boolean}) {
                       const appleAccountID = credential.user
                       
                       await login(appleAccountID, isMechanic ? "mechanic" : "driver")
+
+                      router.replace("/home")
                       
                       
                       
