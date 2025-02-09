@@ -5,39 +5,15 @@ import React, { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 
-export default function SignInScreen() {
+export default function SignUpButton({ isMechanic } : { isMechanic : boolean}) {
   const {login, register, user, logout} = useAuth();
   const router = useRouter();
-  // let user = await getUser();
-  // console.log(user)
-  console.log(user)
+  
 
-  useEffect(() => {
-    if (user) {
-      router.replace("/")
-    }
-  })
-  // if (user) {
-  //   router.push("/")
-  // }
 
-  // useEffect(() => {
-  //   async function testUser() {
-  //     const user = await getUser();
-  //     if (user) {
-  //       console.log("Already signed in")
-  //       console.log(user)
-        
-  //       router.replace("/")
-  //     } else {
-  //       console.log("no user")
-  //     }
-  //   }
-  //   testUser();
-  // })
   
   return (
-      <View style={styles.container}>
+      
           <AppleAuthentication.AppleAuthenticationButton
               buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_UP}
               buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
@@ -53,25 +29,27 @@ export default function SignInScreen() {
                       });
                       
                       const appleAccountID = credential.user
-                      // const email = credential.email
-                      // const firstName = credential.fullName?.givenName 
-                      // const lastName = credential.fullName?.familyName
-                      // let response : any = await register(firstName!, lastName!, email!, appleAccountID, "driver")
-                      // console.log(response)
+                      const email = credential.email
+                      const firstName = credential.fullName?.givenName 
+                      const lastName = credential.fullName?.familyName
+                      if (!email || !firstName || !lastName) {
+                        alert("Either you already have a user or didn't give us permissions")
+                        return
+                      }
+                      await register(firstName, lastName, email, appleAccountID, isMechanic ? "mechanic" : "driver")
                       
-                      let response = await login(appleAccountID, "driver")
-                      //const user = await getUser();
-                      console.log(user)
+                      
+                      
                   } catch (e: any) {
                       if (e.code === "ERR_REQUEST_CANCELED") {
                           console.log("they cancelled");
                       } else {
-                          // handle other errors
+                          alert("An unexpected error occurred")
                       }
                   }
               }}
           />
-      </View>
+      
   );
 }
 
@@ -82,7 +60,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     button: {
-        width: 200,
+        width: "100%",
         height: 44,
+        backgroundColor: "red"
     },
 });

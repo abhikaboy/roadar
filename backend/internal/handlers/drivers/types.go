@@ -29,7 +29,7 @@ type DriverUpdate struct {
 	SocketID    string             `bson:"socketID,omitempty" json:"socketID,omitempty"`
 }
 
-type CreateInitialDriver struct {
+type CreateInitialDriverParams struct {
 	AppleAccountID string `validate:"required" bson:"appleAccountID" json:"appleAccountID"`
 	Email       string    `validate:"required" bson:"email" json:"email"`
 	FirstName   string    `validate:"required" bson:"firstName" json:"firstName"`

@@ -18,7 +18,7 @@ export default function index() {
         console.log(lastName)
         console.log(phone)
         router.push("/registerPfp")
-    }
+    
         console.log(name);
         console.log(phone);
         router.push("/registerPfp");

@@ -5,42 +5,17 @@ import React, { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "expo-router";
 
-export default function SignInScreen() {
+export default function SignUpButton({ isMechanic } : { isMechanic : boolean}) {
   const {login, register, user, logout} = useAuth();
   const router = useRouter();
-  // let user = await getUser();
-  // console.log(user)
-  console.log(user)
+ 
 
-  useEffect(() => {
-    if (user) {
-      router.replace("/")
-    }
-  })
-  // if (user) {
-  //   router.push("/")
-  // }
-
-  // useEffect(() => {
-  //   async function testUser() {
-  //     const user = await getUser();
-  //     if (user) {
-  //       console.log("Already signed in")
-  //       console.log(user)
-        
-  //       router.replace("/")
-  //     } else {
-  //       console.log("no user")
-  //     }
-  //   }
-  //   testUser();
-  // })
   
   return (
       <View style={styles.container}>
           <AppleAuthentication.AppleAuthenticationButton
-              buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_UP}
-              buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+              buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+              buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.WHITE_OUTLINE}
               cornerRadius={5}
               style={styles.button}
               onPress={async () => {
@@ -53,20 +28,17 @@ export default function SignInScreen() {
                       });
                       
                       const appleAccountID = credential.user
-                      // const email = credential.email
-                      // const firstName = credential.fullName?.givenName 
-                      // const lastName = credential.fullName?.familyName
-                      // let response : any = await register(firstName!, lastName!, email!, appleAccountID, "driver")
-                      // console.log(response)
                       
-                      let response = await login(appleAccountID, "driver")
-                      //const user = await getUser();
-                      console.log(user)
+                      await login(appleAccountID, isMechanic ? "mechanic" : "driver")
+                      
+                      
+                      
                   } catch (e: any) {
                       if (e.code === "ERR_REQUEST_CANCELED") {
                           console.log("they cancelled");
                       } else {
-                          // handle other errors
+                          console.log(e.code)
+                          alert("An unexpected error occurred")
                       }
                   }
               }}
@@ -82,7 +54,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     button: {
-        width: 200,
+        width: "100%",
         height: 44,
     },
 });
