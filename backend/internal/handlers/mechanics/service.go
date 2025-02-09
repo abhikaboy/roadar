@@ -201,7 +201,7 @@ func (s *Service) AlertMechanics(job job.JobDocument) error {
 		"online": true,
 		"location": bson.M{
 			"$near":        job.Location,
-			"$maxDistance": 1000,
+			"$maxDistance": 10000000,
 		},
 		"socketID": bson.M{
 			"$exists": true,

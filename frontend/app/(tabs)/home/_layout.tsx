@@ -12,6 +12,7 @@ export default function Home() {
     const socketEndpoint = "ws://10.110.191.103:8080/ws/mechanic/67a7e53ead3126f3dab182dc/";
     const [location, setLocation] = useState<any | null>(null);
     const [address, setAddress] = useState<string | null>(null);
+    const { setJob } = useAuth();
 
     useEffect(() => {
         async function getCurrentLocation() {
@@ -64,11 +65,18 @@ export default function Home() {
 
         ws.onmessage = (event) => {
             console.log("Received message from server:", event.data);
+            try {
+                const data = JSON.parse(event.data);
+                setJob(data);
+                console.log(data);
+            } catch (e) {
+                console.log(e);
+            }
         };
 
         let end = user.accountType == "mechanic" ? "mechanic" : "drivers";
         // get the location of the user
-        axios.patch(process.env.EXPO_PUBLIC_URL + "api/v1/" + user.accountType + "/" + user._id, {
+        axios.patch(process.env.EXPO_PUBLIC_URL + "api/v1/" + end + "/" + user._id, {
             location: location,
         });
         console.log(location);
