@@ -75,7 +75,7 @@ export default function Service() {
     const handleContinue = () => {
         axios
             .post(process.env.EXPO_PUBLIC_URL + "/api/v1/jobs/", {
-                location: location,
+                location: [42.3601, -71.0589],
                 address: address,
                 picture: [createJob?.picture],
                 requester: user._id,

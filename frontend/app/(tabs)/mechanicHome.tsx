@@ -41,8 +41,19 @@ export default function MechanicHome() {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                let id = "507f1f77bcf86cd799439011";
-                const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/api/v1/jobs/requester/${id}`);
+                let id = user._id;
+                const response = await axios.post(`${process.env.EXPO_PUBLIC_URL}/api/v1/jobs/nearby/`, 
+                {
+                    location: user.location ||
+                        [
+                            42, -71
+                        ],
+                        radius: 1000000
+                })
+                
+
+                
+                
                 console.log(response);
                 if (response.data.length > 0) {
                     const formattedJobs = response.data.map((job: any) => ({
