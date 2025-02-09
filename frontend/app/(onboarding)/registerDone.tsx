@@ -1,6 +1,6 @@
 import OnboardButton from "@/components/ui/OnboardButton";
 import { useFonts } from "expo-font";
-import { Link, useNavigation, useRouter } from "expo-router";
+import { Link,  useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";

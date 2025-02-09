@@ -2,7 +2,11 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import OnboardButton from "@/components/ui/OnboardButton";
 import { useAuth } from "@/hooks/useAuth";
+<<<<<<< HEAD
 import { useLocalSearchParams, useRouter } from "expo-router";
+=======
+import { useLocalSearchParams,  useRouter } from "expo-router";
+>>>>>>> origin/main
 import React, { useState } from "react";
 import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native";

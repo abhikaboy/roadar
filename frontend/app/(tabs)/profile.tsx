@@ -6,38 +6,7 @@ import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { useAuth } from "@/hooks/useAuth";
 
-// Sample data for Vehicle List
-const vehicleList = {
-    vehicles: [
-        {
-            id: 1,
-            name: "Tesla Model S",
-            make: "Tesla",
-            model: "Model S",
-            year: "2022",
-            lisence: "TESLA2022",
-            carGraphic: require("@/assets/images/CarGraphic.png"),
-        },
-        {
-            id: 2,
-            name: "BMW X5",
-            make: "BMW",
-            model: "X5",
-            year: "2021",
-            lisence: "BMW2021",
-            carGraphic: require("@/assets/images/CarGraphic2.png"),
-        },
-        {
-            id: 3,
-            name: "BMW X5",
-            make: "BMW",
-            model: "X5",
-            year: "2021",
-            lisence: "BMW2021",
-            carGraphic: require("@/assets/images/CarGraphic.png"),
-        },
-    ],
-};
+
 
 export default function Profile() {
     const { user } = useAuth();
@@ -46,7 +15,7 @@ export default function Profile() {
         profilePic: string;
         name: string;
         email: string;
-        vehicles: Vehicle[];
+        vehicles: any[];
         phone: string;
     } | null>(null);
     const [loading, setLoading] = useState(true);
@@ -95,10 +64,10 @@ export default function Profile() {
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <Image source={require("@/assets/images/ProfileGears.png")} style={styles.picture} />
                     <ProfileCombined
-                        pfp={user.picture}
+                        profilePic={user.picture}
                         name={user.firstName + " " + user.lastName}
                         email={user.email}
-                        phoneNumber={user.phoneNumber}
+                        phone={user.phoneNumber}
                         vehicles={user.carDetails}
                     />
                 </ScrollView>
