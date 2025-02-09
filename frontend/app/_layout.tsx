@@ -35,53 +35,63 @@ export default function RootLayout() {
     return (
         <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
             <AuthProvider>
-            <Stack
-                screenOptions={{
-                    headerShown: false,
-                }}>
-                {/* Existing Screens */}
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="+not-found" />
-                <Stack.Screen
-                    name={"about"}
-                    options={{
+                <Stack
+                    screenOptions={{
                         headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name={"profile"}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name={"mechanicProfile"}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name={"blob"}
-                    options={{
-                        title: "Blob",
-                        headerLeft: () => (
-                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
-                        ),
-                    }}
-                />
-                <Stack.Screen
-                    name={"home"}
-                    options={{
-                        title: "Home",
-                        headerLeft: () => (
-                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
-                        ),
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen name="jobs" options={{ headerShown: false }} />
-            </Stack>
-            <StatusBar style="auto" />
+                    }}>
+                    {/* Existing Screens */}
+                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    <Stack.Screen name="+not-found" />
+                    <Stack.Screen
+                        name={"about"}
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                    <Stack.Screen
+                        name={"profile"}
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                    <Stack.Screen
+                        name={"mechanicProfile"}
+                        options={{
+                            headerShown: false,
+                        }}
+                    />
+                    <Stack.Screen
+                        name={"blob"}
+                        options={{
+                            title: "Blob",
+                            headerLeft: () => (
+                                <Ionicons
+                                    name={"chevron-back"}
+                                    size={24}
+                                    color={"#20c1e6"}
+                                    onPress={() => router.back()}
+                                />
+                            ),
+                        }}
+                    />
+                    <Stack.Screen
+                        name={"home"}
+                        options={{
+                            title: "Home",
+                            headerLeft: () => (
+                                <Ionicons
+                                    name={"chevron-back"}
+                                    size={24}
+                                    color={"#20c1e6"}
+                                    onPress={() => router.back()}
+                                />
+                            ),
+                            headerShown: false,
+                        }}
+                    />
+                    <Stack.Screen name="jobs" options={{ headerShown: false }} />
+                </Stack>
+                <StatusBar style="auto" />
             </AuthProvider>
         </ThemeProvider>
     );
