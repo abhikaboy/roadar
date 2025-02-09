@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/abhikaboy/Roadar/internal/config"
-	"github.com/abhikaboy/Roadar/internal/storage/mongo"
+	"github.com/abhikaboy/Roadar/internal/storage/xmongo"
 	"github.com/abhikaboy/Roadar/internal/xslog"
 	"github.com/joho/godotenv"
 )
@@ -22,12 +22,12 @@ func main() {
 		fatal(ctx, "Failed to load config", err)
 	}
 
-	db, err := mongo.New(ctx, config.Atlas)
+	db, err := xmongo.New(ctx, config.Atlas)
 	if err != nil {
 		fatal(ctx, "Failed to connect to MongoDB in main", err)
 	}
 
-	for _, index := range mongo.Indexes {
+	for _, index := range xmongo.Indexes {
 		if err := db.ApplyIndex(ctx, index.Collection, index.Model); err != nil {
 			fatal(ctx, "Failed to apply index to collection "+index.Collection, err)
 		} else {

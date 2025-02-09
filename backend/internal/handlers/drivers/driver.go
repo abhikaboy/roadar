@@ -79,14 +79,14 @@ func (h *Handler) CreateDriver(c *fiber.Ctx) error {
 	// do some validations on the inputs
 	Driver = DriverDocument{
 		AppleAccountID: params.AppleAccountID,
-		CarDetails: params.CarDetails,
-		Picture:     params.Picture,
-		Email:       params.Email,
-		FirstName:   params.FirstName,
-		LastName:    params.LastName,
-		PhoneNumber: params.PhoneNumber,
-		SocketID:    "",
-		ID:          primitive.NewObjectID(),
+		CarDetails:     params.CarDetails,
+		Picture:        params.Picture,
+		Email:          params.Email,
+		FirstName:      params.FirstName,
+		LastName:       params.LastName,
+		PhoneNumber:    params.PhoneNumber,
+		SocketID:       "",
+		ID:             primitive.NewObjectID(),
 	}
 
 	result, err := h.service.InsertDriver(Driver)
@@ -120,8 +120,6 @@ func (h *Handler) GetDriver(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
 	}
-
- 
 
 	Driver, err := h.service.GetDriverByID(id)
 	if err != nil {
@@ -187,6 +185,3 @@ func (h *Handler) DeleteDriver(c *fiber.Ctx) error {
 	}
 	return c.SendStatus(fiber.StatusNoContent)
 }
-
-
-

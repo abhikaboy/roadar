@@ -1,7 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import OnboardButton from "@/components/ui/OnboardButton";
-import { useRoute } from "@react-navigation/native";
 import { useNavigation, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
@@ -14,54 +13,52 @@ export default function index() {
     const router = useRouter();
 
     const handleContinue = () => {
-        console.log(firstName)
-        console.log(lastName)
-        console.log(phone)
-        router.push("/registerPfp")
-    
-        console.log(name);
+
+        console.log(firstName);
+        console.log(lastName);
+
         console.log(phone);
         router.push("/registerPfp");
     };
 
-    const navigation = useNavigation();
     return (
         <View style={style.frame}>
             <View style={style.content}>
                 <View style={style.textFrame}>
                     <Text style={style.text}>Tell us more about yourself</Text>
-
-                    <View style={style.inputFrame}>
-                        <View style={style.yourNameBox}>
-                            <Text style={style.yourName}>First name</Text>
-                            <TextInput
-                                value={firstName}
-                                onChangeText={setFirstName}
-                                placeholder="Abhik"
-                                style={style.input}
-                            />
+                    <View style={{ marginTop: 24, gap: 20 }}>
+                        <View style={style.inputFrame}>
+                            <View style={style.yourNameBox}>
+                                <Text style={style.yourName}>First name</Text>
+                                <TextInput
+                                    value={firstName}
+                                    onChangeText={setFirstName}
+                                    placeholder="Abhik"
+                                    style={style.input}
+                                />
+                            </View>
                         </View>
-                    </View>
-                    <View style={style.inputFrame}>
-                        <View style={style.yourNameBox}>
-                            <Text style={style.yourName}>Last name</Text>
-                            <TextInput
-                                value={lastName}
-                                onChangeText={setLastName}
-                                placeholder="Ray"
-                                style={style.input}
-                            />
+                        <View style={style.inputFrame}>
+                            <View style={style.yourNameBox}>
+                                <Text style={style.yourName}>Last name</Text>
+                                <TextInput
+                                    value={lastName}
+                                    onChangeText={setLastName}
+                                    placeholder="Ray"
+                                    style={style.input}
+                                />
+                            </View>
                         </View>
-                    </View>
-                    <View style={style.inputFrame}>
-                        <View style={style.yourNameBox}>
-                            <Text style={style.yourName}>Phone Number</Text>
-                            <TextInput
-                                value={phone}
-                                onChangeText={setPhone}
-                                placeholder="6097751922"
-                                style={style.input}
-                            />
+                        <View style={style.inputFrame}>
+                            <View style={style.yourNameBox}>
+                                <Text style={style.yourName}>Phone Number</Text>
+                                <TextInput
+                                    value={phone}
+                                    onChangeText={setPhone}
+                                    placeholder="6097751922"
+                                    style={style.input}
+                                />
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -86,7 +83,7 @@ const style = StyleSheet.create({
         gap: 145,
     },
     content: {
-        width: "80%",
+        width: "90%",
         maxWidth: 400,
         flexDirection: "column",
         alignItems: "stretch",
@@ -94,21 +91,22 @@ const style = StyleSheet.create({
     textFrame: {
         width: "100%",
         marginBottom: 20,
-        gap: 36,
+        top: "10%",
+        gap: 20,
     },
     text: {
         textAlign: "center",
         alignSelf: "stretch",
         fontSize: 24,
         fontWeight: "500",
-        fontFamily: "Outfit-Medium",
+        fontFamily: "Outfit",
     },
     input: {
         borderRadius: 7,
         borderStyle: "solid",
         borderColor: "#000",
         borderWidth: 1,
-        height: 40,
+        height: 45,
         flexDirection: "row",
         alignItems: "center",
         paddingHorizontal: 16,
@@ -116,9 +114,7 @@ const style = StyleSheet.create({
         alignSelf: "stretch",
     },
     inputFrame: {
-        width: "100%",
-        gap: 20,
-        alignSelf: "stretch",
+        // width: "100%",
     },
     yourName: {
         color: "#000",
@@ -130,7 +126,7 @@ const style = StyleSheet.create({
     },
     yourNameBox: {
         width: 300,
-        gap: 11,
+        gap: 5,
         alignSelf: "stretch",
     },
 });

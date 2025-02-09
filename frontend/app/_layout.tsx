@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import React from "react";
+import View from "react-native";
 
 import { useColorScheme } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -36,9 +37,7 @@ export default function RootLayout() {
             <AuthProvider>
             <Stack
                 screenOptions={{
-                    headerTitleStyle: {
-                        fontFamily: "Outfit",
-                    },
+                    headerShown: false,
                 }}>
                 {/* Existing Screens */}
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -46,21 +45,41 @@ export default function RootLayout() {
                 <Stack.Screen
                     name={"about"}
                     options={{
-                        title: "About",
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name={"profile"}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name={"mechanicProfile"}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name={"blob"}
+                    options={{
+                        title: "Blob",
                         headerLeft: () => (
                             <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
                         ),
                     }}
                 />
                 <Stack.Screen
-                    name={"about2"}
+                    name={"home"}
                     options={{
-                        title: "About",
+                        title: "Home",
                         headerLeft: () => (
                             <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
                         ),
+                        headerShown: false,
                     }}
                 />
+                <Stack.Screen name="jobs" options={{ headerShown: false }} />
             </Stack>
             <StatusBar style="auto" />
             </AuthProvider>

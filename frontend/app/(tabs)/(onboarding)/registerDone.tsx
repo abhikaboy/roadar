@@ -1,17 +1,22 @@
 import OnboardButton from "@/components/ui/OnboardButton";
 import { useFonts } from "expo-font";
-import { useRouter } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 
 export default function registerDone() {
     const router = useRouter();
+    const navigate = useNavigation()
 
     const handleContinue = () => {
-        //TODO implement home
-        router.push("/");
-    };
+
+
+        //CHANGE: ROUTE TO HOME
+        router.navigate("/home")
+
+    }
+
 
     return (
         <View style={style.frame}>
@@ -27,10 +32,10 @@ export default function registerDone() {
             </View>
             <View style={{ width: "100%", gap: 10 }}>
                 <OnboardButton
-                    title="Continue"
+                    title="Bring me to Services"
                     color="#082a74"
                     textColor="#FFFFFF"
-                    href="/registerPfp"
+                    href="/Explore"
                     onPress={handleContinue}
                 />
             </View>

@@ -1,13 +1,49 @@
+import ProfileCombined from "@/components/ProfileCombined";
+import { ScrollView, SafeAreaView, Image, ImageSourcePropType } from "react-native";
 import { useEffect, useState } from "react";
-import { View, Text, Image, ActivityIndicator, StyleSheet } from "react-native";
+import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 
-export default function ProfileScreen() {
+// Sample data for Vehicle List
+const vehicleList = {
+    vehicles: [
+        {
+            id: 1,
+            name: "Tesla Model S",
+            make: "Tesla",
+            model: "Model S",
+            year: "2022",
+            lisence: "TESLA2022",
+            carGraphic: require("@/assets/images/CarGraphic.png"),
+        },
+        {
+            id: 2,
+            name: "BMW X5",
+            make: "BMW",
+            model: "X5",
+            year: "2021",
+            lisence: "BMW2021",
+            carGraphic: require("@/assets/images/CarGraphic2.png"),
+        },
+        {
+            id: 3,
+            name: "BMW X5",
+            make: "BMW",
+            model: "X5",
+            year: "2021",
+            lisence: "BMW2021",
+            carGraphic: require("@/assets/images/CarGraphic.png"),
+        },
+    ],
+};
+
+export default function Profile() {
     const { id } = useLocalSearchParams();
     const [userProfile, setUserProfile] = useState<{
-        profilePic: string;
+        profilePic: ImageSourcePropType;
         name: string;
+        email: string;
         vehicles: string;
         phone: string;
     } | null>(null);
@@ -17,8 +53,9 @@ export default function ProfileScreen() {
         const getUserProfile = async () => {
             // Simulated mock user profile since backend isn't built
             const mockProfileData = {
-                profilePic: "https://via.placeholder.com/100",
+                profilePic: require("@/assets/images/Robert.png"),
                 name: "John Doe",
+                email: "johndow@gmail.com",
                 vehicles: "Tesla Model 3, BMW X5",
                 phone: "(123) 456-7890",
             };
@@ -43,19 +80,48 @@ export default function ProfileScreen() {
             </View>
         );
     }
-
     return (
-        <View style={styles.container}>
-            <Image source={{ uri: userProfile.profilePic }} style={styles.profilePic} />
-            <Text style={styles.name}>{userProfile.name}</Text>
-            <Text style={styles.info}>Vehicles: {userProfile.vehicles}</Text>
-            <Text style={styles.info}>Phone: {userProfile.phone}</Text>
-        </View>
+        <SafeAreaView style={styles.safeArea}>
+            <View style={styles.container}>
+                <ScrollView contentContainerStyle={styles.scrollContainer}>
+                    <Image source={require("@/assets/images/ProfileGears.png")} style={styles.picture} />
+                    <ProfileCombined
+                        pfp={userProfile.profilePic}
+                        name={userProfile.name}
+                        email={userProfile.email}
+                        phoneNumber={userProfile.phone}
+                        vehicles={vehicleList.vehicles}
+                    />
+                </ScrollView>
+            </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#f5f5f5" },
+    container: {
+        backgroundColor: "#FFFFFF",
+    },
+    picture: {
+        marginRight: 0,
+        height: 220,
+        alignSelf: "flex-end",
+        resizeMode: "contain",
+        position: "absolute",
+        right: -15,
+    },
+    safeArea: {
+        flex: 1,
+    },
+    scrollContainer: {
+        marginTop: 0,
+        flexDirection: "column",
+        padding: 3,
+        alignItems: "center",
+        width: "100%",
+        overflow: "scroll",
+        paddingBottom: 55,
+    },
     profilePic: { width: 100, height: 100, borderRadius: 50, marginBottom: 10 },
     name: { fontSize: 20, fontWeight: "bold" },
     info: { fontSize: 16, marginTop: 5 },

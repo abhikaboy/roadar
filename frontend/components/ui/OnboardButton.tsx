@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
 import { type Href } from "expo-router";
-import { ThemedText } from "../ThemedText";
+import { Text } from "react-native";
 import React from "react";
 
 interface OnboardButtonProps {
@@ -15,19 +15,27 @@ interface OnboardButtonProps {
 export default function OnboardButton({ title, color, textColor, border, ...buttonProps }: OnboardButtonProps) {
     if (!!border) {
         return (
-            <View {...buttonProps}>
+            <View
+                {...buttonProps}
+                style={{
+                    width: "100%",
+                }}>
                 <TouchableOpacity style={[styles.button, { backgroundColor: color }]} {...buttonProps}>
-                    <ThemedText style={[styles.buttonText, { color: textColor }]}>{title}</ThemedText>
+                    <Text style={[styles.buttonText, { color: textColor }]}>{title}</Text>
                 </TouchableOpacity>
             </View>
         );
     } else {
         return (
-            <View {...buttonProps}>
+            <View
+                {...buttonProps}
+                style={{
+                    width: "100%",
+                }}>
                 <TouchableOpacity
                     style={[styles.button, { backgroundColor: color, borderColor: "#000" }]}
                     {...buttonProps}>
-                    <ThemedText style={styles.buttonText}>{title}</ThemedText>
+                    <Text style={styles.buttonText}>{title}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -38,7 +46,7 @@ const styles = StyleSheet.create({
     button: {
         alignSelf: "stretch",
         borderRadius: 30,
-        width: "100%",
+        width: Dimensions.get("window").width * 0.8,
         height: 50,
         flexDirection: "row",
         alignItems: "center",

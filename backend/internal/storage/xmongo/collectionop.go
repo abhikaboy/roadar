@@ -1,4 +1,4 @@
-package mongo
+package xmongo
 
 import "context"
 

@@ -66,7 +66,7 @@ const style = StyleSheet.create({
         width: "80%",
         maxWidth: 400,
         flexDirection: "column",
-        alignItems: 'center',
+        alignItems: "center",
     },
     textFrame: {
         width: "100%",
