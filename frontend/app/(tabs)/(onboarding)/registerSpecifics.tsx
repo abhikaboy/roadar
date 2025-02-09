@@ -26,7 +26,7 @@ export default function registerSpecifics() {
         let driverId = "67a84e8efa78e0b4aa3953a4";
 
         axios
-            .post(process.env.EXPO_API_URL + "/api/v1/drivers/" + driverId + "addCar", {
+            .post(process.env.EXPO_PUBLIC_URL + "/api/v1/drivers/" + driverId + "/addCar", {
                 ...combined,
             })
             .then((res) => {
