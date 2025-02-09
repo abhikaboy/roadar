@@ -125,11 +125,23 @@ func (s *Service) DeleteDriver(id primitive.ObjectID) error {
 
 func (s *Service) InsertCar(driverId primitive.ObjectID, params CarDetails) error {
 	ctx := context.Background()
-	// Insert the document into the collection
-	_, err := s.Drivers.UpdateOne(ctx, bson.M{"_id": driverId}, bson.M{"$push": bson.M{"carDetails": params}})
+
+	// Ensure `carDetails` is an empty array if it is currently `nil`
+	_, err := s.Drivers.UpdateOne(
+		ctx,
+		bson.M{"_id": driverId, "carDetails": nil}, // Only matches if carDetails is explicitly nil
+		bson.M{"$set": bson.M{"carDetails": []CarDetails{}}},
+	)
 	if err != nil {
 		return err
 	}
 
-	return nil
+	// Now safely push the new car details
+	_, err = s.Drivers.UpdateOne(
+		ctx,
+		bson.M{"_id": driverId},
+		bson.M{"$push": bson.M{"carDetails": params}},
+	)
+
+	return err
 }

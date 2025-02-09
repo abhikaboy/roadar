@@ -8,9 +8,11 @@ import { RNS3 } from "react-native-aws3";
 import * as MediaLibrary from "expo-media-library";
 import { v4 as uuidv4 } from "uuid";
 import "react-native-get-random-values";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function registerPfp() {
     const [image, setImage] = useState<string | null>(null);
+    const { user } = useAuth();
     const [activeUri, setActiveUri] = useState<ImagePicker.ImagePickerResult>();
 
     const router = useRouter();
@@ -102,10 +104,24 @@ export default function registerPfp() {
                     let newUri = response.body.postResponse.location;
 
                     //LINK DB HERE
+                    const url = process.env.EXPO_PUBLIC_API_URL + "/" + user.accountType + "s/" + user._id;
+                    const response1 = await fetch(url, {
+                        method: "PATCH",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            picture: newUri,
+                        }),
+                    });
+                    if (!response1.ok) {
+                        alert("Failed to update");
+                    }
+
                     console.log(newUri);
                 }
             })
-            .catch((err) => {
+            .catch((err: any) => {
                 console.log(err);
             });
     };

@@ -5,9 +5,42 @@ import { View, Text, StyleSheet } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
+import { useAuth } from "@/hooks/useAuth";
 import React from "react";
 
 export default function TabTwoScreen() {
+    const { setJob } = useAuth();
+    const socketEndpoint = "ws://10.110.191.103:8080/ws/mechanic/67a7e53ead3126f3dab182dc/";
+    useEffect(() => {
+        const ws = new WebSocket(socketEndpoint);
+
+        ws.onopen = () => {
+            console.log("WebSocket connection established!");
+            setConnection(true);
+        };
+
+        ws.onclose = () => {
+            console.log("WebSocket connection closed");
+            setConnection(false);
+        };
+
+        ws.onmessage = (event) => {
+            console.log("Received message from server:", event.data);
+            try {
+                const data = JSON.parse(event.data);
+                setJob(data);
+                console.log(data);
+            } catch (e) {
+                console.log(e);
+            }
+            // if (!event.data.contains("Hello user")) {
+            //     setJob(JSON.parse(event.data));
+            // }
+        };
+
+        return function didUnmount() {};
+    }, []);
+    const [hasConnection, setConnection] = useState(false);
 
     return (
         <ParallaxScrollView
@@ -19,17 +52,7 @@ export default function TabTwoScreen() {
                     name="chevron.left.forwardslash.chevron.right"
                     style={styles.headerImage}
                 />
-            }>
-            <Text style={{ fontFamily: "Outfit" }}>This is the content page.</Text>
-            <Text style={{ fontFamily: "Outfit" }}>t page.</Text>
-            <View style={styles.list}>
-                <Text>h</Text>
-                <Text>h</Text>
-                <Text>h</Text>
-                
-            </View>
-            
-        </ParallaxScrollView>
+            }></ParallaxScrollView>
     );
 }
 

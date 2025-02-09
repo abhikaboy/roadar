@@ -2,38 +2,51 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import OnboardButton from "@/components/ui/OnboardButton";
 import ServicesCard from "@/components/ui/ServicesCard";
+import { useNavigation, useRouter } from "expo-router";
 
 export default function Index() {
+    const router = useRouter()
+    
+        const navigation = useNavigation();
+    
+    
+
     const cardContent = [
         {
             title: "Flat tire",
             image: require("@/assets/images/tire.png"),
             key: "flat",
+            message: "Flat Tire Repair",
         },
         {
             title: "Oil change",
             image: require("@/assets/images/oil.png"),
             key: "oil",
+            message: "Oil Change",
         },
         {
             title: "Spark plug",
             image: require("@/assets/images/spark.png"),
             key: "spark",
+            message: "Spark Plug",
         },
         {
             title: "Flat tire",
             image: require("@/assets/images/tire.png"),
             key: "flat1",
+            message: "Flat Tire Repair",
         },
         {
             title: "Oil change",
             image: require("@/assets/images/oil.png"),
             key: "oil1",
+            message: "Oil Change",
         },
         {
             title: "Spark plug",
             image: require("@/assets/images/spark.png"),
             key: "spark1",
+            message: "Spark Plug",
         },
     ];
 
@@ -49,6 +62,13 @@ export default function Index() {
             key: "sched2",
         },
     ];
+
+    const handleServicesClick = (message) => {
+        router.push({
+            pathname: "/home/service",
+            params: { service: message }
+        })
+    }
 
     return (
         <View style={styles.content}>
@@ -66,7 +86,7 @@ export default function Index() {
             <View style={styles.cardWrapper}>
                 {cardContent.map((content) => (
                     <View key={content.key} style={styles.cardService}>
-                        <ServicesCard title={content.title} image={content.image} />
+                        <ServicesCard title={content.title} image={content.image} onPress={() => {handleServicesClick(content.message)}} />
                     </View>
                 ))}
             </View>
@@ -119,6 +139,6 @@ const styles = StyleSheet.create({
         flexWrap: "wrap",
         gap: 12,
         alignItems: "center",
-        display: 'flex'
+        display: "flex",
     },
 });

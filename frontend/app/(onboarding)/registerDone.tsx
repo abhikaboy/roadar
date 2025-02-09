@@ -13,7 +13,7 @@ export default function registerDone() {
 
 
         //CHANGE: ROUTE TO HOME
-        router.navigate("/home")
+        router.navigate("/(tabs)/home")
 
     }
 

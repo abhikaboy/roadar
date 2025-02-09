@@ -1,14 +1,23 @@
 import { Tabs } from "expo-router";
-import React from "react";
-import { Platform } from "react-native";
+import React, { useState } from "react";
+import { Dimensions, Platform, TouchableOpacity } from "react-native";
+
+import { Button, Text, View, Modal, Image } from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "react-native";
+import MechanicInformationCard from "@/components/MechanicInformationCard";
+import { ThemedText } from "@/components/ThemedText";
+import JobModal from "@/components/JobModal";
 
 export default function TabLayout() {
+    const [modalVisible, setModalVisible] = useState(true);
+    const toggleModal = () => {
+        setModalVisible(!modalVisible);
+    };
     const colorScheme = useColorScheme();
 
     return (
@@ -66,10 +75,11 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="(onboarding)"
                 options={{
-                    title: "Onboarding",
+                    title: "Home",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
                 }}
             />
+            
         </Tabs>
     );
 }

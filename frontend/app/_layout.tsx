@@ -49,10 +49,10 @@ export default function RootLayout() {
                     }}
                 />
                 <Stack.Screen
-                    name={"profile"}
-                    options={{
-                        headerShown: false,
-                    }}
+                name="(onboarding)"
+                options={{
+                    headerShown: false,
+                }}
                 />
                 <Stack.Screen
                     name={"mechanicProfile"}
