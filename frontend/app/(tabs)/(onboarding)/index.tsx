@@ -1,23 +1,40 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import OnboardButton from "@/components/ui/OnboardButton";
-import { useNavigation, useRouter } from "expo-router";
+import { useAuth } from "@/hooks/useAuth";
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { TextInput } from "react-native";
 
 export default function index() {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [phone, setPhone] = useState("");
+    const { user } = useAuth();
+    const { initialFirstName, initialLastName, initialPhoneNumber } = useLocalSearchParams();
+    const [firstName, setFirstName] = useState((initialFirstName as string) || "");
+    const [lastName, setLastName] = useState((initialLastName as string) || "");
+    const [phone, setPhone] = useState((initialPhoneNumber as string) || "");
     const router = useRouter();
 
-    const handleContinue = () => {
-
+    const handleContinue = async () => {
         console.log(firstName);
         console.log(lastName);
 
         console.log(phone);
+        const url = process.env.EXPO_PUBLIC_API_URL + "/" + user.accountType + "s/" + user._id;
+        const response = await fetch(url, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                firstName,
+                lastName,
+                phoneNumber: phone,
+            }),
+        });
+        if (!response.ok) {
+            alert("Failed to update");
+        }
         router.push("/registerPfp");
     };
 
