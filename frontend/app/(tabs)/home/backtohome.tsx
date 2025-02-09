@@ -52,9 +52,10 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     description: {
-        fontSize: 16,
+        fontSize: 20,
         textAlign: "center",
         color: "#333",
         marginBottom: 30,
+        fontFamily: "Outfit",
     },
 });

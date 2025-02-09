@@ -127,7 +127,7 @@ export default function sendImage() {
             <Button title="Open Library" onPress={openPicker} />
             <Button title="Open Camera" onPress={openCamera} />
             <Button
-                title="Send"
+                title="Confirm Photo"
                 onPress={() => {
                     onDone(activeUri, true);
                 }}
@@ -147,9 +147,8 @@ const style = StyleSheet.create({
         borderRadius: 10,
     },
     container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: Dimensions.get("screen").height * .75
-    }
-
+        alignItems: "center",
+        justifyContent: "center",
+        height: Dimensions.get("screen").height * 0.75,
+    },
 });

@@ -2,6 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import { useRouter } from "expo-router";
 import { createContext, Dispatch, useContext, useState } from "react";
 import React from "react";
+import * as Location from "expo-location";
 
 async function getUserByAppleAccountID(appleAccountID: string, accountType: "driver" | "mechanic") {
     const url = process.env.EXPO_PUBLIC_API_URL + "/" + accountType + "s/aaid/" + appleAccountID;
