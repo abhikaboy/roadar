@@ -20,7 +20,7 @@ export default function OnboardButton({ title, color, textColor, border, ...butt
                 style={{
                     width: "100%",
                 }}>
-                <TouchableOpacity style={[styles.button, { backgroundColor: color }]} {...buttonProps}>
+                <TouchableOpacity style={[styles.button, { backgroundColor: color, zIndex: 99 }]} {...buttonProps}>
                     <Text style={[styles.buttonText, { color: textColor }]}>{title}</Text>
                 </TouchableOpacity>
             </View>
@@ -33,7 +33,7 @@ export default function OnboardButton({ title, color, textColor, border, ...butt
                     width: "100%",
                 }}>
                 <TouchableOpacity
-                    style={[styles.button, { backgroundColor: color, borderColor: "#000" }]}
+                    style={[styles.button, { backgroundColor: color, borderColor: "#000", zIndex: 99 }]}
                     {...buttonProps}>
                     <Text style={styles.buttonText}>{title}</Text>
                 </TouchableOpacity>
