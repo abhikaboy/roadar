@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
-import { ThemedText } from "@/components/ThemedText";
 
 export type RepairStatus = "searching" | "found" | "completed";
 
