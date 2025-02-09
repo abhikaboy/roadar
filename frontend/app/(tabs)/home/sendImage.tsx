@@ -1,6 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
-import { Button, Image, Platform, StyleSheet, View } from "react-native";
+import { Button, Dimensions, Image, Platform, StyleSheet, View } from "react-native";
 import React from "react";
 import { useRouter } from "expo-router";
 import { RNS3 } from "react-native-aws3";
@@ -104,7 +104,7 @@ export default function sendImage() {
     };
 
     return (
-        <View>
+        <View style={style.container}>
             {image == null ? (
                 <Image source={require("@/assets/images/addpic.png")} style={style.image} />
             ) : (
@@ -131,4 +131,10 @@ const style = StyleSheet.create({
         height: 200,
         borderRadius: 10,
     },
+    container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: Dimensions.get("screen").height * .75
+    }
+
 });
