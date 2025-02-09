@@ -3,13 +3,10 @@ import { ThemedView } from "@/components/ThemedView";
 import { useRoute } from "@react-navigation/native";
 import { Slot } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
-import React from 'react'
-
-
+import React from "react";
 
 export default function OnboardingLayout() {
-
-    return(
+    return (
         <View style={style.background}>
             <Image style={style.gears2} resizeMode="cover" source={require("@/assets/images/gears2.png")} />
             <Image style={style.gears1} resizeMode="cover" source={require("@/assets/images/gears1.png")} />
@@ -21,7 +18,7 @@ export default function OnboardingLayout() {
                 </View>
             </View>
         </View>
-    )
+    );
 }
 
 const style = StyleSheet.create({
@@ -33,11 +30,11 @@ const style = StyleSheet.create({
     },
     gears1: {
         top: "33%",
-        left: "-25%",    
+        left: "-25%",
         width: "100%",
         height: 659,
         position: "absolute",
-        transform: [{ scale: 0.5 }]
+        transform: [{ scale: 0.5 }],
     },
     gears2: {
         top: "58%",
@@ -45,14 +42,14 @@ const style = StyleSheet.create({
         width: "100%",
         height: 372,
         position: "absolute",
-        transform: [{ scale: 0.5 }]
+        transform: [{ scale: 0.5 }],
     },
     gears3: {
         left: "0%",
         top: "0%",
         width: "100%",
         height: 331,
-        transform: [{ scale: 1 }]
+        transform: [{ scale: 1 }],
     },
     contentContainer: {
         flex: 1,
@@ -61,14 +58,14 @@ const style = StyleSheet.create({
         left: 0,
         width: "100%",
         height: "100%",
-        justifyContent: 'center', 
-        alignItems: 'center',     
+        justifyContent: "center",
+        alignItems: "center",
         padding: 20,
     },
-    box: { 
-        padding: 20,              
-        width: '80%',            
-        maxWidth: 400,          
-        alignItems: 'center',      
+    box: {
+        padding: 20,
+        width: "80%",
+        maxWidth: 400,
+        alignItems: "center",
     },
-})
+});

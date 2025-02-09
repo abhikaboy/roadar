@@ -1,25 +1,22 @@
-import OnboardButton from "@/components/ui/OnboardButton"
-import { useFonts } from "expo-font"
-import { useRouter } from "expo-router"
-import { useEffect, useState } from "react"
-import { StyleSheet, Text, TextInput, View } from "react-native"
-import React from 'react'
-
-
+import OnboardButton from "@/components/ui/OnboardButton";
+import { useFonts } from "expo-font";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
+import React from "react";
 
 export default function registerDone() {
-    const router = useRouter()
+    const router = useRouter();
 
     const handleContinue = () => {
-
         //TODO implement home
-        router.push("/")
-    }
+        router.push("/");
+    };
 
-    return(
+    return (
         <View style={style.frame}>
             <View style={style.content}>
-                <View style={style.textFrame}>  
+                <View style={style.textFrame}>
                     <Text style={style.text}>Great! You've successfully registered your vehicle to Roadar.</Text>
                     <View style={style.inputFrame}>
                         <View style={style.yourNameBox}>
@@ -29,10 +26,16 @@ export default function registerDone() {
                 </View>
             </View>
             <View style={{ width: "100%", gap: 10 }}>
-                <OnboardButton title="Continue" color="#082a74" textColor="#FFFFFF" href="/registerPfp" onPress={handleContinue}/>
+                <OnboardButton
+                    title="Continue"
+                    color="#082a74"
+                    textColor="#FFFFFF"
+                    href="/registerPfp"
+                    onPress={handleContinue}
+                />
             </View>
         </View>
-    )
+    );
 }
 
 const style = StyleSheet.create({
@@ -45,15 +48,14 @@ const style = StyleSheet.create({
         width: "80%",
         maxWidth: 400,
         flexDirection: "column",
-        alignItems: 'stretch',
+        alignItems: "stretch",
         marginBottom: 60,
-
     },
     textFrame: {
         width: "100%",
         marginBottom: 20,
         gap: 36,
-        maxWidth: 300
+        maxWidth: 300,
     },
     text: {
         alignSelf: "stretch",
@@ -71,7 +73,7 @@ const style = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 16,
         paddingVertical: 3,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
     },
     inputFrame: {
         width: "100%",
@@ -85,11 +87,10 @@ const style = StyleSheet.create({
         fontWeight: "300",
         fontFamily: "Outfit-Light",
         width: "100%",
-        
     },
     yourNameBox: {
         width: 300,
         gap: 11,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
     },
 });

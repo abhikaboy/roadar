@@ -3,13 +3,12 @@ import { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
-import React from 'react'
-
+import React from "react";
 
 export default function registerPfp() {
     const [image, setImage] = useState<string | null>(null);
 
-    const router = useRouter()
+    const router = useRouter();
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -20,7 +19,6 @@ export default function registerPfp() {
             quality: 1,
         });
 
-        
         console.log(result);
 
         if (!result.canceled) {
@@ -29,10 +27,9 @@ export default function registerPfp() {
     };
 
     const handleContinue = () => {
-        console.log(image)
-        router.push("/registerAlias")
-    }
-
+        console.log(image);
+        router.push("/registerAlias");
+    };
 
     return (
         <View style={style.frame}>
@@ -41,7 +38,7 @@ export default function registerPfp() {
                     <Text style={style.text}>Set a profile picture!</Text>
                     <Pressable onPress={pickImage}>
                         {image == null ? (
-                            <Image source={require("@/assets/images/addpic.png")} style={style.image}/>
+                            <Image source={require("@/assets/images/addpic.png")} style={style.image} />
                         ) : (
                             image && <Image source={{ uri: image }} style={style.image} />
                         )}
@@ -49,7 +46,7 @@ export default function registerPfp() {
                 </View>
             </View>
             <View style={{ width: "100%", gap: 10 }}>
-                <OnboardButton title="Continue" color="#082a74" textColor="#FFFFFF" onPress={handleContinue}/>
+                <OnboardButton title="Continue" color="#082a74" textColor="#FFFFFF" onPress={handleContinue} />
             </View>
         </View>
     );
@@ -115,9 +112,9 @@ const style = StyleSheet.create({
         borderWidth: 2,
         width: 200,
         height: 200,
-        borderRadius: 10
+        borderRadius: 10,
     },
     skipButton: {
-        color: "#000"
-    }
+        color: "#000",
+    },
 });

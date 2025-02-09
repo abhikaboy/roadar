@@ -10,19 +10,19 @@ import { TextInput } from "react-native";
 export default function index() {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-    const router = useRouter()
+    const router = useRouter();
 
     const handleContinue = () => {
-        console.log(name)
-        console.log(phone)
-        router.push("/registerPfp")
-    }
+        console.log(name);
+        console.log(phone);
+        router.push("/registerPfp");
+    };
 
     const navigation = useNavigation();
     return (
         <View style={style.frame}>
             <View style={style.content}>
-                <View style={style.textFrame}>  
+                <View style={style.textFrame}>
                     <Text style={style.text}>Tell us more about yourself</Text>
 
                     <View style={style.inputFrame}>
@@ -50,7 +50,13 @@ export default function index() {
                 </View>
             </View>
             <View style={{ width: "100%" }}>
-                <OnboardButton title="Continue" color="#082a74" textColor="#FFFFFF" href="/registerPfp" onPress={handleContinue}/>
+                <OnboardButton
+                    title="Continue"
+                    color="#082a74"
+                    textColor="#FFFFFF"
+                    href="/registerPfp"
+                    onPress={handleContinue}
+                />
             </View>
         </View>
     );
@@ -66,7 +72,7 @@ const style = StyleSheet.create({
         width: "80%",
         maxWidth: 400,
         flexDirection: "column",
-        alignItems: 'stretch',
+        alignItems: "stretch",
     },
     textFrame: {
         width: "100%",
@@ -90,7 +96,7 @@ const style = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 16,
         paddingVertical: 3,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
     },
     inputFrame: {
         width: "100%",
@@ -104,11 +110,10 @@ const style = StyleSheet.create({
         fontWeight: "300",
         fontFamily: "Outfit-Light",
         width: "100%",
-        
     },
     yourNameBox: {
         width: 300,
         gap: 11,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
     },
 });
