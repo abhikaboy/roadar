@@ -8,6 +8,7 @@ import { create } from "react-test-renderer";
 import axios from "axios";
 
 import * as Location from "expo-location";
+import { router } from "expo-router";
 
 interface ServiceProps {
     service: string;
@@ -70,6 +71,7 @@ export default function Service() {
             return "Low";
         }
     };
+    console.log(createJob?.service);
     const handleContinue = () => {
         axios
             .post(process.env.EXPO_PUBLIC_URL + "/api/v1/jobs/", {
@@ -77,9 +79,9 @@ export default function Service() {
                 address: address,
                 picture: [createJob?.picture],
                 requester: user._id,
-                jobType: [createJob?.service],
+                jobType: createJob?.service,
                 requestType: "Live",
-                urgency: convertColorToUrgency(createJob?.color),
+                urgency: convertColorToUrgency(color),
                 money: parseFloat(createJob?.budget),
                 details: createJob?.details,
             })
@@ -89,6 +91,7 @@ export default function Service() {
             .catch((err) => {
                 console.log(err);
             });
+        router.push("/home/backtohome");
     };
 
     return (

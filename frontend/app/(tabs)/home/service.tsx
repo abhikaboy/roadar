@@ -37,8 +37,8 @@ export default function Service() {
 
     return (
         <View style={styles.content}>
-            <Text style={styles.services}>A few extra notes on your {service}...</Text>
-            <View>
+            <Text style={styles.services}>A few extra notes on your {service} request!</Text>
+            <View style={{ marginTop: 12 }}>
                 <View style={styles.inputWrapper}>
                     <Text style={styles.text}>Urgency</Text>
                     <View style={styles.urgency}>
@@ -100,6 +100,12 @@ export default function Service() {
 }
 
 const styles = StyleSheet.create({
+    content: {
+        marginTop: 100,
+    },
+    services: {
+        fontSize: 20,
+    },
     container: {
         flex: 1,
         alignItems: "center",
