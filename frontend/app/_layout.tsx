@@ -51,9 +51,27 @@ export default function RootLayout() {
                     }}
                 />
                 <Stack.Screen
-                    name={"about2"}
+                    name={"profile"}
                     options={{
-                        title: "About",
+                        title: "Profile",
+                        headerLeft: () => (
+                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
+                        ),
+                    }}
+                />
+                <Stack.Screen
+                    name={"mechanicProfile"}
+                    options={{
+                        title: "Mechanic Profile",
+                        headerLeft: () => (
+                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
+                        ),
+                    }}
+                />
+                <Stack.Screen
+                    name={"blob"}
+                    options={{
+                        title: "Blob",
                         headerLeft: () => (
                             <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
                         ),
