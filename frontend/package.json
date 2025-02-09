@@ -19,6 +19,7 @@
         "@react-navigation/bottom-tabs": "^7.2.0",
         "@react-navigation/native": "^7.0.14",
         "@testing-library/react-native": "^12.9.0",
+        "@types/react-native-aws3": "^0.0.4",
         "axios": "^1.7.9",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.2.1",
@@ -51,8 +52,8 @@
         "react-native-star-rating-widget": "^1.9.2",
         "react-native-web": "~0.19.13",
         "react-native-webview": "13.12.5",
-        "uuid": "^11.0.5",
-        "socket.io-client": "^4.8.1"
+        "socket.io-client": "^4.8.1",
+        "uuid": "^11.0.5"
     },
     "devDependencies": {
         "@babel/core": "^7.26.0",

@@ -18,7 +18,7 @@ async function getUserByAppleAccountID(appleAccountID : string) {
 
 interface AuthContextType {
     user: any | null;
-    login: (appleAccountID : string, accountType: "mechanic" | "driver") => void;
+    login: (appleAccountID : string, accountType: "mechanic" | "driver") => void | any;
     register: (firstName : string, lastName: string, email: string, appleAccountID: string, accountType : "mechanic" | "driver") => any 
     logout: () => void
     refresh: () => void
@@ -65,6 +65,7 @@ export function AuthProvider( {children} : { children: React.ReactNode}) {
 
         if (userRes) {
             setUser({...userRes, accountType})
+            return {...userRes, accountType}
         } else {
             throw new Error("Could not login")
         }
