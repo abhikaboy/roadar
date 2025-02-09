@@ -68,9 +68,8 @@ export default function Home() {
 
         let end = user.accountType == "mechanic" ? "mechanic" : "drivers";
         // get the location of the user
-        axios.patch(process.env.EXPO_PUBLIC_URL + "/" + user.accountType + "/" + user._id, {
+        axios.patch(process.env.EXPO_PUBLIC_URL + "api/v1/" + user.accountType + "/" + user._id, {
             location: location,
-            address: address,
         });
         console.log(location);
         return function didUnmount() {};
