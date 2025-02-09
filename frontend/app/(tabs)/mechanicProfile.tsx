@@ -88,6 +88,7 @@ export default function Profile() {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#FFFFFF",
+        width: "100%",
     },
     picture: {
         marginRight: 0,

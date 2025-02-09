@@ -10,7 +10,7 @@ export default function registerDone() {
 
     const handleContinue = () => {
         //TODO implement home
-        router.push("/");
+        router.push("/explore");
     };
 
     return (
@@ -27,10 +27,10 @@ export default function registerDone() {
             </View>
             <View style={{ width: "100%", gap: 10 }}>
                 <OnboardButton
-                    title="Continue"
+                    title="Bring me to Services"
                     color="#082a74"
                     textColor="#FFFFFF"
-                    href="/registerPfp"
+                    href="/Explore"
                     onPress={handleContinue}
                 />
             </View>

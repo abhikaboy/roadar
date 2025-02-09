@@ -33,6 +33,7 @@ export default function ProfileInformation({ pfp, name, email, phoneNumber }: Pr
 const styles = StyleSheet.create({
     container: {
         alignItems: "center",
+        width: "100%",
         flex: 1,
         justifyContent: "center",
         marginTop: 35,

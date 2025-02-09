@@ -65,10 +65,10 @@ export default function JobCard({ job }) {
 const styles = StyleSheet.create({
     card: {
         width: 360,
-        height: 113,
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "#F8F8F8",
+        maxHeight: 200,
+        backgroundColor: "#FAFAFA",
         paddingVertical: 19,
         paddingHorizontal: 16,
         marginVertical: 5,
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         shadowOffset: { width: -2, height: 2 },
         elevation: 3,
+        fontFamily: "Outfit",
     },
     leftIcon: {
         width: 42,

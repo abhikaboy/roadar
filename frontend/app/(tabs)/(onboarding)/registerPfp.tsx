@@ -91,6 +91,7 @@ const style = StyleSheet.create({
         maxWidth: 400,
         flexDirection: "column",
         alignItems: "stretch",
+        top: "10%",
     },
     textFrame: {
         width: "100%",
