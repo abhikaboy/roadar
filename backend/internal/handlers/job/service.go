@@ -14,6 +14,7 @@ import (
 func newService(collections map[string]*mongo.Collection) *Service {
 	return &Service{
 		Jobs: collections["jobs"],
+		Mechanics: collections["mechanics"],
 	}
 }
 
@@ -129,14 +130,51 @@ func (s *Service) AcceptJob(id primitive.ObjectID, mechanicId primitive.ObjectID
 	ctx := context.Background()
 	filter := bson.M{"_id": id}
 
+	// find the mechanic using find one 
+	mechanicResult := s.Mechanics.FindOne(ctx, bson.M{"_id": mechanicId})
+
+	if mechanicResult.Err() != nil {
+		return mechanicResult.Err()
+	}
+
+	var mechanic MechanicMiniDocument
+	err := mechanicResult.Decode(&mechanic)
+	if err != nil {
+		return err
+	}
+
 	// Assign the mechanic to the job
 	update := bson.M{
 		"$set": bson.M{
 			"status":   InProgress,
-			"mechanic": mechanicId,
+			"mechanic": bson.M{
+				"_id": mechanicId,
+				"name": mechanic.FirstName + " " + mechanic.LastName,
+				"email": mechanic.Email,
+				"picture": mechanic.Picture,
+			},
 		},
 	}
 	res := s.Jobs.FindOneAndUpdate(ctx, filter, update)
 
 	return res.Err()
+}
+
+
+func (s *Service) GetJobByRequester(requesterId primitive.ObjectID) ([]JobDocument, error) {
+	ctx := context.Background()
+	filter := bson.M{
+		"requester": requesterId,
+	}
+	cursor, err := s.Jobs.Find(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	defer cursor.Close(ctx)
+
+	var results []JobDocument
+	if err := cursor.All(ctx, &results); err != nil {
+		return nil, err
+	}
+	return results, nil
 }

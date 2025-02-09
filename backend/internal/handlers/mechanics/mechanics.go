@@ -68,6 +68,7 @@ func (h *Handler) CreateMechanic(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
+
 // Get all Mechanics
 func (h *Handler) GetMechanics(c *fiber.Ctx) error {
 	Mechanics, err := h.service.GetAllMechanics()

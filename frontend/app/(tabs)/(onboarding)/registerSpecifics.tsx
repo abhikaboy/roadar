@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
+import axios from "axios";
 
 export default function registerSpecifics() {
     const [makeModel, setMakeModel] = useState("");
@@ -13,6 +14,29 @@ export default function registerSpecifics() {
 
     const handleContinue = () => {
         console.log(makeModel);
+
+        // api request to add car details
+        let [make, model] = makeModel.split(" ");
+        let combined = {
+            make: make,
+            model: model,
+            year: parseInt(year),
+            licensePlate: license,
+        };
+        let driverId = "67a84e8efa78e0b4aa3953a4";
+
+        axios
+            .post(process.env.EXPO_API_URL + "/api/v1/drivers/" + driverId + "addCar", {
+                ...combined,
+            })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        console.log("ADDING CAR");
+
         router.push("/registerDone");
     };
 
