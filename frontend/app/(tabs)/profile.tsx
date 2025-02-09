@@ -1,7 +1,7 @@
 import ProfileCombined from "@/components/ProfileCombined";
 import { ScrollView, SafeAreaView, Image, ImageSourcePropType } from "react-native";
 import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { View, Text, ActivityIndicator, StyleSheet, StatusBar } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 
@@ -100,6 +100,9 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
     container: {
+        position: "absolute",
+        height: "100%",
+        width: "100%",
         backgroundColor: "#FFFFFF",
     },
     picture: {
@@ -128,3 +131,4 @@ const styles = StyleSheet.create({
     loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
     errorText: { fontSize: 18, color: "red" },
 });
+
