@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/abhikaboy/Roadar/internal/handlers/auth"
+	"github.com/abhikaboy/Roadar/internal/handlers/drivers"
 	"github.com/abhikaboy/Roadar/internal/handlers/health"
 	"github.com/abhikaboy/Roadar/internal/handlers/job"
 	"github.com/abhikaboy/Roadar/internal/handlers/mechanics"
@@ -32,6 +33,7 @@ func New(collections map[string]*mongo.Collection, stream *mongo.ChangeStream) *
 	mechanics.Routes(app, collections)
 	socket.Routes(app, collections, stream)
 	
+	drivers.Routes(app, collections)
 	return app
 }
 
