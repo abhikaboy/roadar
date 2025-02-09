@@ -3,7 +3,7 @@ import { ThemedText } from "./ThemedText";
 import React from "react";
 
 export type ProfileInformationProps = {
-    pfp: ImageSourcePropType;
+    pfp: string;
     name: string;
     email: string;
     phoneNumber: string;
@@ -12,7 +12,7 @@ export type ProfileInformationProps = {
 export default function ProfileInformation({ pfp, name, email, phoneNumber }: ProfileInformationProps) {
     return (
         <View style={styles.container}>
-            <Image style={styles.pfp} source={pfp} resizeMode="cover" />
+            <Image style={styles.pfp} source={{uri: pfp}} resizeMode="cover" />
             <ThemedText style={styles.col} type="subtitle">
                 {name}
             </ThemedText>

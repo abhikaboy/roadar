@@ -4,16 +4,15 @@ import { ThemedView } from "./ThemedView";
 import React from "react";
 
 export type VehicleCardProps = {
-    id: number;
     name: string;
     make: string;
     model: string;
     year: string;
-    lisence: string;
+    license: string;
     carGraphic: ImageSourcePropType;
 };
 
-export function VehicleCard({ name, make, model, year, lisence, carGraphic }: VehicleCardProps) {
+export function VehicleCard({ name, make, model, year, license, carGraphic }: VehicleCardProps) {
     return (
         <ThemedView style={styles.card}>
             <ThemedText type="subtitle">{name}</ThemedText>
@@ -27,7 +26,7 @@ export function VehicleCard({ name, make, model, year, lisence, carGraphic }: Ve
                     </ThemedText>
 
                     <ThemedText type="default">Plate Number:</ThemedText>
-                    <ThemedText type="link">{lisence}</ThemedText>
+                    <ThemedText type="link">{license}</ThemedText>
                 </View>
             </View>
         </ThemedView>

@@ -10,7 +10,7 @@ export type VehicleCardProps = {
     make: string;
     model: string;
     year: string;
-    lisence: string;
+    licensePlate: string;
     carGraphic: ImageSourcePropType;
 };
 
@@ -60,23 +60,21 @@ export default function Profile({
             <View style={{ marginTop: 8 }}>
                 {vehicles?.map(
                     (VehicleInformation: {
-                        id: number;
                         name: string;
                         make: string;
                         model: string;
                         year: string;
-                        lisence: string;
+                        licensePlate: string;
                         carGraphic: ImageSourcePropType;
-                    }) => (
+                    }, index : number) => (
                         <VehicleCard
-                            key={VehicleInformation.id}
-                            id={VehicleInformation.id}
+                            key={index}
                             name={VehicleInformation.name}
                             make={VehicleInformation.make}
                             model={VehicleInformation.model}
                             year={VehicleInformation.year}
-                            lisence={VehicleInformation.lisence}
-                            carGraphic={VehicleInformation.carGraphic}
+                            license={VehicleInformation.licensePlate}
+                            carGraphic={require("@/assets/images/CarGraphic.png")}
                         />
                     )
                 )}

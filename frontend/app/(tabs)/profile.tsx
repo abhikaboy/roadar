@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator, StyleSheet, StatusBar } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 // Sample data for Vehicle List
 const vehicleList = {
@@ -39,6 +40,7 @@ const vehicleList = {
 };
 
 export default function Profile() {
+    const { user } = useAuth();
     const { id } = useLocalSearchParams();
     const [userProfile, setUserProfile] = useState<{
         profilePic: ImageSourcePropType;
@@ -86,11 +88,11 @@ export default function Profile() {
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <Image source={require("@/assets/images/ProfileGears.png")} style={styles.picture} />
                     <ProfileCombined
-                        pfp={userProfile.profilePic}
-                        name={userProfile.name}
-                        email={userProfile.email}
-                        phoneNumber={userProfile.phone}
-                        vehicles={vehicleList.vehicles}
+                        pfp={user.picture}
+                        name={user.firstName + " " + user.lastName}
+                        email={user.email}
+                        phoneNumber={user.phoneNumber}
+                        vehicles={user.carDetails}
                     />
                 </ScrollView>
             </View>
