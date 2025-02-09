@@ -13,7 +13,9 @@ export default function ProfileInformation({ pfp, name, email, phoneNumber }: Pr
     return (
         <View style={styles.container}>
             <Image style={styles.pfp} source={pfp} resizeMode="cover" />
-            <ThemedText style={styles.col} type="subtitle">{name}</ThemedText>
+            <ThemedText style={styles.col} type="subtitle">
+                {name}
+            </ThemedText>
             <View style={styles.col}>
                 <View style={styles.row}>
                     <Image source={require("@/assets/images/MailIcon.png")} style={styles.icon}></Image>
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flex: 1,
         justifyContent: "center",
-        marginTop: 35, 
+        marginTop: 35,
         marginBottom: 30,
     },
     pfp: {

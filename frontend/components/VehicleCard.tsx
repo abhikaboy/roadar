@@ -16,15 +16,15 @@ export type VehicleCardProps = {
 export function VehicleCard({ name, make, model, year, lisence, carGraphic }: VehicleCardProps) {
     return (
         <ThemedView style={styles.card}>
-            <ThemedText type="subtitle">
-                {name}
-            </ThemedText>
+            <ThemedText type="subtitle">{name}</ThemedText>
 
             <View style={styles.row}>
                 <Image source={carGraphic} style={styles.image} resizeMode="cover" />
                 <View style={styles.details}>
                     <ThemedText type="default">Make and Model:</ThemedText>
-                    <ThemedText type="link">{year} {make} {model}</ThemedText>
+                    <ThemedText type="link">
+                        {year} {make} {model}
+                    </ThemedText>
 
                     <ThemedText type="default">Plate Number:</ThemedText>
                     <ThemedText type="link">{lisence}</ThemedText>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         marginVertical: 12,
         alignItems: "center",
         width: "90%",
-        },
+    },
     row: {
         flexDirection: "row",
         alignItems: "center",
@@ -56,11 +56,10 @@ const styles = StyleSheet.create({
         width: 100,
         height: 60,
         marginRight: 40,
-        marginLeft: 10, 
+        marginLeft: 10,
     },
     details: {
         flex: 1,
         marginTop: 10,
     },
 });
-

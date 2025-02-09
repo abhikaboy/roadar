@@ -20,7 +20,7 @@ const ReverseGeocode: React.FC<ReverseGeocodeProps> = ({ lat, lon }) => {
                 const response = await axios.get(url);
                 if (response.data.display_name) {
                     setAddress(
-                            response.data.address.road +
+                        response.data.address.road +
                             ", " +
                             response.data.address.city +
                             ", " +

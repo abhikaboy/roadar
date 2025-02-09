@@ -39,26 +39,22 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         fontWeight: "regular",
         fontFamily: "Outfit",
-
     },
     title: {
         fontSize: 32,
         fontWeight: "medium",
         lineHeight: 32,
         fontFamily: "Outfit",
-
     },
     subtitle: {
         fontSize: 24,
         fontWeight: "regular",
         fontFamily: "Outfit",
-
     },
     link: {
         lineHeight: 30,
         fontSize: 16,
         color: "#444444",
         fontFamily: "Outfit",
-
     },
 });

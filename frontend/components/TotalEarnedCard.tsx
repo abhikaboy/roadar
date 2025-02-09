@@ -10,10 +10,10 @@ export type TotalEarnedProps = {
 export function TotalEarnedCard({ earnings }: TotalEarnedProps) {
     return (
         <ThemedView style={styles.card}>
-            <ThemedText type="subtitle">
-                Total Earnings:
+            <ThemedText type="subtitle">Total Earnings:</ThemedText>
+            <ThemedText style={styles.row} type="title">
+                ${earnings}
             </ThemedText>
-            <ThemedText style={styles.row} type="title">${earnings}</ThemedText>
         </ThemedView>
     );
 }
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         marginVertical: 6,
         alignItems: "center",
         width: "90%",
-        },
+    },
     row: {
         flexDirection: "row",
         textAlign: "center",
@@ -42,11 +42,10 @@ const styles = StyleSheet.create({
         width: 100,
         height: 60,
         marginRight: 40,
-        marginLeft: 10, 
+        marginLeft: 10,
     },
     details: {
         flex: 1,
         marginTop: 10,
     },
 });
-

@@ -14,8 +14,6 @@ export type MechanicInformationProp = {
     rating: number;
 };
 
-
-
 export default function MechanicInformationCard({ bio, lat, lon, active, rating }: MechanicInformationProp) {
     return (
         <View style={styles.container}>
@@ -63,7 +61,6 @@ const styles = StyleSheet.create({
         textAlign: "left",
         lineHeight: 20,
         marginTop: 14,
-
     },
     col: {
         flexDirection: "column",
