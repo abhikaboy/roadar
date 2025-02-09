@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Slot } from "expo-router";
 
@@ -27,14 +27,12 @@ export default function Home() {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <ScrollView style={styles.screen}>
+            <View style={styles.screen}>
                 <View style={styles.contentParent}>
                     <Text style={[styles.roadar, styles.roadarTypo]}>Roadar</Text>
-                    <View>
                         <Slot />
-                    </View>
                 </View>
-            </ScrollView>
+            </View>
         </SafeAreaView>
     );
 }
@@ -43,14 +41,14 @@ const styles = StyleSheet.create({
     screen: {
         backgroundColor: "#fff",
         flex: 1,
-        position: "absolute",
-        height: "120%",
+        height: Dimensions.get("window").height * 1.2,
         width: "100%",
+        position: 'absolute',
     },
     contentParent: {
         top: 45,
         left: 26,
-        width: 351,
+        paddingRight: 30,
         gap: 27,
         flex: 1,
     },
