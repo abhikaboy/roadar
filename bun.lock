@@ -4,6 +4,7 @@
     "": {
       "dependencies": {
         "@react-native-async-storage/async-storage": "1.23.1",
+        "@types/react-native-aws3": "^0.0.4",
         "expo-image-picker": "~16.0.5",
         "expo-router": "^4.0.17",
         "expo-secure-store": "^14.0.1",
@@ -463,6 +464,8 @@
     "@types/react-dom": ["@types/react-dom@19.0.3", "", { "peerDependencies": { "@types/react": "^19.0.0" } }, "sha512-0Knk+HJiMP/qOZgMyNFamlIjw9OFCsyC2ZbigmEEyXXixgre6IQpm/4V+r3qH4GC1JPvRJKInw+on2rV6YZLeA=="],
 
     "@types/react-native": ["@types/react-native@0.73.0", "", { "dependencies": { "react-native": "*" } }, "sha512-6ZRPQrYM72qYKGWidEttRe6M5DZBEV5F+MHMHqd4TTYx0tfkcdrUFGdef6CCxY0jXU7wldvd/zA/b0A/kTeJmA=="],
+
+    "@types/react-native-aws3": ["@types/react-native-aws3@0.0.4", "", {}, "sha512-JMkzWx376PuGRubpzWGUc+FoHPTX0Bpuvx0FgthejtLKdts8iHeTo+vLMnEa/Q4HvonLzklGr5zG3fy0x4aMcw=="],
 
     "@types/stack-utils": ["@types/stack-utils@2.0.3", "", {}, "sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw=="],
 
