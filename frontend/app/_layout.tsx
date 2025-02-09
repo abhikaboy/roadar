@@ -10,6 +10,7 @@ import View from "react-native";
 
 import { useColorScheme } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { AuthProvider } from "@/hooks/useAuth";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -33,6 +34,7 @@ export default function RootLayout() {
 
     return (
         <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+            <AuthProvider>
             <Stack
                 screenOptions={{
                     headerShown: false,
@@ -80,6 +82,7 @@ export default function RootLayout() {
                 <Stack.Screen name="jobs" options={{ headerShown: false }} />
             </Stack>
             <StatusBar style="auto" />
+            </AuthProvider>
         </ThemeProvider>
     );
 }

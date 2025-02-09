@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, Switch } from "react-native";
 import { useRouter } from "expo-router";
+import  LogInButton  from '@/components/auth/LogInButton'
+import SignUpButton from "@/components/auth/SignUpButton";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginScreen() {
+    const { user } = useAuth();
+
+
     const router = useRouter();
     const [isMechanic, setIsMechanic] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            router.replace("/")
+        }
+    })
 
     return (
         <View style={styles.container}>
@@ -33,19 +45,14 @@ export default function LoginScreen() {
                     <Text style={styles.subtitle}>This is the second line of the tag.</Text>
                 </View>
 
-                {/* Bottom Container with smaller white box */}
-                <View style={styles.bottomContainer}>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            style={styles.signUpButton}
-                            onPress={() => router.push("/registerNameNumber")}>
-                            <Text style={styles.signUpButtonText}>Sign up with Google</Text>
-                        </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.loginButton} onPress={() => router.push("/registerNameNumber")}>
-                            <Text style={styles.loginButtonText}>Login with Google</Text>
-                        </TouchableOpacity>
-                    </View>
+            {/* Bottom Container with smaller white box */}
+            <View style={styles.bottomContainer}>
+                <View style={styles.buttonContainer}>
+                    <SignUpButton isMechanic={isMechanic}/>
+                    <LogInButton isMechanic={isMechanic}/>
+                </View>
+
 
                     {/* Toggle Switch */}
                     <View style={styles.mechanicToggle}>
@@ -114,7 +121,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         width: "100%",
-        gap: 12,
+        gap: 40,
         marginBottom: 16,
     },
     signUpButton: {

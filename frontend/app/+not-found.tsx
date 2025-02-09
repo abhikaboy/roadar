@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import { Link, Stack } from "expo-router";
 import { StyleSheet } from "react-native";
 
