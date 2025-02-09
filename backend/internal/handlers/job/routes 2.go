@@ -20,11 +20,7 @@ func Routes(app *fiber.App, collections map[string]*mongo.Collection) {
 
 	Job.Post("/", handler.CreateJob)
 	Job.Get("/", handler.GetJobs)
-	Job.Get("/nearby", handler.GetNearbyJobs)
-	Job.Post("/acceptJob", handler.AcceptJob)
 	Job.Get("/:id", handler.GetJob)
 	Job.Patch("/:id", handler.UpdatePartialJob)
 	Job.Delete("/:id", handler.DeleteJob)
-	Job.Get("/requester/:id", handler.GetJobByRequester)
-	Job.Get("/mechanic/:id", handler.GetJobByMechanic)
 }

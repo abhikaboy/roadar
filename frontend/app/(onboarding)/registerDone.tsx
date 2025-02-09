@@ -7,11 +7,9 @@ import React from "react";
 
 export default function registerDone() {
     const router = useRouter();
-    const navigate = useNavigation()
+    const navigate = useNavigation();
 
     const handleContinue = () => {
-
-
         //CHANGE: ROUTE TO HOME
         router.replace("/(tabs)/home")
 

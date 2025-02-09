@@ -2,7 +2,6 @@ package job
 
 import (
 	"context"
-	"fmt"
 	"log/slog"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -14,7 +13,6 @@ import (
 func newService(collections map[string]*mongo.Collection) *Service {
 	return &Service{
 		Jobs: collections["jobs"],
-		Mechanics: collections["mechanics"],
 	}
 }
 
@@ -70,12 +68,13 @@ func (s *Service) InsertJob(r JobDocument) (*JobDocument, error) {
 }
 
 func toDoc(v interface{}) (doc *bson.D, err error) {
-	data, err := bson.Marshal(v)
-	if err != nil {
-		return
-	}
-	err = bson.Unmarshal(data, &doc)
-	return
+    data, err := bson.Marshal(v)
+    if err != nil {
+        return
+    }
+
+    err = bson.Unmarshal(data, &doc)
+    return
 }
 
 // UpdatePartialJob updates only specified fields of a Job document by ObjectID.
@@ -101,97 +100,4 @@ func (s *Service) DeleteJob(id primitive.ObjectID) error {
 
 	_, err := s.Jobs.DeleteOne(ctx, filter)
 	return err
-}
-
-func (s *Service) GetNearbyJobs(location []float64, radius float64) ([]JobDocument, error) {
-	ctx := context.Background()
-	filter := bson.M{
-		"location": bson.M{
-			"$near":        location,
-			"$maxDistance": radius,
-		},
-		"status": "Pending",
-	}
-	cursor, err := s.Jobs.Find(ctx, filter)
-	if err != nil {
-		fmt.Print("FIND ERROEROEROE")
-		return nil, err
-	}
-	defer cursor.Close(ctx)
-
-	var results []JobDocument
-	if err := cursor.All(ctx, &results); err != nil {
-		return nil, err
-	}
-	return results, nil
-}
-
-func (s *Service) AcceptJob(id primitive.ObjectID, mechanicId primitive.ObjectID) error {
-	ctx := context.Background()
-	filter := bson.M{"_id": id}
-
-	// find the mechanic using find one 
-	mechanicResult := s.Mechanics.FindOne(ctx, bson.M{"_id": mechanicId})
-
-	if mechanicResult.Err() != nil {
-		return mechanicResult.Err()
-	}
-
-	var mechanic MechanicMiniDocument
-	err := mechanicResult.Decode(&mechanic)
-	if err != nil {
-		return err
-	}
-
-	// Assign the mechanic to the job
-	update := bson.M{
-		"$set": bson.M{
-			"status":   InProgress,
-			"mechanic": bson.M{
-				"_id": mechanicId,
-				"name": mechanic.FirstName + " " + mechanic.LastName,
-				"email": mechanic.Email,
-				"picture": mechanic.Picture,
-			},
-		},
-	}
-	res := s.Jobs.FindOneAndUpdate(ctx, filter, update)
-
-	return res.Err()
-}
-
-
-func (s *Service) GetJobByRequester(requesterId primitive.ObjectID) ([]JobDocument, error) {
-	ctx := context.Background()
-	filter := bson.M{
-		"requester": requesterId,
-	}
-	cursor, err := s.Jobs.Find(ctx, filter)
-	if err != nil {
-		return nil, err
-	}
-	defer cursor.Close(ctx)
-
-	var results []JobDocument
-	if err := cursor.All(ctx, &results); err != nil {
-		return nil, err
-	}
-	return results, nil
-}
-func (s *Service) GetJobByMechanic(requesterId primitive.ObjectID) ([]JobDocument, error) {
-	ctx := context.Background()
-	filter := bson.M{
-		"mechanic._id": requesterId,
-	}
-	cursor, err := s.Jobs.Find(ctx, filter)
-	if err != nil {
-		return nil, err
-	}
-	defer cursor.Close(ctx)
-
-	var results []JobDocument
-	if err := cursor.All(ctx, &results); err != nil {
-		return nil, err
-	}
-	return results, nil
 }

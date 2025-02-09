@@ -7,6 +7,7 @@ import { Calendar } from "react-native-calendars";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { useAuth } from "@/hooks/useAuth";
+import React from "react";
 
 export default function TabTwoScreen() {
     const { setJob } = useAuth();

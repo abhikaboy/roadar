@@ -35,11 +35,53 @@ export default function RootLayout() {
     return (
         <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
             <AuthProvider>
-            <Stack
-                screenOptions={{
-                    headerShown: false,
-                }}>
-                {/* Existing Screens */}
+                <Stack
+                    screenOptions={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="(onboarding)"
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name={"mechanicProfile"}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name={"blob"}
+                    options={{
+                        title: "Blob",
+                        headerLeft: () => (
+                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
+                        ),
+                    }}
+                />
+                <Stack.Screen
+                    name={"home"}
+                    options={{
+                        title: "Home",
+                        headerLeft: () => (
+                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
+                        ),
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name={"mechanicHome"}
+                    options={{
+                        title: "Mechanic Home",
+                        headerLeft: () => (
+                            <Ionicons name={"chevron-back"} size={24} color={"#20c1e6"} onPress={() => router.back()} />
+                        ),
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen name="jobs" options={{ headerShown: false }} />
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="+not-found" />
                 <Stack.Screen
@@ -49,17 +91,12 @@ export default function RootLayout() {
                     }}
                 />
                 <Stack.Screen
-                name="(onboarding)"
-                options={{
-                    headerShown: false,
-                }}
+                    name="(onboarding)"
+                    options={{
+                        headerShown: false,
+                    }}
                 />
-                
-                
-                
-                
-            </Stack>
-            <StatusBar style="auto" />
+                <StatusBar style="auto" />
             </AuthProvider>
         </ThemeProvider>
     );

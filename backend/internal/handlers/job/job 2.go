@@ -2,7 +2,6 @@ package job
 
 import (
 	"errors"
-	"fmt"
 	"log/slog"
 	"time"
 
@@ -45,24 +44,22 @@ func (h *Handler) CreateJob(c *fiber.Ctx) error {
 	}
 	requesterId := id
 
-	var mechanic MechanicMiniDocument
+	var mechanicId primitive.ObjectID
 
 	// do some validations on the inputs
 	Job = JobDocument{
-		Location:    &params.Location,
-		Address:     params.Address,
-		Picture:     &params.Picture,
-		Requester:   requesterId,
-		Mechanic:    &mechanic,
-		JobType:     params.JobType,
-		Urgency:     params.Urgency,
-		Money:       params.Money,
-		Details:     params.Details,
-		Status:      Pending,
-		RequestType: params.RequestType,
-		Timestamp:   time.Now(),
-		ID:          primitive.NewObjectID(),
-		ScheduledTime: params.ScheduledTime,
+		Location:  &params.Location,
+		Address:   params.Address,
+		Picture:   params.Picture,
+		Requester: requesterId,
+		Mechanic:  mechanicId,
+		JobType:   params.JobType,
+		Urgency:   params.Urgency,
+		Money:     params.Money,
+		Details:   params.Details,
+		Status:    Pending,
+		Timestamp: time.Now(),
+		ID:        primitive.NewObjectID(),
 	}
 
 	result, err := h.service.InsertJob(Job)
@@ -139,104 +136,4 @@ func (h *Handler) DeleteJob(c *fiber.Ctx) error {
 		return err
 	}
 	return c.SendStatus(fiber.StatusNoContent)
-}
-
-func (h *Handler) GetNearbyJobs(c *fiber.Ctx) error {
-	var params GetNearbyJobsParams
-
-	err := c.BodyParser(&params)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
-	}
-
-	// service call
-	jobs, err := h.service.GetNearbyJobs(params.Location, params.Radius)
-	if err != nil {
-		// Central error handler take 500
-		return err
-	}
-	err = c.JSON(jobs)
-	if err != nil {
-		fmt.Print("ASODIJASOD")
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
-	}
-
-	return c.JSON(jobs)
-}
-
-func (h *Handler) AcceptJob(c *fiber.Ctx) error {
-	var params AcceptJobParams
-
-	err := c.BodyParser(&params)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
-	}
-
-	// convert id string to primitive.ObjectID
-	id, err := primitive.ObjectIDFromHex(params.Job)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
-	}
-
-	mechanicId, err := primitive.ObjectIDFromHex(params.Mechanic)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
-	}
-
-	// service call
-	err = h.service.AcceptJob(id, mechanicId)
-	if err != nil {
-		// Central error handler take 500
-		return err
-	}
-	return c.SendStatus(fiber.StatusOK)
-}
-
-func (h *Handler) GetJobByRequester(c *fiber.Ctx) error {
-	id := c.Params("id")
-
-	// convert id string to primitive.ObjectID
-	requesterId, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
-	}
-	fmt.Println(requesterId)
-
-	// service call
-	jobs, err := h.service.GetJobByRequester(requesterId)
-	if err != nil {
-		// Central error handler take 500
-		return err
-	}
-	err = c.JSON(jobs)
-	if err != nil {
-		fmt.Print("ASODIJASOD")
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
-	}
-
-	return c.JSON(jobs)
-}
-func (h *Handler) GetJobByMechanic(c *fiber.Ctx) error {
-	id := c.Params("id")
-
-	// convert id string to primitive.ObjectID
-	requesterId, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
-	}
-	fmt.Println(requesterId)
-
-	// service call
-	jobs, err := h.service.GetJobByRequester(requesterId)
-	if err != nil {
-		// Central error handler take 500
-		return err
-	}
-	err = c.JSON(jobs)
-	if err != nil {
-		fmt.Print("ASODIJASOD")
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
-	}
-
-	return c.JSON(jobs)
 }

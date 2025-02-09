@@ -10,33 +10,36 @@ export type VehicleCardProps = {
     make: string;
     model: string;
     year: string;
-    lisence: string;
+    licensePlate: string;
     carGraphic: ImageSourcePropType;
 };
 
 export type ProfileInformationProps = {
-    pfp: ImageSourcePropType;
+    profilePic: string;
     name: string;
     email: string;
-    phoneNumber: string;
+    vehicles: Vehicle[];
+    phone: string;
 };
 
-export type VehicleListProps = {
-    vehicles: VehicleCardProps[];
-};
-
-export default function Profile({
-    pfp,
+export default function ProfileCombined({
+    profilePic,
     name,
     email,
-    phoneNumber,
+    phone,
     vehicles,
-}: ProfileInformationProps & VehicleListProps) {
+}: ProfileInformationProps) {
     const router = useRouter();
-
+profilePic
     return (
         <View style={{ width: "100%", flexDirection: "column", alignItems: "center" }}>
-            <ProfileInformation pfp={pfp} name={name} email={email} phoneNumber={phoneNumber} />
+            <ProfileInformation
+                pfp={profilePic} 
+                name={name}
+                email={email}
+                phoneNumber={phone} 
+            />
+            
             <TouchableOpacity
                 onPress={() => {
                     router.push("/registerSpecifics");
@@ -47,36 +50,37 @@ export default function Profile({
                     paddingVertical: 16,
                     borderRadius: 30,
                     alignItems: "center",
-                }}>
+                }}
+            >
                 <Text
                     style={{
                         fontFamily: "Outfit",
                         color: "#fff",
                         fontSize: 16,
-                    }}>
+                    }}
+                >
                     Register A Vehicle
                 </Text>
             </TouchableOpacity>
+
             <View style={{ marginTop: 8 }}>
                 {vehicles?.map(
                     (VehicleInformation: {
-                        id: number;
                         name: string;
                         make: string;
                         model: string;
                         year: string;
-                        lisence: string;
+                        licensePlate: string;
                         carGraphic: ImageSourcePropType;
-                    }) => (
+                    }, index : number) => (
                         <VehicleCard
-                            key={VehicleInformation.id}
-                            id={VehicleInformation.id}
+                            key={index}
                             name={VehicleInformation.name}
                             make={VehicleInformation.make}
                             model={VehicleInformation.model}
                             year={VehicleInformation.year}
-                            lisence={VehicleInformation.lisence}
-                            carGraphic={VehicleInformation.carGraphic}
+                            license={VehicleInformation.licensePlate}
+                            carGraphic={require("@/assets/images/CarGraphic.png")}
                         />
                     )
                 )}

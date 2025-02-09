@@ -6,7 +6,7 @@ import { TotalEarnedCard } from "./TotalEarnedCard";
 import MechanicInformationCard from "./MechanicInformationCard";
 
 export type MechanicInfoProps = {
-    pfp: ImageSourcePropType;
+    pfp: string;
     email: string;
     phoneNumber: string;
     name: string;
