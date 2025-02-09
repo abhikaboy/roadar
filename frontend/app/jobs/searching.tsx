@@ -11,7 +11,10 @@ export default function SearchingJobScreen() {
             <Text>Scheduled for September 21st, 2025</Text>
             <Text>Budget: $160</Text>
             <Text>Description: This is the description that you have given for this particular repair.</Text>
-            <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
+            <Image
+                source={{ uri: "https://miro.medium.com/v2/resize:fit:736/1*YqfVlyCe06DfcPsR3kpYrw.jpeg" }}
+                style={styles.image}
+            />
             <Text style={styles.status}>We’re still searching for a mechanic for this repair.</Text>
         </View>
     );

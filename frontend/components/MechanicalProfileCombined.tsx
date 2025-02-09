@@ -49,6 +49,7 @@ export default function MechanicalProfileCombined({
 const styles = StyleSheet.create({
     card: {
         margin: 20,
+        width: "100%",
     },
 
     info: {},

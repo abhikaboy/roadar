@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
+import { ThemedText } from "@/components/ThemedText";
 
 export type RepairStatus = "searching" | "found" | "completed";
 
@@ -48,7 +49,7 @@ export default function RepairDetailPage({ repair }: { repair: RepairJob }) {
                 <View style={styles.mechanicContainer}>
                     <Text style={styles.mechanicLabel}>Repaired by:</Text>
                     <View style={styles.searchingBox}>
-                        <MaterialIcons name="search" size={40} color="#6C757D" />
+                        <Image source={require("@/assets/images/search3d.png")} style={styles.avatar} />
                         <Text style={styles.searchingText}>
                             Looks like we're still searching for a mechanic. Stay on the lookout for notifications!
                         </Text>
