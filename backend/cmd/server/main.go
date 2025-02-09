@@ -46,7 +46,7 @@ func IterateChangeStream(routineCtx context.Context, waitGroup sync.WaitGroup, s
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Printf("DATA \n" );
+		fmt.Printf("DATA \n")
 		fmt.Printf("%v\n", body)
 		url := "http://localhost:8080/api/v1/mechanics/alert"
 		_, err = http.Post(

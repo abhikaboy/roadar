@@ -16,7 +16,6 @@ type Handler struct {
 	service *Service
 }
 
-
 func (h *Handler) LeaveRoom(c *fiber.Ctx) error {
 	slog.LogAttrs(c.Context(), slog.LevelInfo, "Leaving Room")
 	userId := c.Params("id")
@@ -35,14 +34,14 @@ func (h *Handler) JoinRoom(c *fiber.Ctx) error {
 	connectSocket := socketio.New(func(kws *socketio.Websocket) {
 
 		// Retrieve the user id from endpoint
-		userId := kws.Params("id") // get the user id
-		user_type := kws.Params("type") // get the user type 
+		userId := kws.Params("id")      // get the user id
+		user_type := kws.Params("type") // get the user type
 
 		// Every websocket connection has an optional session key => value storage
 		kws.SetAttribute("user_id", userId)
 		kws.SetAttribute("user_type", user_type)
 		h.service.JoinRoom(userId, user_type, kws.UUID)
-		
+
 		kws.Broadcast([]byte(fmt.Sprintf("New user connected: %s and UUID: %s", userId, kws.UUID)), true)
 		kws.Emit([]byte(fmt.Sprintf("Hello user: %s with UUID: %s", userId, kws.UUID)))
 	})

@@ -16,7 +16,7 @@ func Routes(app *fiber.App, collections map[string]*mongo.Collection, stream *mo
 	// waitGroup.Wait()
 
 	app.Post("/ws/broadcast", handler.BroadcastRequest)
-	
+
 	app.Get("/ws/:type/:id", handler.JoinRoom)
 	app.Delete("/ws/:type/:id", handler.LeaveRoom)
 }

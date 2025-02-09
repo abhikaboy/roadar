@@ -106,10 +106,10 @@ func (h *Handler) UpdatePartialMechanic(c *fiber.Ctx) error {
 	}
 
 	var partialUpdate MechanicUpdate
-	if err := json.Unmarshal(c.Body(), &partialUpdate); err != nil {	
-		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())	
+	if err := json.Unmarshal(c.Body(), &partialUpdate); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
 	}
-	
+
 	fmt.Printf("%+v \n", partialUpdate)
 
 	err = h.service.UpdatePartialMechanic(id, partialUpdate)
@@ -230,4 +230,4 @@ func (h *Handler) ChangeOnlineStatus(c *fiber.Ctx) error {
 		return err
 	}
 	return c.SendStatus(fiber.StatusOK)
-}	
+}

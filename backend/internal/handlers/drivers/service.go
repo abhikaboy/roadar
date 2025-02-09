@@ -1,8 +1,9 @@
 package drivers
+
 import (
 	"context"
-	"log/slog"
 	"fmt"
+	"log/slog"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -121,5 +122,3 @@ func (s *Service) DeleteDriver(id primitive.ObjectID) error {
 	_, err := s.Drivers.DeleteOne(ctx, filter)
 	return err
 }
-
-

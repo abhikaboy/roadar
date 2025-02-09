@@ -46,7 +46,7 @@ func setupApp() *fiber.App {
 	app.Use(
 		helmet.New(helmetConfig),
 	)
-	
+
 	app.Use(logger.New(logger.Config{
 		Format: "[${time}] ${ip}:${port} ${pid} ${locals:requestid} ${status} - ${latency} ${method} ${path}\n",
 	}))

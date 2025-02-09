@@ -32,7 +32,7 @@ func New(collections map[string]*mongo.Collection, stream *mongo.ChangeStream) *
 	job.Routes(app, collections)
 	mechanics.Routes(app, collections)
 	socket.Routes(app, collections, stream)
-	
+
 	drivers.Routes(app, collections)
 	return app
 }

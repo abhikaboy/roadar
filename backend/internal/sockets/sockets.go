@@ -24,7 +24,6 @@ func New() {
 		user_type := ep.Kws.GetAttribute("user_type")
 		id := ep.Kws.GetAttribute("user_id")
 
-
 		fmt.Printf("Disconnected Client with UUID: %s and Type: %s\n", id, user_type)
 		// make an DELETE request to the socket endpoint
 		req, err := http.NewRequest(
@@ -39,7 +38,7 @@ func New() {
 		}
 		defer resp.Body.Close()
 
-		fmt.Printf("http://localhost:8080/ws/"+user_type.(string)+"/"+id.(string) + "\n")
+		fmt.Printf("http://localhost:8080/ws/" + user_type.(string) + "/" + id.(string) + "\n")
 
 		if err != nil {
 			slog.LogAttrs(ctx, slog.LevelError, "Error creating request", slog.String("error", err.Error()))
@@ -67,6 +66,5 @@ func New() {
 		ctx := context.Background()
 		slog.LogAttrs(ctx, slog.LevelInfo, "Closed Connection Bruh")
 	})
-
 
 }

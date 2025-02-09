@@ -17,13 +17,12 @@ func Routes(app *fiber.App, collections map[string]*mongo.Collection) {
 
 	// Add Drivers group under API Version 1
 	Driver := apiV1.Group("/drivers")
- 
+
 	Driver.Post("/", handler.CreateDriver)
 	Driver.Get("/", handler.GetDrivers)
 
-	
 	Driver.Get("/:id", handler.GetDriver)
 	Driver.Patch("/:id", handler.UpdatePartialDriver)
 	Driver.Delete("/:id", handler.DeleteDriver)
-	
+
 }

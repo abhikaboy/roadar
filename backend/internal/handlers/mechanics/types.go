@@ -110,4 +110,3 @@ Database layer of the application
 type Service struct {
 	Mechanics *mongo.Collection
 }
-

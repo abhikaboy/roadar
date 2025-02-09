@@ -188,7 +188,7 @@ func (s *Service) AlertMechanics(job job.JobDocument) error {
 		},
 		"socketID": bson.M{
 			"$exists": true,
-			"$nin":     bson.A{nil,""},
+			"$nin":    bson.A{nil, ""},
 		},
 	}
 
@@ -206,9 +206,8 @@ func (s *Service) AlertMechanics(job job.JobDocument) error {
 		return err
 	}
 
-	
 	uuids := make([]string, 0)
-  slog.LogAttrs(ctx, slog.LevelInfo, "Emitting to list", slog.String("uuids", ""))
+	slog.LogAttrs(ctx, slog.LevelInfo, "Emitting to list", slog.String("uuids", ""))
 	for _, mechanic := range results {
 		// send alert to mechanic
 		uuids = append(uuids, mechanic.SocketID)
@@ -219,9 +218,8 @@ func (s *Service) AlertMechanics(job job.JobDocument) error {
 		return err
 	}
 
-
-	socketio.EmitToList(uuids, 
-		jobBytes,  
+	socketio.EmitToList(uuids,
+		jobBytes,
 		1,
 	)
 	for _, uuid := range uuids {
