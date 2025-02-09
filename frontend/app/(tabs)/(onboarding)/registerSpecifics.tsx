@@ -1,30 +1,29 @@
-import OnboardButton from "@/components/ui/OnboardButton"
-import { useRouter } from "expo-router"
-import { useState } from "react"
-import { StyleSheet, Text, TextInput, View } from "react-native"
-import React from 'react'
+import OnboardButton from "@/components/ui/OnboardButton";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
+import React from "react";
 
 export default function registerSpecifics() {
     const [makeModel, setMakeModel] = useState("");
     const [year, setYear] = useState("");
     const [license, setLicense] = useState("");
 
-    const router = useRouter()
+    const router = useRouter();
 
     const handleContinue = () => {
-
-        console.log(makeModel)
-        router.push("/registerDone")
-    }
+        console.log(makeModel);
+        router.push("/registerDone");
+    };
 
     const handleSkip = () => {
-            router.push("/")
-    }
+        router.push("/");
+    };
 
-    return(
+    return (
         <View style={style.frame}>
             <View style={style.content}>
-                <View style={style.textFrame}>  
+                <View style={style.textFrame}>
                     <Text style={style.text}>Let us know the specifics of your vehicle</Text>
 
                     <View style={style.inputFrame}>
@@ -41,12 +40,7 @@ export default function registerSpecifics() {
                     <View style={style.inputFrame}>
                         <View style={style.yourNameBox}>
                             <Text style={style.yourName}>Year of vehicle</Text>
-                            <TextInput
-                                value={year}
-                                onChangeText={setYear}
-                                placeholder="Year"
-                                style={style.input}
-                            />
+                            <TextInput value={year} onChangeText={setYear} placeholder="Year" style={style.input} />
                         </View>
                     </View>
                     <View style={style.inputFrame}>
@@ -63,11 +57,17 @@ export default function registerSpecifics() {
                 </View>
             </View>
             <View style={{ width: "100%", gap: 10 }}>
-                <OnboardButton title="Continue" color="#082a74" textColor="#FFFFFF" href="/registerPfp" onPress={handleContinue}/>
-                <OnboardButton title="Skip" color="#FFFFFF" textColor="#000000" border={true} onPress={handleSkip}/>
+                <OnboardButton
+                    title="Continue"
+                    color="#082a74"
+                    textColor="#FFFFFF"
+                    href="/registerPfp"
+                    onPress={handleContinue}
+                />
+                <OnboardButton title="Skip" color="#FFFFFF" textColor="#000000" border={true} onPress={handleSkip} />
             </View>
         </View>
-    )
+    );
 }
 
 const style = StyleSheet.create({
@@ -80,7 +80,7 @@ const style = StyleSheet.create({
         width: "80%",
         maxWidth: 400,
         flexDirection: "column",
-        alignItems: 'stretch',
+        alignItems: "stretch",
         marginBottom: 15,
     },
     textFrame: {
@@ -105,7 +105,7 @@ const style = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 16,
         paddingVertical: 3,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
     },
     inputFrame: {
         width: "100%",
@@ -119,11 +119,10 @@ const style = StyleSheet.create({
         fontWeight: "300",
         fontFamily: "Outfit-Light",
         width: "100%",
-        
     },
     yourNameBox: {
         width: 300,
         gap: 11,
-        alignSelf: "stretch"
+        alignSelf: "stretch",
     },
 });

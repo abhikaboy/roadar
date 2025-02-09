@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
+	"github.com/gofiber/fiber/v2/middleware/helmet"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
@@ -37,6 +38,15 @@ func setupApp() *fiber.App {
 		AllowOrigins: "*",
 		AllowMethods: "GET,POST,PUT,PATCH,DELETE",
 	}))
+
+	helmetConfig := helmet.Config{
+		ContentSecurityPolicy: "default-src 'self' ws: wss:",
+	}
+
+	app.Use(
+		helmet.New(helmetConfig),
+	)
+
 	app.Use(logger.New(logger.Config{
 		Format: "[${time}] ${ip}:${port} ${pid} ${locals:requestid} ${status} - ${latency} ${method} ${path}\n",
 	}))

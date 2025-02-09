@@ -9,5 +9,7 @@ Review Service to be used by Review Handler to interact with the
 Database layer of the application
 */
 type Service struct {
-	reviews *mongo.Collection
+	mechanics *mongo.Collection
+	drivers   *mongo.Collection
+	jobs      *mongo.Collection
 }

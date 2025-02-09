@@ -2,10 +2,10 @@ package server
 
 import (
 	"github.com/abhikaboy/Roadar/internal/handlers/auth"
+	"github.com/abhikaboy/Roadar/internal/handlers/drivers"
 	"github.com/abhikaboy/Roadar/internal/handlers/health"
 	"github.com/abhikaboy/Roadar/internal/handlers/job"
 	"github.com/abhikaboy/Roadar/internal/handlers/mechanics"
-	"github.com/abhikaboy/Roadar/internal/handlers/drivers"
 	"github.com/abhikaboy/Roadar/internal/handlers/review"
 	"github.com/abhikaboy/Roadar/internal/handlers/socket"
 	"github.com/abhikaboy/Roadar/internal/sockets"
@@ -21,18 +21,18 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func New(collections map[string]*mongo.Collection) *fiber.App {
+func New(collections map[string]*mongo.Collection, stream *mongo.ChangeStream) *fiber.App {
 
 	app := setupApp()
 	sockets.New()
 
 	health.Routes(app, collections)
 	auth.Routes(app, collections)
-	socket.Routes(app, collections)
-
 	review.Routes(app, collections)
 	job.Routes(app, collections)
 	mechanics.Routes(app, collections)
+	socket.Routes(app, collections, stream)
+
 	drivers.Routes(app, collections)
 	return app
 }
@@ -57,18 +57,8 @@ func setupApp() *fiber.App {
 		Level: compress.LevelBestSpeed,
 	}))
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.Status(fiber.StatusOK).SendString("Welcome to Raodar!")
+		return c.Status(fiber.StatusOK).SendString("Welcome to Roadar!")
 	})
-
-	// app.Use(func(c *fiber.Ctx) error {
-	// 	// IsWebSocketUpgrade returns true if the client
-	// 	// requested upgrade to the WebSocket protocol.
-	// 	if websocket.IsWebSocketUpgrade( c.Request() ) {
-	// 			c.Locals("allowed", true)
-	// 			return c.Next()
-	// 	}
-	// 	return fiber.ErrUpgradeRequired
-	// })
 
 	return app
 }

@@ -28,7 +28,6 @@ export default function TabLayout() {
                     default: {},
                 }),
             }}>
-                
             <Tabs.Screen
                 name="index"
                 options={{
@@ -40,6 +39,20 @@ export default function TabLayout() {
                 name="explore"
                 options={{
                     title: "Explore",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: "Profile",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="mechanicProfile"
+                options={{
+                    title: "Mechanic Profile",
                     tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
                 }}
             />

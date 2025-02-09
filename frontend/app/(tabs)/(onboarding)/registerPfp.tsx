@@ -14,19 +14,19 @@ export default function registerPfp() {
     const [image, setImage] = useState<string | null>(null);
     const [activeUri, setActiveUri] = useState<ImagePicker.ImagePickerResult>();
 
-    const router = useRouter()
+    const router = useRouter();
 
     useEffect(() => {
         (async () => {
-          if (Platform.OS !== 'web') {
-            const { status } = await ImagePicker.requestCameraPermissionsAsync();
-            if (status !== 'granted') {
-              alert('Sorry, we need camera roll permissions to make this work!');
+            if (Platform.OS !== "web") {
+                const { status } = await ImagePicker.requestCameraPermissionsAsync();
+                if (status !== "granted") {
+                    alert("Sorry, we need camera roll permissions to make this work!");
+                }
             }
-          }
         })();
-      }, []);
-    
+    }, []);
+
     const openCamera = async () => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ["images"],
@@ -41,7 +41,7 @@ export default function registerPfp() {
         if(!result.canceled) {
             setImage(result.assets[0].uri);
         }
-    }
+    };
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -120,7 +120,7 @@ export default function registerPfp() {
                     <Text style={style.text}>Set a profile picture!</Text>
                     <Pressable onPress={openPicker}>
                         {image == null ? (
-                            <Image source={require("@/assets/images/addpic.png")} style={style.image}/>
+                            <Image source={require("@/assets/images/addpic.png")} style={style.image} />
                         ) : (
                             image && <Image source={{ uri: image }} style={style.image} />
                         )}
@@ -129,7 +129,7 @@ export default function registerPfp() {
                 </View>
             </View>
             <View style={{ width: "100%", gap: 10 }}>
-                <OnboardButton title="Continue" color="#082a74" textColor="#FFFFFF" onPress={handleContinue}/>
+                <OnboardButton title="Continue" color="#082a74" textColor="#FFFFFF" onPress={handleContinue} />
             </View>
         </View>
     );
@@ -195,9 +195,9 @@ const style = StyleSheet.create({
         borderWidth: 2,
         width: 200,
         height: 200,
-        borderRadius: 10
+        borderRadius: 10,
     },
     skipButton: {
-        color: "#000"
-    }
+        color: "#000",
+    },
 });

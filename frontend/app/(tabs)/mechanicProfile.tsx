@@ -4,49 +4,26 @@ import { useEffect, useState } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
-
-// Sample data for Vehicle List
-const vehicleList = {
-    vehicles: [
-        {
-            id: 1,
-            name: "Tesla Model S",
-            make: "Tesla",
-            model: "Model S",
-            year: "2022",
-            lisence: "TESLA2022",
-            carGraphic: require("@/assets/images/CarGraphic.png"),
-        },
-        {
-            id: 2,
-            name: "BMW X5",
-            make: "BMW",
-            model: "X5",
-            year: "2021",
-            lisence: "BMW2021",
-            carGraphic: require("@/assets/images/CarGraphic2.png"),
-        },
-        {
-            id: 3,
-            name: "BMW X5",
-            make: "BMW",
-            model: "X5",
-            year: "2021",
-            lisence: "BMW2021",
-            carGraphic: require("@/assets/images/CarGraphic.png"),
-        },
-    ],
-};
+import { TotalEarnedCard } from "@/components/TotalEarnedCard";
+import MechanicInformationCard from "@/components/MechanicInformationCard";
+import ProfileInformation from "@/components/ProfileInformation";
+import MechanicalProfileCombined from "@/components/MechanicalProfileCombined";
 
 export default function Profile() {
     const { id } = useLocalSearchParams();
-    const [userProfile, setUserProfile] = useState<{
+    const [mechanicProfile, setMechanicProfile] = useState<{
         profilePic: ImageSourcePropType;
         name: string;
         email: string;
-        vehicles: string;
         phone: string;
+        earnings: number;
+        bio: string;
+        lat: number;
+        lon: number;
+        active: boolean;
+        rating: number;
     } | null>(null);
+
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -55,11 +32,16 @@ export default function Profile() {
             const mockProfileData = {
                 profilePic: require("@/assets/images/Robert.png"),
                 name: "John Doe",
-                email: "johndow@gmail.com",
-                vehicles: "Tesla Model 3, BMW X5",
+                email: "johndoe@example.com",
                 phone: "(123) 456-7890",
+                earnings: 50,
+                bio: "i am bobby and I lovev am bobby and I lov am bobby and I lov am bobby and I lov am bobby and I lov am bobby and I lov am bobby and I lov chocolate chip cookies. I also am really annoying. Im so sad.",
+                lat: 42.3555,
+                lon: -71.0565,
+                active: true,
+                rating: 2,
             };
-            setUserProfile(mockProfileData);
+            setMechanicProfile(mockProfileData);
             setLoading(false);
         };
         getUserProfile();
@@ -73,7 +55,7 @@ export default function Profile() {
         );
     }
 
-    if (!userProfile) {
+    if (!mechanicProfile) {
         return (
             <View style={styles.loadingContainer}>
                 <Text style={styles.errorText}>User profile not found</Text>
@@ -85,12 +67,17 @@ export default function Profile() {
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <Image source={require("@/assets/images/ProfileGears.png")} style={styles.picture} />
-                    <ProfileCombined
-                        pfp={userProfile.profilePic}
-                        name={userProfile.name}
-                        email={userProfile.email}
-                        phoneNumber={userProfile.phone}
-                        vehicles={vehicleList.vehicles}
+                    <MechanicalProfileCombined
+                        pfp={mechanicProfile.profilePic}
+                        email={mechanicProfile.email}
+                        phoneNumber={mechanicProfile.phone}
+                        name={mechanicProfile.name}
+                        earnings={mechanicProfile.earnings}
+                        bio={mechanicProfile.bio}
+                        lat={mechanicProfile.lat}
+                        lon={mechanicProfile.lon}
+                        active={mechanicProfile.active}
+                        rating={mechanicProfile.rating}
                     />
                 </ScrollView>
             </View>
@@ -112,6 +99,14 @@ const styles = StyleSheet.create({
     },
     safeArea: {
         flex: 1,
+    },
+    row: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: "100%",
+        marginBottom: 4,
+        marginTop: 50,
+        justifyContent: "center",
     },
     scrollContainer: {
         marginTop: 0,
