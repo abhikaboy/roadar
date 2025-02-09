@@ -12,11 +12,11 @@ export default function LoginScreen() {
     const router = useRouter();
     const [isMechanic, setIsMechanic] = useState(false);
 
-    useEffect(() => {
-        if (user) {
-            router.replace("/")
-        }
-    })
+    // useEffect(() => {
+    //     if (user) {
+    //         router.replace("/")
+    //     }
+    // })
 
     return (
         <View style={styles.container}>

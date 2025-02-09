@@ -12,11 +12,7 @@ export default function SignInScreen() {
   // console.log(user)
   console.log(user)
 
-  useEffect(() => {
-    if (user) {
-      router.replace("/")
-    }
-  })
+  
   // if (user) {
   //   router.push("/")
   // }

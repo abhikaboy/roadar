@@ -4,15 +4,17 @@ import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import React from "react";
 import axios from "axios";
+import { useAuth } from "@/hooks/useAuth"
 
 export default function registerSpecifics() {
+    const { user } = useAuth();
     const [makeModel, setMakeModel] = useState("");
     const [year, setYear] = useState("");
     const [license, setLicense] = useState("");
 
     const router = useRouter();
 
-    const handleContinue = () => {
+    const handleContinue = async () => {
         console.log(makeModel);
 
         // api request to add car details
@@ -22,20 +24,38 @@ export default function registerSpecifics() {
             model: model,
             year: parseInt(year),
             licensePlate: license,
+            picture: ""
         };
-        let driverId = "67a84e8efa78e0b4aa3953a4";
 
-        axios
-            .post(process.env.EXPO_PUBLIC_URL + "/api/v1/drivers/" + driverId + "/addCar", {
-                ...combined,
-            })
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        console.log("ADDING CAR");
+
+        const url = process.env.EXPO_PUBLIC_API_URL + "/" + "driver" + "s/" + user._id + "/addCar"
+        console.log(url)
+        const response1 = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ...combined
+        })  
+    })
+    if (!response1.ok) {
+        alert("Failed to update")
+    }
+    console.log(response1)
+        
+
+        // axios
+        //     .post(process.env.EXPO_PUBLIC_URL + "/api/v1/drivers/" + user._id + "/addCar", {
+        //         ...combined,
+        //     })
+        //     .then((res) => {
+        //         console.log(res);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
+        // console.log("ADDING CAR");
 
         router.push("/registerDone");
     };
