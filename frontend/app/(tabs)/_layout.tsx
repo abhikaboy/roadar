@@ -21,61 +21,58 @@ export default function TabLayout() {
     const colorScheme = useColorScheme();
 
     return (
-        <>
-            <JobModal />
-            <Tabs
-                screenOptions={{
-                    tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-                    headerShown: false,
-                    headerTitleStyle: {
-                        fontFamily: "Outfit",
+        <Tabs
+            screenOptions={{
+                tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+                headerShown: false,
+                headerTitleStyle: {
+                    fontFamily: "Outfit",
+                },
+                tabBarButton: HapticTab,
+                tabBarBackground: TabBarBackground,
+                tabBarStyle: Platform.select({
+                    ios: {
+                        position: "absolute",
                     },
-                    tabBarButton: HapticTab,
-                    tabBarBackground: TabBarBackground,
-                    tabBarStyle: Platform.select({
-                        ios: {
-                            position: "absolute",
-                        },
-                        default: {},
-                    }),
-                }}>
-                <Tabs.Screen
-                    name="index"
-                    options={{
-                        title: "Home",
-                        tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.lodge" color={color} />,
-                    }}
-                />
-                <Tabs.Screen
-                    name="explore"
-                    options={{
-                        title: "Explore",
-                        tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                    }}
-                />
-                <Tabs.Screen
-                    name="profile"
-                    options={{
-                        title: "Profile",
-                        tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                    }}
-                />
-                <Tabs.Screen
-                    name="mechanicProfile"
-                    options={{
-                        title: "Mechanic Profile",
-                        tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                    }}
-                />
-                <Tabs.Screen
-                    name="(onboarding)"
-                    options={{
-                        title: "Onboarding",
-                        tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
-                    }}
-                />
-            </Tabs>
-            )
-        </>
+                    default: {},
+                }),
+            }}>
+            <Tabs.Screen
+                name="index"
+                options={{
+                    title: "Home",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.lodge" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="explore"
+                options={{
+                    title: "Explore",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="profile"
+                options={{
+                    title: "Profile",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="mechanicProfile"
+                options={{
+                    title: "Mechanic Profile",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                }}
+            />
+            <Tabs.Screen
+                name="home"
+                options={{
+                    title: "Home",
+                    tabBarIcon: ({ color }) => <IconSymbol size={28} name="chevron.compact.down" color={color} />,
+                }}
+            />
+            
+        </Tabs>
     );
 }

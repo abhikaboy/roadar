@@ -25,7 +25,7 @@ type DriverUpdate struct {
 	FirstName      string             `bson:"firstName,omitempty" json:"firstName,omitempty"`
 	LastName       string             `bson:"lastName,omitempty" json:"lastName,omitempty"`
 	PhoneNumber    string             `bson:"phoneNumber,omitempty" json:"phoneNumber,omitempty"`
-	CarDetails     *[]CarDetails        `bson:"carDetails,omitempty" json:"carDetails,omitempty"`
+	CarDetails     []*CarDetails        `bson:"carDetails,omitempty" json:"carDetails,omitempty"`
 	SocketID       string             `bson:"socketID,omitempty" json:"socketID,omitempty"`
 }
 
