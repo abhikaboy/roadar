@@ -1,36 +1,13 @@
+/* eslint-disable import/no-unresolved */
 import { useState, useEffect } from "react";
 
 import { View, Text, StyleSheet } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import React from "react";
-import JobCard from "@/components/jobCard";
-import MechanicHome from "./mechanicHome";
 
 export default function TabTwoScreen() {
-    const socketEndpoint = "ws://10.110.191.103:8080/ws/mechanic/67a7e53ead3126f3dab182dc/";
-    useEffect(() => {
-        const ws = new WebSocket(socketEndpoint);
-
-        ws.onopen = () => {
-            console.log("WebSocket connection established!");
-            setConnection(true);
-        };
-
-        ws.onclose = () => {
-            console.log("WebSocket connection closed");
-            setConnection(false);
-        };
-
-        ws.onmessage = (event) => {
-            console.log("Received message from server:", event.data);
-        };
-
-        return function didUnmount() {};
-    }, []);
-    const [hasConnection, setConnection] = useState(false);
 
     return (
         <ParallaxScrollView

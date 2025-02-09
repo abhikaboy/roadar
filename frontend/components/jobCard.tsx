@@ -12,7 +12,7 @@ export type JobInformationProp = {
     lon: number;
 };
 
-export default function JobCard({ picture, type, driver, budget, lat, lon }: JobInformationProp) {
+export default function MechanicJobCard({ picture, type, driver, budget, lat, lon }: JobInformationProp) {
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
         flexDirection: "row", 
         alignItems: "center", 
         padding: 12,
-        marginTop: 20,
-        marginBottom: 20,
+        marginTop: 10,
+        marginBottom: 8,
         borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 2 },

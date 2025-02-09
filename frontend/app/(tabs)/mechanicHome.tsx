@@ -1,50 +1,123 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Switch, Image, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Switch } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ActiveTag } from "@/components/ui/ActiveTag";
 import JobCard from "@/components/jobCard";
-import MechanicalProfileCombined from "@/components/MechanicalProfileCombined";
 import React from "react";
+import axios from "axios";
+import { useRouter } from "expo-router";
+import MechanicJobCard from "@/components/jobCard";
+
+export type Job = {
+    id: string;
+    location: number[];
+    address: string;
+    picture?: string[];
+    type: string;
+    requestType: string;
+    urgency: string;
+    amount: number;
+    userId: string;
+    description: string;
+    status: string;
+    timestamp: string;
+    driver?: {
+        id: string;
+        name: string;
+        rating?: number;
+    } | null;
+};
+
+const parseId = (str: string) => (str === "000000000000000000000000" ? null : str);
 
 export default function MechanicHome() {
-    const [mechanicProfile, setMechanicProfile] = useState<{
-        profilePic: any;
-        name: string;
-        active: boolean;
-        lat: number;
-        lon: number;
-    } | null>(null);
-
-    const [loading, setLoading] = useState(true);
+    const router = useRouter();
+    const [jobs, setJobs] = useState<Job[]>([]);
+    const [mechanicProfile, setMechanicProfile] = useState<{ active: boolean }>({ active: true });
 
     useEffect(() => {
-        // Simulated mock user profile since backend isn't built
-        const mockProfileData = {
-            profilePic: require("@/assets/images/Robert.png"),
-            name: "John Doe",
-            active: true,
-            lat: 42.3555,
-            lon: -71.0565,
+        const fetchOnline = async () => {
+            try {
+                let id = "507f1f77bcf86cd799439011";
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/api/v1/mechanics/${id}/online`);
+                console.log(response.data);
+
+                setMechanicProfile({ active: response.data.active });
+            } catch (err) {
+                console.error(err);
+            }
         };
-        setMechanicProfile(mockProfileData);
-        setLoading(false);
+
+        fetchOnline();
     }, []);
 
-    if (loading) {
-        return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#007AFF" />
-            </View>
-        );
-    }
+    
 
-    if (!mechanicProfile) {
-        return (
-            <View style={styles.loadingContainer}>
-                <Text style={styles.errorText}>User profile not found</Text>
-            </View>
-        );
-    }
+    useEffect(() => {
+        const fetchJobs = async () => {
+            try {
+                let id = "507f1f77bcf86cd799439011";
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/api/v1/jobs/requester/${id}`);
+                console.log(response);
+                if (response.data.length > 0) {
+                    const formattedJobs = response.data.map((job: any) => ({
+                        id: job._id,
+                        location: job.location || [0, 0],
+                        address: job.address || "Unknown location",
+                        picture: job.picture || [],
+                        type: job.JobType,
+                        requestType: job.requestType,
+                        urgency: job.urgency,
+                        description: job.details,
+                        amount: job.money,
+                        status: job.status,
+                        timestamp: new Date(job.timestamp).toISOString(),
+                        userId: job.requester,
+                        driver: job.requester,
+                    }));
+
+                    setJobs(formattedJobs);
+                } else {
+                    setJobs([
+                        {
+                            id: "mock1",
+                            location: [42.3601, -71.0589],
+                            address: "Boston, MA",
+                            picture: [],
+                            type: "Flat Tire",
+                            requestType: "Emergency",
+                            urgency: "High",
+                            description: "Flat tire on the highway, need assistance ASAP!",
+                            amount: 50,
+                            status: "Open",
+                            timestamp: new Date().toISOString(),
+                            userId: "mockUser1",
+                            driver: { id: "mockDriver1", name: "John Doe", rating: 4.5 },
+                        },
+                        {
+                            id: "mock2",
+                            location: [34.0522, -118.2437],
+                            address: "Los Angeles, CA",
+                            picture: [],
+                            type: "Battery Jumpstart",
+                            requestType: "Standard",
+                            urgency: "Medium",
+                            description: "Car won't start, need a battery jump.",
+                            amount: 30,
+                            status: "Open",
+                            timestamp: new Date().toISOString(),
+                            userId: "mockUser2",
+                            driver: { id: "mockDriver2", name: "Jane Smith", rating: 4.8 },
+                        },
+                    ]);
+                }
+            } catch (err) {
+                console.error("Error fetching jobs:", err);
+            }
+        };
+
+        fetchJobs();
+    }, []);
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -53,30 +126,38 @@ export default function MechanicHome() {
                     <View style={styles.header}>
                         <ThemedText type="title">Roadar</ThemedText>
                     </View>
-                    <View style={styles.row}>
-                        <ThemedText type="subtitle">Your Status: </ThemedText>
-                        <ActiveTag active={mechanicProfile.active} />
-                    </View>
-                    <View style={styles.mechanicToggle}>
-                        <ThemedText type="subtitle">Switch your status: </ThemedText>
 
-                        <Switch
-                            value={mechanicProfile.active}
-                            onValueChange={() =>
-                                setMechanicProfile((prev) => (prev ? { ...prev, active: !prev.active } : null))
-                            }
-                            trackColor={{ false: "#767577", true: "#002366" }}
-                            thumbColor={mechanicProfile.active ? "#fff" : "#f4f3f4"}
-                        />
+                    <View style={styles.statusContainer}>
+                        <View style={styles.row}>
+                            <ThemedText type="subtitle">Your Status: </ThemedText>
+                            <ActiveTag active={mechanicProfile.active} />
+                        </View>
+                        <View style={styles.mechanicToggle}>
+                            <ThemedText type="subtitle">Switch your status: </ThemedText>
+                            <Switch
+                                value={mechanicProfile.active}
+                                onValueChange={() => setMechanicProfile((prev) => ({ active: !prev.active }))}
+                                trackColor={{ false: "#767577", true: "#002366" }}
+                                thumbColor={mechanicProfile.active ? "#fff" : "#f4f3f4"}
+                            />
+                        </View>
                     </View>
-                    <JobCard
-                        picture={require("@/assets/images/Robert.png")}
-                        type="Flat Tire"
-                        driver="Dennis Liu"
-                        budget={500}
-                        lat={42.3555}
-                        lon={-71}
-                    />
+
+                    {jobs.length > 0 ? (
+                        jobs.map((job) => (
+                            <MechanicJobCard
+                                key={job.id}
+                                picture={job.picture?.[0] || require("@/assets/images/Robert.png")}
+                                type={job.type}
+                                driver={job.driver?.name || "Unknown"}
+                                budget={job.amount}
+                                lat={job.location[0]}
+                                lon={job.location[1]}
+                            />
+                        ))
+                    ) : (
+                        <Text style={styles.noJobsText}>No jobs available</Text>
+                    )}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -86,17 +167,23 @@ export default function MechanicHome() {
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
+        backgroundColor: "#FFFFFF",
     },
     container: {
         backgroundColor: "#FFFFFF",
         width: "100%",
         height: "100%",
-        alignItems: "center",
-        padding: 10,
+        alignItems: "flex-start",
+        padding: 20,
     },
     header: {
         marginBottom: 20,
-        textAlign: "left",
+        width: "100%",
+    },
+    statusContainer: {
+        width: "100%",
+        alignItems: "flex-start",
+        marginBottom: 20,
     },
     row: {
         flexDirection: "row",
@@ -106,22 +193,23 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     mechanicToggle: {
-        justifyContent: "flex-start",
         flexDirection: "row",
-        gap: 12,
+        alignItems: "center",
+        width: "100%",
         marginTop: 10,
     },
     scrollContainer: {
         paddingBottom: 50,
-        alignItems: "center",
+        alignItems: "flex-start",
     },
     loadingContainer: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
     },
-    errorText: {
+    noJobsText: {
         fontSize: 18,
-        color: "red",
+        color: "#555",
+        marginTop: 20,
     },
 });

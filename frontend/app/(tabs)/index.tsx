@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { Button, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
@@ -23,7 +24,7 @@ export default function HomeScreen() {
                 </ThemedText>
             </ThemedView>
             <ThemedView>
-                <Link href={"/about"}>
+                <Link href={"/signin"}>
                     <ThemedText type={"default"} lightColor={"#20c1e6"} style={{ fontFamily: "Outfit" }}>
                         Click here to view an example stack.
                     </ThemedText>

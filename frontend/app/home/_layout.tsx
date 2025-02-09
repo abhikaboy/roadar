@@ -1,30 +1,54 @@
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Slot } from "expo-router";
 
 export default function Home() {
+    const socketEndpoint = "ws://10.110.191.103:8080/ws/mechanic/67a7e53ead3126f3dab182dc/";
+    useEffect(() => {
+        const ws = new WebSocket(socketEndpoint);
+
+        ws.onopen = () => {
+            console.log("WebSocket connection established!");
+            setConnection(true);
+        };
+
+        ws.onclose = () => {
+            console.log("WebSocket connection closed");
+            setConnection(false);
+        };
+
+        ws.onmessage = (event) => {
+            console.log("Received message from server:", event.data);
+        };
+
+        return function didUnmount() {};
+    }, []);
+    const [hasConnection, setConnection] = useState(false);
+
+
     return(
-        <ScrollView style={styles.screen}>
-            <View style={styles.contentParent}>
-                <Text style={[styles.roadar, styles.roadarTypo]}>Roadar</Text>
-                <View>
-                    <Slot />
+        <SafeAreaView style={{flex: 1}}>
+            <ScrollView style={styles.screen}>
+                <View style={styles.contentParent}>
+                    <Text style={[styles.roadar, styles.roadarTypo]}>Roadar</Text>
+                    <View>
+                        <Slot />
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     screen: {
         backgroundColor: "#fff",
-        width: "100%",
-        height: 874,
-        overflow: "hidden",
         flex: 1,
+        position: "absolute",
+        height: "120%",
+        width: "100%"
     },
     contentParent: {
-        position: "absolute",
         top: 45,
         left: 26,
         width: 351,

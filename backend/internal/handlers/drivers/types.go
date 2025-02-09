@@ -13,7 +13,7 @@ type DriverDocument struct {
 	FirstName      string             `bson:"firstName" json:"firstName"`
 	LastName       string             `bson:"lastName" json:"lastName"`
 	PhoneNumber    string             `bson:"phoneNumber" json:"phoneNumber"`
-	CarDetails     CarDetails         `bson:"carDetails" json:"carDetails"`
+	CarDetails     []CarDetails         `bson:"carDetails" json:"carDetails"`
 	SocketID       string             `bson:"socketID" json:"socketID"`
 }
 
@@ -25,11 +25,11 @@ type DriverUpdate struct {
 	FirstName      string             `bson:"firstName,omitempty" json:"firstName,omitempty"`
 	LastName       string             `bson:"lastName,omitempty" json:"lastName,omitempty"`
 	PhoneNumber    string             `bson:"phoneNumber,omitempty" json:"phoneNumber,omitempty"`
-	CarDetails     *CarDetails        `bson:"carDetails,omitempty" json:"carDetails,omitempty"`
+	CarDetails     *[]CarDetails        `bson:"carDetails,omitempty" json:"carDetails,omitempty"`
 	SocketID       string             `bson:"socketID,omitempty" json:"socketID,omitempty"`
 }
 
-type CreateInitialDriver struct {
+type CreateInitialDriverParams struct {
 	AppleAccountID string `validate:"required" bson:"appleAccountID" json:"appleAccountID"`
 	Email          string `validate:"required" bson:"email" json:"email"`
 	FirstName      string `validate:"required" bson:"firstName" json:"firstName"`
@@ -43,7 +43,7 @@ type CreateDriverParams struct {
 	FirstName      string     `validate:"required" bson:"firstName" json:"firstName"`
 	LastName       string     `validate:"required" bson:"lastName" json:"lastName"`
 	PhoneNumber    string     `validate:"required" bson:"phoneNumber" json:"phoneNumber"`
-	CarDetails     CarDetails `validate:"required" bson:"carDetails" json:"carDetails"`
+	CarDetails     []CarDetails `validate:"required" bson:"carDetails" json:"carDetails"`
 }
 
 type CarDetails struct {

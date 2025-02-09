@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
@@ -38,7 +40,7 @@ export default function JobDetailsScreen() {
             </View>
 
             {/* 🔹 Searching Status */}
-            {job.status === "searching" && (
+            {job.status === "pending" && (
                 <View style={styles.section}>
                     <View style={styles.imageContainer}>
                         <Text style={styles.imageLabel}>Before</Text>

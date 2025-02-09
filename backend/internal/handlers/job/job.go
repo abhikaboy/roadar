@@ -45,7 +45,7 @@ func (h *Handler) CreateJob(c *fiber.Ctx) error {
 	}
 	requesterId := id
 
-	var mechanicId primitive.ObjectID
+	var mechanic MechanicMiniDocument
 
 	// do some validations on the inputs
 	Job = JobDocument{
@@ -53,7 +53,7 @@ func (h *Handler) CreateJob(c *fiber.Ctx) error {
 		Address:     params.Address,
 		Picture:     &params.Picture,
 		Requester:   requesterId,
-		Mechanic:    mechanicId,
+		Mechanic:    &mechanic,
 		JobType:     params.JobType,
 		Urgency:     params.Urgency,
 		Money:       params.Money,
@@ -189,4 +189,29 @@ func (h *Handler) AcceptJob(c *fiber.Ctx) error {
 		return err
 	}
 	return c.SendStatus(fiber.StatusOK)
+}
+
+func (h *Handler) GetJobByRequester(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	// convert id string to primitive.ObjectID
+	requesterId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
+	}
+	fmt.Println(requesterId)
+
+	// service call
+	jobs, err := h.service.GetJobByRequester(requesterId)
+	if err != nil {
+		// Central error handler take 500
+		return err
+	}
+	err = c.JSON(jobs)
+	if err != nil {
+		fmt.Print("ASODIJASOD")
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
+	}
+
+	return c.JSON(jobs)
 }

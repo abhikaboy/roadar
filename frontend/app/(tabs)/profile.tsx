@@ -1,77 +1,59 @@
-import ProfileCombined from "@/components/ProfileCombined";
-import { ScrollView, SafeAreaView, Image, ImageSourcePropType } from "react-native";
 import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { ScrollView, SafeAreaView, Image, View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import axios from "axios";
+import ProfileCombined from "@/components/ProfileCombined";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
 
-// Sample data for Vehicle List
-const vehicleList = {
-    vehicles: [
-        {
-            id: 1,
-            name: "Tesla Model S",
-            make: "Tesla",
-            model: "Model S",
-            year: "2022",
-            lisence: "TESLA2022",
-            carGraphic: require("@/assets/images/CarGraphic.png"),
-        },
-        {
-            id: 2,
-            name: "BMW X5",
-            make: "BMW",
-            model: "X5",
-            year: "2021",
-            lisence: "BMW2021",
-            carGraphic: require("@/assets/images/CarGraphic2.png"),
-        },
-        {
-            id: 3,
-            name: "BMW X5",
-            make: "BMW",
-            model: "X5",
-            year: "2021",
-            lisence: "BMW2021",
-            carGraphic: require("@/assets/images/CarGraphic.png"),
-        },
-    ],
+export type Vehicle = {
+    make: string;
+    model: string;
+    year: number;
+    picture: string;
+    license: string;
 };
 
 export default function Profile() {
-    const { id } = useLocalSearchParams();
+    let id = "67a879dd7f54e8ec83dbd7d3";
+    
     const [userProfile, setUserProfile] = useState<{
-        profilePic: ImageSourcePropType;
+        profilePic: string;
         name: string;
         email: string;
-        vehicles: string;
+        vehicles: Vehicle[];
         phone: string;
     } | null>(null);
     const [loading, setLoading] = useState(true);
 
+    const profilePic = userProfile?.profilePic 
+                    ? { uri: userProfile.profilePic }
+                    : require("@/assets/images/Robert.png");
+
     useEffect(() => {
         const getUserProfile = async () => {
-            // Simulated mock user profile since backend isn't built
-            const mockProfileData = {
-                profilePic: require("@/assets/images/Robert.png"),
-                name: "John Doe",
-                email: "johndow@gmail.com",
-                vehicles: "Tesla Model 3, BMW X5",
-                phone: "(123) 456-7890",
-            };
-            setUserProfile(mockProfileData);
-            setLoading(false);
-        };
-        getUserProfile();
-    }, [id]);
+            try {
+                const response = await axios.get(`${process.env.EXPO_PUBLIC_URL}/api/v1/driver/${id}`);
 
-    if (loading) {
-        return (
-            <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#007AFF" />
-            </View>
-        );
-    }
+                const profileData = {
+                    profilePic: profilePic || require("@/assets/images/Robert.png"),
+                    name: `${response.data.firstName} ${response.data.lastName}`,
+                    email: response.data.email,
+                    vehicles: response.data.carDetails.map((car: any) => `${car.make} ${car.model}`).join(", "),
+                    phone: response.data.phoneNumber,
+                };
+
+                setUserProfile(profileData);
+                setLoading(false);
+            } catch (err) {
+                console.error(err);
+                setLoading(false);
+            }
+        };
+
+        if (id) {
+            getUserProfile();
+        }
+    }, [id]);
 
     if (!userProfile) {
         return (
@@ -80,17 +62,18 @@ export default function Profile() {
             </View>
         );
     }
+
     return (
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <Image source={require("@/assets/images/ProfileGears.png")} style={styles.picture} />
                     <ProfileCombined
-                        pfp={userProfile.profilePic}
+                        profilePic={profilePic}
                         name={userProfile.name}
                         email={userProfile.email}
-                        phoneNumber={userProfile.phone}
-                        vehicles={vehicleList.vehicles}
+                        phone={userProfile.phone}
+                        vehicles={userProfile.vehicles}
                     />
                 </ScrollView>
             </View>
@@ -100,6 +83,9 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
     container: {
+        position: "absolute",
+        height: "100%",
+        width: "100%",
         backgroundColor: "#FFFFFF",
     },
     picture: {

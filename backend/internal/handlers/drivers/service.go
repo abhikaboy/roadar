@@ -122,3 +122,14 @@ func (s *Service) DeleteDriver(id primitive.ObjectID) error {
 	_, err := s.Drivers.DeleteOne(ctx, filter)
 	return err
 }
+
+func (s *Service) InsertCar(driverId primitive.ObjectID, params CarDetails) error {
+	ctx := context.Background()
+	// Insert the document into the collection
+	_, err := s.Drivers.UpdateOne(ctx, bson.M{"_id": driverId}, bson.M{"$push": bson.M{"carDetails": params}})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -25,7 +25,7 @@ type JobDocument struct {
 	ID          primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Picture     *[]string          `bson:"picture" json:"picture"`
 	Requester   primitive.ObjectID `bson:"requester" json:"requester"`
-	Mechanic    primitive.ObjectID `bson:"mechanic,omitempty" json:"mechanic,omitempty"`
+	Mechanic    *MechanicMiniDocument `bson:"mechanic,omitempty" json:"mechanic,omitempty"`
 	JobType     JobType            `bson:"JobType" json:"JobType"`
 	RequestType RequestType        `bson:"requestType" json:"requestType"`
 	Urgency     string             `bson:"urgency" json:"urgency"`
@@ -35,12 +35,19 @@ type JobDocument struct {
 	Timestamp   time.Time          `bson:"timestamp" json:"timestamp"`
 }
 
+type MechanicMiniDocument struct {
+	ID   primitive.ObjectID `bson:"_id"       json:"_id"`
+	FirstName string `bson:"firstName" json:"firstName"`
+	LastName string `bson:"lastName" json:"lastName"`
+	Email string `bson:"email" json:"email"`
+	Picture string `bson:"picture" json:"picture"`
+}
 // This is a copy of job document but all the fields are optional and are omit empty
 type JobUpdate struct {
 	Location *[]float64         `bson:"location,omitempty" json:"location,omitempty"`
 	Address  string             `bson:"address,omitempty" json:"address,omitempty"`
 	Picture  *[]string          `bson:"picture,omitempty" json:"picture,omitempty"`
-	Mechanic primitive.ObjectID `bson:"mechanic,omitempty" json:"mechanic,omitempty"`
+	Mechanic *MechanicMiniDocument `bson:"mechanic,omitempty" json:"mechanic,omitempty"`
 	JobType  JobType            `bson:"JobType,omitempty" json:"JobType,omitempty"`
 	Urgency  string             `bson:"urgency,omitempty" json:"urgency,omitempty"`
 	Money    float64            `bson:"money,omitempty" json:"money,omitempty"`
@@ -98,4 +105,5 @@ Database layer of the application
 */
 type Service struct {
 	Jobs *mongo.Collection
+	Mechanics *mongo.Collection
 }
