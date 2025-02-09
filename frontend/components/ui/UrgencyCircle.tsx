@@ -4,7 +4,7 @@ import React from "react";
 interface UrgencyCircleProps {
     color: string;
     active: boolean;
-    [key : string]: any;
+    [key: string]: any;
 }
 
 export default function UrgencyCircle({ color, active, ...urgencyProps }: UrgencyCircleProps) {

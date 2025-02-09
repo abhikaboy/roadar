@@ -7,16 +7,12 @@ import React from "react";
 
 export default function registerDone() {
     const router = useRouter();
-    const navigate = useNavigation()
+    const navigate = useNavigation();
 
     const handleContinue = () => {
-
-
         //CHANGE: ROUTE TO HOME
-        router.navigate("/(tabs)/home")
-
-    }
-
+        router.navigate("/(tabs)/home");
+    };
 
     return (
         <View style={style.frame}>

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet, Switch } from "react-native";
 import { useRouter } from "expo-router";
-import  LogInButton  from '@/components/auth/LogInButton'
+import LogInButton from "@/components/auth/LogInButton";
 import SignUpButton from "@/components/auth/SignUpButton";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginScreen() {
     const { user } = useAuth();
-
 
     const router = useRouter();
     const [isMechanic, setIsMechanic] = useState(false);
@@ -45,14 +44,12 @@ export default function LoginScreen() {
                     <Text style={styles.subtitle}>This is the second line of the tag.</Text>
                 </View>
 
-
-            {/* Bottom Container with smaller white box */}
-            <View style={styles.bottomContainer}>
-                <View style={styles.buttonContainer}>
-                    <SignUpButton isMechanic={isMechanic}/>
-                    <LogInButton isMechanic={isMechanic}/>
-                </View>
-
+                {/* Bottom Container with smaller white box */}
+                <View style={styles.bottomContainer}>
+                    <View style={styles.buttonContainer}>
+                        <SignUpButton isMechanic={isMechanic} />
+                        <LogInButton isMechanic={isMechanic} />
+                    </View>
 
                     {/* Toggle Switch */}
                     <View style={styles.mechanicToggle}>
