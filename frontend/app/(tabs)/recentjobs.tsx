@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import JobCard from "@/components/ui/JobCard";
 
 const screenHeight = Dimensions.get("window").height;
-const cardHeight = screenHeight / 6; // Reduce height to decrease space between cards
+const cardHeight = screenHeight / 6; // Adjust card height for better spacing
 
 export type Job = {
     id: number;
@@ -21,6 +21,7 @@ export default function RecentJobsScreen() {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
 
+    // Mock job data
     const mockJobs: Job[] = useMemo(
         () => [
             {
@@ -79,7 +80,19 @@ export default function RecentJobsScreen() {
                     <View key={job.id} style={[styles.cardWrapper, { height: cardHeight }]}>
                         <JobCard
                             job={job}
-                            onPress={() => router.push({ pathname: "/repair-details", params: { repair: job } })}
+                            onPress={() => {
+                                router.push({
+                                    pathname: `/jobs/${job.id}`,
+                                    params: {
+                                        jobId: job.id.toString(),
+                                        type: job.type,
+                                        mechanic: job.mechanic || "",
+                                        date: job.date || "",
+                                        amount: job.amount.toString(),
+                                        status: job.status,
+                                    },
+                                });
+                            }}
                         />
 
                         {/* Status container moved to the bottom-right */}
@@ -107,7 +120,19 @@ export default function RecentJobsScreen() {
                     <View key={job.id} style={[styles.cardWrapper, { height: cardHeight }]}>
                         <JobCard
                             job={job}
-                            onPress={() => router.push({ pathname: "/repair-details", params: { repair: job } })}
+                            onPress={() => {
+                                router.push({
+                                    pathname: `/jobs/${job.id}`,
+                                    params: {
+                                        jobId: job.id.toString(),
+                                        type: job.type,
+                                        mechanic: job.mechanic || "",
+                                        date: job.date || "",
+                                        amount: job.amount.toString(),
+                                        status: job.status,
+                                    },
+                                });
+                            }}
                         />
                     </View>
                 ))}
@@ -121,19 +146,10 @@ const styles = StyleSheet.create({
     subTitle: { fontSize: 18, fontWeight: "bold", marginTop: 20, marginBottom: 5 },
     loadingContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
     cardWrapper: { justifyContent: "center", alignItems: "center", marginBottom: 10 },
-
-    // Move budget further to the right
-    rightMiddle: {
-        width: "40%",
-        alignItems: "flex-end",
-        marginRight: 75, // ✅ Moved budget section further right
-    },
-
-    // Status container now positioned at the bottom-right
     statusContainer: {
         position: "absolute",
-        bottom: 5, // ✅ Move it all the way to the bottom
-        right: 5, // ✅ Move it all the way to the right
+        bottom: 5,
+        right: 5,
         flexDirection: "row",
         alignItems: "center",
         paddingHorizontal: 10,
@@ -145,12 +161,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 2,
     },
-    statusCircle: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        marginRight: 5,
-    },
+    statusCircle: { width: 10, height: 10, borderRadius: 5, marginRight: 5 },
     foundCircle: { backgroundColor: "#28A745" },
     searchingCircle: { backgroundColor: "#D32F2F" },
     foundStatus: { backgroundColor: "#E0F7E9" },

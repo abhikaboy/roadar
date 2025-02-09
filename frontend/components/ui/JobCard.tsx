@@ -23,8 +23,8 @@ export default function JobCard({ job }) {
 
     const handlePress = () => {
         router.push({
-            pathname: "/repair-details",
-            params: { repair: job },
+            pathname: "/jobs/[jobId]", // ✅ Corrected path
+            params: { jobId: job.id.toString(), job: JSON.stringify(job) }, // ✅ Pass job details
         });
     };
 

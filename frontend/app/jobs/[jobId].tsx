@@ -1,83 +1,174 @@
-import { useLocalSearchParams } from "expo-router";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import React from "react";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function JobDetailsScreen() {
-    const { jobId } = useLocalSearchParams();
-
-    const jobData = [
-        {
-            id: 1,
-            type: "Spark Plug Repair",
-            mechanic: "Bobby Palazzi",
-            date: "2025-09-21",
-            amount: 160,
-            status: "found",
-        },
-        { id: 2, type: "Spark Plug Repair", mechanic: undefined, date: "2025-09-21", amount: 160, status: "searching" },
-        {
-            id: 3,
-            type: "Spark Plug Repair",
-            mechanic: "Bobby Palazzi",
-            date: "2025-09-21",
-            amount: 160,
-            status: "completed",
-        },
-    ];
-
-    const job = jobData.find((j) => j.id.toString() === jobId);
+    const router = useRouter();
+    const params = useLocalSearchParams();
+    const job = params?.job ? JSON.parse(params.job) : null;
 
     if (!job) {
         return (
             <View style={styles.container}>
-                <Text style={styles.errorText}>Job not found</Text>
+                <Text style={styles.errorText}>❌ Job not found</Text>
             </View>
         );
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
+            {/* 🔙 Back Button */}
+            <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+                <MaterialIcons name="arrow-back" size={24} color="black" />
+            </TouchableOpacity>
+
+            {/* 🔹 Title Below Back Button */}
             <Text style={styles.title}>{job.type}</Text>
-            <Text style={styles.date}>
-                {job.status === "completed" ? "From" : "Scheduled for"} {job.date}
-            </Text>
-            <Text>Description: This is the description that you have given for this repair.</Text>
-            <Text>Cost: ${job.amount}</Text>
 
-            {job.status === "searching" && <Text>🔍 Looks like we're still searching for a mechanic.</Text>}
+            {/* 🔹 Job Information Section */}
+            <View style={styles.infoContainer}>
+                <Text style={styles.date}>
+                    {job.status === "completed" ? `From ${job.date}` : `Scheduled for ${job.date}`}
+                </Text>
+                <Text style={styles.description}>Description: This is the description for your repair.</Text>
+                <Text style={styles.costLabel}>
+                    {job.status === "completed" ? "Cost of Repair:" : "Budget:"} ${job.amount}
+                </Text>
+            </View>
 
-            {job.status === "found" && (
-                <>
-                    <Text>Our searches paid off! We've found a mechanic for you.</Text>
-                    <View style={styles.mechanicCard}>
-                        <Text>Mechanic: {job.mechanic}</Text>
-                        <TouchableOpacity style={styles.button}>
-                            <Text>Accept</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={[styles.button, styles.deny]}>
-                            <Text>Deny</Text>
-                        </TouchableOpacity>
+            {/* 🔹 Searching Status */}
+            {job.status === "searching" && (
+                <View style={styles.section}>
+                    <View style={styles.imageContainer}>
+                        <Text style={styles.imageLabel}>Before</Text>
+                        <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
                     </View>
-                </>
+                    <Text style={styles.label}>Repaired by:</Text>
+                    <View style={styles.searchingBox}>
+                        <MaterialIcons name="search" size={40} color="#6C757D" />
+                        <Text style={styles.searchingText}>
+                            Looks like we’re still searching for a mechanic for you. Stay on the lookout for when we
+                            notify you!
+                        </Text>
+                    </View>
+                </View>
             )}
 
-            {job.status === "completed" && (
-                <>
-                    <Text>Repaired by: {job.mechanic}</Text>
-                    <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
-                </>
+            {/* 🔹 Found Status */}
+            {job.status === "found" && (
+                <View style={styles.section}>
+                    <View style={styles.imageContainer}>
+                        <Text style={styles.imageLabel}>Before</Text>
+                        <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
+                    </View>
+                    <View style={styles.foundContainer}>
+                        <Text style={styles.label}>Repaired by:</Text>
+                        <View style={styles.mechanicCard}>
+                            <Image source={{ uri: "https://via.placeholder.com/50" }} style={styles.avatar} />
+                            <View>
+                                <Text style={styles.mechanicName}>{job.mechanic || "Pending"}</Text>
+                                <Text style={styles.mechanicEmail}>bobbypalazzi@gmail.com</Text>
+                            </View>
+                        </View>
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={[styles.button, styles.deny]}>
+                                <Text style={styles.buttonText}>Deny</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.button, styles.accept]}>
+                                <Text style={styles.buttonText}>Accept</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
             )}
-        </View>
+
+            {/* 🔹 Completed (Historical) Status */}
+            {job.status === "completed" && (
+                <View style={styles.section}>
+                    {/* 🔹 Mechanic Info */}
+                    <Text style={styles.label}>Repaired by:</Text>
+                    <View style={styles.mechanicCard}>
+                        <Image source={{ uri: "https://via.placeholder.com/50" }} style={styles.avatar} />
+                        <View>
+                            <Text style={styles.mechanicName}>{job.mechanic || "Unknown Mechanic"}</Text>
+                            <Text style={styles.mechanicEmail}>bobbypalazzi@gmail.com</Text>
+                        </View>
+                    </View>
+
+                    {/* 🔹 Before & After Images - Moved Right Below Mechanic Info */}
+                    <View style={styles.imageRow}>
+                        <View style={styles.imageWrapper}>
+                            <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
+                            <Text style={styles.imageLabel}>Before</Text>
+                        </View>
+                        <View style={styles.imageWrapper}>
+                            <Image source={{ uri: "https://via.placeholder.com/150" }} style={styles.image} />
+                            <Text style={styles.imageLabel}>After</Text>
+                        </View>
+                    </View>
+                </View>
+            )}
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20, alignItems: "center", justifyContent: "center" },
-    title: { fontSize: 22, fontWeight: "bold" },
-    date: { fontSize: 16, marginVertical: 5 },
-    mechanicCard: { padding: 10, alignItems: "center", marginVertical: 10 },
-    button: { padding: 10, backgroundColor: "green", marginHorizontal: 5 },
-    deny: { backgroundColor: "red" },
-    errorText: { fontSize: 18, color: "red" },
-    image: { width: 150, height: 150, marginVertical: 10 },
+    container: { flexGrow: 1, padding: 20, backgroundColor: "#fff", alignItems: "flex-start" },
+
+    /* 🔙 Back Button */
+    backButton: { position: "absolute", top: 20, left: 15, zIndex: 10 },
+
+    /* 🔹 Title Below Back Button */
+    title: { fontSize: 24, fontWeight: "bold", marginTop: 50, marginBottom: 5, alignSelf: "flex-start" },
+
+    infoContainer: { width: "100%", marginBottom: 20 },
+    date: { fontSize: 16, marginBottom: 5 },
+    description: { fontSize: 16, marginBottom: 10 },
+    costLabel: { fontSize: 18, fontWeight: "bold", marginBottom: 10 },
+
+    /* 🔹 Section for Searching, Found, and Completed */
+    section: { width: "100%", marginBottom: 20 },
+
+    /* 🔹 Searching Status */
+    searchingBox: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 15,
+        backgroundColor: "#F3F4F6",
+        borderRadius: 10,
+    },
+    searchingText: { fontSize: 16, marginLeft: 10, color: "#555", flex: 1 },
+
+    /* 🔹 Found Status */
+    foundContainer: { width: "100%", marginBottom: 20 },
+    mechanicCard: {
+        flexDirection: "row",
+        alignItems: "center",
+        padding: 10,
+        borderRadius: 10,
+        backgroundColor: "#F3F4F6",
+    },
+    avatar: { width: 50, height: 50, borderRadius: 25, marginRight: 10 },
+    mechanicName: { fontSize: 16, fontWeight: "bold" },
+    mechanicEmail: { fontSize: 14, color: "#555" },
+
+    /* 🔹 Before & After Images (Moved Higher) */
+    imageRow: { flexDirection: "row", justifyContent: "space-between", width: "100%", marginTop: 10 },
+    imageWrapper: { alignItems: "center", width: "48%" },
+
+    /* 🔹 Image Section */
+    imageContainer: { width: "100%", marginBottom: 20 },
+    imageLabel: { fontSize: 16, fontWeight: "bold", marginTop: 5 },
+    image: { width: "100%", height: 200, borderRadius: 10, resizeMode: "cover" },
+
+    /* 🔹 Accept/Deny Buttons */
+    buttonContainer: { flexDirection: "row", justifyContent: "space-between", width: "100%", marginTop: 10 },
+    button: { padding: 10, borderRadius: 5, alignItems: "center", width: "48%" },
+    accept: { backgroundColor: "#42AE54" },
+    deny: { backgroundColor: "#FF6969" },
+    buttonText: { color: "#fff", fontWeight: "bold" },
+
+    label: { fontSize: 16, fontWeight: "bold", marginBottom: 5 },
+    errorText: { fontSize: 18, color: "red", textAlign: "center", marginTop: 20 },
 });
