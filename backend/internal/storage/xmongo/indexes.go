@@ -1,4 +1,4 @@
-package mongo
+package xmongo
 
 import (
 	"go.mongodb.org/mongo-driver/bson"
@@ -19,6 +19,10 @@ Indexes to be applied to the database.
 var Indexes = []Index{
 	{
 		Collection: "jobs",
+		Model:      mongo.IndexModel{Keys: bson.M{"location": "2d"}},
+	},
+	{
+		Collection: "mechanics",
 		Model:      mongo.IndexModel{Keys: bson.M{"location": "2d"}},
 	},
 }

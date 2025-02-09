@@ -21,11 +21,13 @@ func Routes(app *fiber.App, collections map[string]*mongo.Collection) {
 	Mechanic.Post("/", handler.CreateMechanic)
 	Mechanic.Get("/", handler.GetMechanics)
 
+	Mechanic.Post("/alert", handler.AlertMechanics)
 	Mechanic.Get("/nearby", handler.GetNearbyMechanics)
-	
+
 	Mechanic.Get("/:id", handler.GetMechanic)
 	Mechanic.Patch("/:id", handler.UpdatePartialMechanic)
+	Mechanic.Patch("/:id/online", handler.ChangeOnlineStatus)
 	Mechanic.Delete("/:id", handler.DeleteMechanic)
-	
+
 	Mechanic.Post("/:id/rate", handler.RateMechanic)
 }

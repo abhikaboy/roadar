@@ -1,13 +1,14 @@
 package mechanics
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
 
+	"github.com/abhikaboy/Roadar/internal/handlers/job"
 	"github.com/abhikaboy/Roadar/internal/xerr"
 	"github.com/abhikaboy/Roadar/internal/xvalidator"
-	go_json "github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -40,17 +41,19 @@ func (h *Handler) CreateMechanic(c *fiber.Ctx) error {
 
 	// do some validations on the inputs
 	Mechanic = MechanicDocument{
-		Location:    &params.Location,
-		Picture:     params.Picture,
-		Earnings:    0,
-		Email:       params.Email,
-		FirstName:   params.FirstName,
+		Location:     &params.Location,
+		Picture:      params.Picture,
+		Earnings:     0,
+		Email:        params.Email,
+		FirstName:    params.FirstName,
 		TotalRatings: 0,
-		LastName:    params.LastName,
-		PhoneNumber: params.PhoneNumber,
-		Bio:         params.Bio,
-		SocketID:    "",
-		ID:          primitive.NewObjectID(),
+		LastName:     params.LastName,
+		PhoneNumber:  params.PhoneNumber,
+		Bio:          params.Bio,
+		SocketID:     "",
+		ID:           primitive.NewObjectID(),
+		Online:       true,
+		Radius:       100,
 	}
 
 	result, err := h.service.InsertMechanic(Mechanic)
@@ -103,9 +106,11 @@ func (h *Handler) UpdatePartialMechanic(c *fiber.Ctx) error {
 	}
 
 	var partialUpdate MechanicUpdate
-	if err := go_json.Unmarshal(c.Body(), &partialUpdate); err != nil {
+	if err := json.Unmarshal(c.Body(), &partialUpdate); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
 	}
+
+	fmt.Printf("%+v \n", partialUpdate)
 
 	err = h.service.UpdatePartialMechanic(id, partialUpdate)
 	if err != nil {
@@ -152,25 +157,77 @@ func (h *Handler) GetNearbyMechanics(c *fiber.Ctx) error {
 	return c.JSON(Mechanics)
 }
 
-func (h *Handler) RateMechanic(c *fiber.Ctx) error {
-	var params GetNearbyMechanicsParams
+func (h *Handler) AlertMechanics(c *fiber.Ctx) error {
+	var job job.JobDocument
 
-	err := c.BodyParser(&params)
+	err := c.BodyParser(&job)
+	if err != nil {
+		fmt.Println("ERROR PARSING BODY")
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
+	}
+
+	fmt.Println("Received Job")
+	fmt.Printf("%+v \n", job)
+
+	// service call
+	slog.LogAttrs(c.Context(), slog.LevelInfo, "Alerting Mechanics")
+	err = h.service.AlertMechanics(job)
+	if err != nil {
+		// Central error handler take 500
+		return err
+	}
+	slog.LogAttrs(c.Context(), slog.LevelInfo, "Alerted Mechanics")
+
+	return c.SendStatus(fiber.StatusOK)
+}
+
+func (h *Handler) RateMechanic(c *fiber.Ctx) error {
+	var params RateMechanicParams
+
+	// get the id from the url
+	id, err := primitive.ObjectIDFromHex(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
+	}
+
+	err = c.BodyParser(&params)
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
 	}
 
 	// service call
-	Mechanics, err := h.service.GetNearbyMechanics(params.Location, params.Radius)
+	err = h.service.RateMechanic(id, params.Rating)
 	if err != nil {
 		// Central error handler take 500
 		return err
 	}
-	err = c.JSON(Mechanics)
 	if err != nil {
-		fmt.Print("ASODIJASOD")
 		return c.Status(fiber.StatusBadRequest).JSON(xerr.ErrorHandler(c, err))
 	}
 
-	return c.JSON(Mechanics)
+	return c.SendStatus(fiber.StatusOK)
+}
+
+func (h *Handler) ChangeOnlineStatus(c *fiber.Ctx) error {
+	var params ChangeOnlineStatusParams
+	id := c.Params("id")
+
+	// turn id string to primitive.ObjectID
+	oid, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.BadRequest(err))
+	}
+
+	err = c.BodyParser(&params)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(xerr.InvalidJSON())
+	}
+
+	// service call
+	err = h.service.ChangeOnlineStatus(oid, params.Online)
+	if err != nil {
+		// Central error handler take 500
+		return err
+	}
+	return c.SendStatus(fiber.StatusOK)
 }

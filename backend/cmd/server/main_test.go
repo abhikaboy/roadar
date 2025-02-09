@@ -9,7 +9,7 @@ import (
 
 	"github.com/abhikaboy/Roadar/internal/config"
 	"github.com/abhikaboy/Roadar/internal/server"
-	"github.com/abhikaboy/Roadar/internal/storage/mongo"
+	"github.com/abhikaboy/Roadar/internal/storage/xmongo"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
@@ -84,9 +84,9 @@ func setup(t *testing.T) *fiber.App {
 		Cluster:     "Development",
 		Environment: "Test",
 	}
-	db, err := mongo.New(context.Background(), cfg)
+	db, err := xmongo.New(context.Background(), cfg)
 	if err != nil {
 		t.Fatalf("Failed to connect to MongoDB: %v", err)
 	}
-	return server.New(db.Collections)
+	return server.New(db.Collections, db.Stream)
 }
