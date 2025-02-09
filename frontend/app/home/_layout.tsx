@@ -4,6 +4,7 @@ import { Slot } from "expo-router";
 
 export default function Home() {
     return(
+        <SafeAreaView style={{flex: 1}}>
         <ScrollView style={styles.screen}>
             <View style={styles.contentParent}>
                 <Text style={[styles.roadar, styles.roadarTypo]}>Roadar</Text>
@@ -12,19 +13,19 @@ export default function Home() {
                 </View>
             </View>
         </ScrollView>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     screen: {
         backgroundColor: "#fff",
-        width: "100%",
-        height: 874,
-        overflow: "hidden",
         flex: 1,
+        position: "absolute",
+        height: "120%",
+        width: "100%"
     },
     contentParent: {
-        position: "absolute",
         top: 45,
         left: 26,
         width: 351,

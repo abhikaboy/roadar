@@ -87,6 +87,8 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
     container: {
+        position: "absolute",
+        height: "100%",
         backgroundColor: "#FFFFFF",
         width: "100%",
     },

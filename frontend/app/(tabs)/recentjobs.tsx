@@ -3,6 +3,7 @@ import { View, Text, ActivityIndicator, StyleSheet, ScrollView, Dimensions } fro
 import { useRouter } from "expo-router";
 import JobCard from "@/components/ui/JobCard";
 import { ThemedText } from "@/components/ThemedText";
+import axios from "axios";
 
 const screenHeight = Dimensions.get("window").height;
 const cardHeight = screenHeight / 6.5; // Adjust card height for better spacing
@@ -13,10 +14,14 @@ export type Job = {
     mechanic?: string;
     date?: string;
     amount: number;
-    status: "searching" | "found" | "completed";
+    status: "Pending" | "On The Way" | "In Progress" | "Completed" | "Cancelled";
     userId: number;
+    description: string;
 };
-
+let parseId = (str: string) => {
+    if (str == "000000000000000000000000") return null;
+    return str;
+};
 export default function RecentJobsScreen() {
     const router = useRouter();
     const [jobs, setJobs] = useState<Job[]>([]);
@@ -57,7 +62,32 @@ export default function RecentJobsScreen() {
     );
 
     useEffect(() => {
-        setJobs(mockJobs);
+        // get the jobs
+        let id = "507f1f77bcf86cd799439011";
+        let jobs = (async () => {
+            try {
+                console.log(process.env.EXPO_PUBLIC_URL);
+                let jobs = await axios.get(process.env.EXPO_PUBLIC_URL + "/api/v1/jobs/requester/" + id);
+                return jobs;
+            } catch (err) {
+                console.log(err);
+                return [];
+            }
+        })().then((res) =>
+            setJobs(
+                res.data.map((job) => ({
+                    id: job._id,
+                    type: job.JobType,
+                    mechanic: parseId(job.mechanic),
+                    description: job.details,
+                    date: new Date(job.timestamp).toLocaleDateString(),
+                    amount: job.money,
+                    status: job.status,
+                    userId: job.requester,
+                }))
+            )
+        );
+        console.log(jobs);
         setLoading(false);
     }, []);
 

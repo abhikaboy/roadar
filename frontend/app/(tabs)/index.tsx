@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import { Button, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-unresolved
 import { Link, Stack } from "expo-router";
 import { StyleSheet } from "react-native";
 
@@ -10,9 +11,9 @@ export default function NotFoundScreen() {
         <>
             <Stack.Screen options={{ title: "Oops!" }} />
             <ThemedView style={styles.container}>
-                <Text type="title">This screen doesn't exist.</Text>
+                <ThemedText type="title">This screen doesn't exist.</ThemedText>
                 <Link href="/" style={styles.link}>
-                    <Text type="link">Go to home screen!</Text>
+                    <ThemedText type="link">Go to home screen!</ThemedText>
                 </Link>
             </ThemedView>
         </>

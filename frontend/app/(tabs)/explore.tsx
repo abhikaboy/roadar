@@ -1,9 +1,9 @@
+/* eslint-disable import/no-unresolved */
 import { useState, useEffect } from "react";
 
 import { View, Text, StyleSheet } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import React from "react";
 
